@@ -1,0 +1,21 @@
+{
+  "name": "Sweetie.Bot",
+  "version": "1.0.0",
+  "description": "Sweetie Discord Bot",
+  "engines": {
+    "node": "v14.16.1"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "SergeantRarity",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.5.1",
+    "moment": "^2.29.1",
+    "self-reload-json": "^0.4.0",
+    "update-json-file": "^1.1.1"
+  }
+}
