@@ -118,9 +118,9 @@ module.exports = {
                 const resetembednick = new Discord.MessageEmbed()
                   .setColor('#7162ba')
                   .setTitle('Nick')
-                  .setDescription(mentionedusername + ' má odstránený nick')
+                  .setDescription(message.author.username + ' má odstránený nick')
                 message.channel.send(resetembednick);
-                message.guild.members.cache.get(mentioneduserid).setNickname("");
+                message.guild.members.cache.get(message.member.id).setNickname("");
                 return;
             }
             let nickmyselfnotag = args.join(" ");

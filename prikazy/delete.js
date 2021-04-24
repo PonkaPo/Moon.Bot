@@ -14,6 +14,7 @@ module.exports = {
 		message.channel.send(delembedmsg).then(msg => {
 			msg.delete({ timeout: 10000 })
 		  })
+		return;
 	}
 	deleteCount = parseInt(args[0], 10);
 	const delmsgconfirm = new Discord.MessageEmbed()

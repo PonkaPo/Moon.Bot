@@ -56,6 +56,10 @@ client.on("message", async message => {
             client.channels.cache.get("833625728310444042").send(message.author.username + "\nSpráva: \n```" + message.content + "```");
         }
         switch(command) {
+            case 'k':
+            case 'kick':
+                client.commands.get('kick').execute(message, args);
+                break;
             case 'p':
             case 'pin':
             case 's':
@@ -74,6 +78,7 @@ client.on("message", async message => {
 			case 'updaterad':
                 client.commands.get('updaterad').execute(message, args);
                 break;
+            case 'rad':
 			case 'kazdyrad':
                 client.commands.get('kazdyrad').execute(message, args);
                 break;
@@ -134,6 +139,10 @@ client.on("message", async message => {
 					.setDescription('Príkaz, ktorý si napísal neexistuje :(\nPokiaľ by si chcel vedieť zoznam príkazov, tak daj `' + config.prefix + 'cmds`.')
 				message.reply(nocommandembed);
                 break;
+        }
+    } else {
+        if (message.content.length > 10 && message.content.length < 20) {
+            if (message.content.match(/^[Ee]*$/)) return message.channel.send('Mods are sleep, Time to eeeeeeeeeeeeeee~');
         }
     }
 });
