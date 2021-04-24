@@ -6,7 +6,7 @@ let AllowedIds = ['422882850166276096', '409731934030135306', '47825843361166132
 module.exports = {
   name: 'updaterad',
   description: 'Updatujem informácie pre hru Každy rád.',
-  usage: '=updaterad <odpoveď> <nápoveda>',
+  usage: '=updaterad <odpoveď> <číslo aká dlhá je odpoveď> <nápoveda>',
   async execute(message, args) {
     if(AllowedIds.includes(message.author.id)) {
       if (!args[0]) {
