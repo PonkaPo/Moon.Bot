@@ -60,8 +60,16 @@ client.on("message", async message => {
             case 'kick':
                 client.commands.get('kick').execute(message, args);
                 break;
+            case 'ps':
+            case 'sp':
+            case 'pinsave':
+            case 'savepin':
+                client.commands.get('savepin').execute(message,args);
+                break;
             case 'p':
             case 'pin':
+                client.commands.get('pin').execute(message,args);
+                break;
             case 's':
 			case 'save':
                 client.commands.get('save').execute(message, args);
@@ -75,12 +83,12 @@ client.on("message", async message => {
 			case 'musiclist':
                 client.commands.get('musiclist').execute(message, args);
                 break;
-			case 'updaterad':
-                client.commands.get('updaterad').execute(message, args);
+			case 'updatecotoje':
+                client.commands.get('updatecotoje').execute(message, args);
                 break;
-            case 'rad':
-			case 'kazdyrad':
-                client.commands.get('kazdyrad').execute(message, args);
+            case 'coto':
+			case 'cotoje':
+                client.commands.get('cotoje').execute(message, args);
                 break;
 			case 'boop':
                 client.commands.get('boop').execute(message, args);

@@ -27,12 +27,14 @@ module.exports = {
       .setDescription('Dostupné príkazy: ')
       .setThumbnail(message.client.user.avatarURL())
       .addFields(
-        { name: '`kazdyrad`', value: 'Hádanie hry Každý rád', inline: true},
-        { name: '`updaterad`', value: 'Zmení údaj pre Každý rád (len pre vybratých uživateľov', inline: true},
+        { name: '`cotoje`', value: 'Hádanie hry Čo to je', inline: true},
+        { name: '`updatecotoje`', value: 'Zmení údaj pre Čo to je (len pre vybratých uživateľov)', inline: true},
         { name: '`shitpost`', value: 'Bot povie xrupovu alebo mozuho shitpost vetu'},
         { name: '`say`', value: 'Bot povie, čo chceš', inline: true},
         { name: '`sai`', value: 'Bot povie, čo chceš (Len niektorým uživateľom)', inline: true},
         { name: '`boop`', value: 'Zaútočiš na niekoho'},
+        { name: '`pin`', value: 'Pinne poslednú správu, ktorú niekto poslal', inline: true},
+        { name: '`save`', value: 'Uloží obsah a link správy do súboru bota', inline: true},
         { name: '`delete`', value: 'Vymaže určitý počet správ'},
         { name: '`avatar`', value: 'Pošle v Embede tvoj avatar'},
         { name: '`status`', value: 'Zmení status bota'},
