@@ -6,6 +6,7 @@ module.exports = {
   usage: '=nick <nick> (dôvod)',
   async execute(message, args) {
       message.delete();
+      if (!message.guild.me.hasPermission('MANAGE_NICKNAMES')) return message.channel.send("Nemám právo meniť nicky na tomto serveri. (Nemám permissiu `MANAGE_NICKNAMES` aby som to mohol vykonávať.)");
       if (message.member.hasPermission('MANAGE_NICKNAMES')) {
         if (message.mentions.users.first()) {
         let mentioneduserid = message.mentions.users.first().id;
@@ -123,8 +124,15 @@ module.exports = {
                 message.guild.members.cache.get(message.member.id).setNickname("");
                 return;
             }
+            console.log("2");
             let nickmyselfnotag = args.join(" ");
-            message.member.setNickname(nickmyselfnotag);
+            try {
+              console.log("1");
+              message.member.setNickname(nickmyselfnotag);
+            }
+            catch (err) {
+              message.channel.send(err);
+            }
             const myselfermnickembednotag = new Discord.MessageEmbed()
               .setColor('#7162ba')
               .setTitle('Nick')

