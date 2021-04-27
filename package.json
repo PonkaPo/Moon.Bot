@@ -14,8 +14,10 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^12.5.1",
+    "file-extension": "^4.0.5",
     "is-number": "^7.0.0",
     "moment": "^2.29.1",
+    "request": "^2.88.2",
     "self-reload-json": "^0.4.0",
     "update-json-file": "^1.1.1"
   }

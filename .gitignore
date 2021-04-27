@@ -4,3 +4,5 @@ messages.txt
 rad.json
 config.json
 rad.json
+package-lock.json
+node_modules/

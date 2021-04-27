@@ -3,10 +3,10 @@ const xrupvety = ["a mne a debylovy daj unban bude reverse", "paaoapapapsosoxoso
 const mozuvety = ["cervici su epic :bug:", "kdesivcerabol", "MOZER D", "matcen je laska uwu", "DORHRH :DDDDD", "autismus je na 2 april", "demenciu maju iba profy ludia", "AAALE LUJAAAA", "coze ako to", "how did we get here?", "haha velmi funi", "rOblOx", "imagine being profy", "duch bud ticho", "haha yes ", "smejem sa", "to znie gej", "som velky egoista hehe", "to vypada ako palica s ktorou som zbil môjho dedka", "ahoj ako sa mas", "preco ma niekto vola MOUZERU", "funi fakt: kohutovia jedia cervikov :turkey:", "koky rad papa mloky", "neviem ako ty ale som profy sef kuchar a viem smazit zemiaky", "flowerko znie ako kinderko", "citim sa ako pedofil ked hladam deti", "neviem co mam robit", "ewe je gej pepeD", "ak si profy tak si drim", "hello poggers", "zrup je funi minekraftak", "imagine pouzivat membranovu klavesnicu", "mnam", "ale uz", "mozzers", "moz", "mam rad cipsy a xrupa", "aha co to je", "laska je tu snami budme snou", "laska ja ta mam rad ja ta milujem", "alzak je poggers", "mking je pepega", "sizaseozraty", "svaty bazant 69", "zemiaky a smotana su mnam", "preco sa toto deje", "co som zas urobil", "MOZJEPROFY", "AHA CO SOM NASIEL", "azdas mma"]
 
 module.exports = {
-  name: 'shitpost',
-  description: 'Pošle xrupovu alebo mozuho shitpost vetu.',
-  usage: '=shitpost (xrup/mozu)',
-  async execute(message, args) {
+	name: 'shitpost',
+	description: 'Pošle xrupovu alebo mozuho shitpost vetu.',
+	usage: '=shitpost (xrup/mozu)',
+  	async execute(message, args) {
 	switch (args[0]) {
 		case 'xrup':
 			const randomxrupveta = Math.floor(Math.random() * xrupvety.length);
@@ -21,11 +21,15 @@ module.exports = {
 			selectrandom = between(1, 100)
 			if (isEven(selectrandom)) {
 				const randomxrupvetarandom = Math.floor(Math.random() * xrupvety.length);
-				message.channel.send(xrupvety[randomxrupvetarandom]);
+				message.channel.send(xrupvety[randomxrupvetarandom]).then(msg => {
+					msg.react("\🇲");
+				});
 				break;
 			} else {
 				const randommozuvetarandom = Math.floor(Math.random() * mozuvety.length);
-				message.channel.send(mozuvety[randommozuvetarandom]);
+				message.channel.send(mozuvety[randommozuvetarandom]).then(msg => {
+					msg.react("\🇽");
+				});
 				break;
 			}
 		  } else {

@@ -8,8 +8,8 @@ module.exports = {
   usage: '=updatecotoje <odpoveď> <nápoveda>',
   async execute(message, args) {
     if(AllowedIds.includes(message.author.id)) {
+      message.delete();
       if (!args[0]) {
-        message.delete();
         const radnoarg1 = new Discord.MessageEmbed()
           .setColor('#7162ba')
           .setTitle('Update: Čo to je')
@@ -20,7 +20,7 @@ module.exports = {
           const radnoarg2 = new Discord.MessageEmbed()
             .setColor('#7162ba')
             .setTitle('Update: Čo to je')
-            .setDescription('<@' + message.author.id + '>, Nenapísal si počet písmen.')
+            .setDescription('<@' + message.author.id + '>, Nenapísal nápovedu.')
           message.channel.send(radnoarg2);
         } else {
           fs.readFile('rad.json', 'utf8', function readFileCallback(err, data){
@@ -30,19 +30,19 @@ module.exports = {
             radobj = JSON.parse(data);
             radobj.rad[0]["radkluc"] = args[0];
             radobj.rad[0]["radCislo"] = args[0].length;
+            radobj.rad[0]["uhadol"] = "-";
             let RadKlucEmbed = args[0];
             let RadCisloEmbed = args[0].length;
             args.shift();
             let napovedaRAD = args.slice().join(' ');
             radobj.rad[0]["radNapoveda"] = napovedaRAD;
             fs.writeFile('rad.json', JSON.stringify(radobj), 'utf8', function (err, data) {
-              if(err) console.log('error', err);
+              if(err) message.channel.send('error: '+err);
             });
             const radsuccesschange = new Discord.MessageEmbed()
               .setColor('#7162ba')
               .setTitle('Update: Čo to je')
               .setDescription('Tak <@' + message.author.id + '>, tu sú tvoje zmeny:\nNápoveda: ' + napovedaRAD + '\nOdpoveď: ' + RadKlucEmbed + '\nAká dlhá je odpoveď: ' + RadCisloEmbed);
-            message.react("\👍");
             message.channel.send(radsuccesschange).then(msg => {
               msg.delete({ timeout: 1000 })
             });

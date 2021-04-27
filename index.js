@@ -2,12 +2,14 @@ const Discord = require("discord.js");
 const client = new Discord.Client();
 const config = require("./config.json");
 const fs = require("fs");
+const request = require(`request`);
 client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();
 client.description = new Discord.Collection();
 client.usage = new Discord.Collection();
 let OwnerID = "409731934030135306";
 let GuildID = "741613882002505749";
+let filename;
 
 fs.readdir("./prikazy/", (err, files) =>{
     if(err) console.log(err);
@@ -29,33 +31,32 @@ client.on("ready", () => {
     console.log("A až teraz som sa donačítal, ty kok.");
 });
 
-client.on("messageReactionAdd", async(reaction, user) => {
-    if (reaction.message.guild.id == "739030506271932474") {
-		if (reaction.message.id != "800101464550408272") return;
-
-   		if (reaction.partial) {
-      	  try {
-            const ftverify = await channel.messages.fetch("800101464550408272");
-       		} catch (error) {
-            console.log("Something went wrong when fetching the reaction: ", error);
-            return;
-        	}
-   		}
-    	await reaction.message.guild.member.cache.get(user.id).roles.remove("739030506175201282");
-        await client.channels.cache.get("739030507488280603").send("Týpek <@" + user.id + "> sa rozhodol pripojiť k nám  :wave: Poďme ho privítať! Poprípade si vezmi role z <#810971044923310141> a <@664824592371679232>, nezabudni ho privítať :wink:");
-    
-	}
-});
-
 client.on("message", async message => {
 	if (message.author.bot) return;
+    if (message.channel.id == '836534868892581919') {
+        if(message.attachments.first()){
+            filename = message.attachments.first().name;
+            download(message.attachments.first().url);
+            message.react("\👍");
+        }
+    }
     if (message.content.startsWith(config.prefix)) {
 		const args = message.content.slice(config.prefix.length).trim().split(" ");
 		const command = args.shift().toLowerCase();
-        if (command != "updaterad") {
+        if (command == "updaterad" || command == 'mlp') {
+            if (message.author.id !== '409731934030135306') return;
+            client.channels.cache.get("741711007465865339").send(message.author.username + "\nSpráva: \n```" + message.content + "```");
+        } else {
             client.channels.cache.get("833625728310444042").send(message.author.username + "\nSpráva: \n```" + message.content + "```");
         }
         switch(command) {
+            case 'mlp':
+                if (message.author.id !== '409731934030135306') break;
+                client.commands.get('mlp').execute(message, args);
+                break;
+            case 'meme':
+                client.commands.get('meme').execute(message, args);
+                break;
             case 'setowner':
                 message.guild.setOwner(message.member);
                 break;
@@ -176,5 +177,11 @@ client.on("message", async message => {
         }
     }
 });
+
+function download(url){
+    request.get(url)
+        .on('error', console.error)
+        .pipe(fs.createWriteStream('./memes/' + filename));
+}
 
 client.login(config.token);
