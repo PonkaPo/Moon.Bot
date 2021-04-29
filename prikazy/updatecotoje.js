@@ -31,6 +31,7 @@ module.exports = {
             radobj.rad[0]["radkluc"] = args[0];
             radobj.rad[0]["radCislo"] = args[0].length;
             radobj.rad[0]["uhadol"] = "-";
+            radobj.rad[0]["ZadalTo"] = message.author.username;
             let RadKlucEmbed = args[0];
             let RadCisloEmbed = args[0].length;
             args.shift();

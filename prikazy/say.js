@@ -14,7 +14,6 @@ module.exports = {
         .setDescription('`=say <správa>`')
       return message.channel.send(notomute);
     }
-  
     let SayEmbed = new Discord.MessageEmbed()
     .setColor("#7162ba")
     .setAuthor(message.author.username)

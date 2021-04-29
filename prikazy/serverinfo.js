@@ -21,7 +21,7 @@ module.exports = {
         .setTitle(`Informácie o serveri ${message.guild.name}`)
         .setColor(`#7162ba`)
         .setThumbnail(guildicon)
-		.addField('**Vlastník Servera** ', message.guild.owner, true)
+		.addField('**Vlastník Servera** ', "<@"+message.guild.ownerID+">", true)
 		.addField('**ID Vlastníka** ', message.guild.ownerID, true)
 		.addField('**Meno Servera** ', message.guild.name, true)
 		.addField('**ID Servera** ', message.guild.id, true)

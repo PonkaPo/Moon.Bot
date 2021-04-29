@@ -3,6 +3,8 @@ const client = new Discord.Client();
 const config = require("./config.json");
 const fs = require("fs");
 const request = require(`request`);
+const path = require('path');
+const Integer = require('integer');
 client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();
 client.description = new Discord.Collection();
@@ -43,13 +45,16 @@ client.on("message", async message => {
     if (message.content.startsWith(config.prefix)) {
 		const args = message.content.slice(config.prefix.length).trim().split(" ");
 		const command = args.shift().toLowerCase();
-        if (command == "updaterad" || command == 'mlp') {
+        if (command == "updatecotoje" || command == 'mlp') {
             if (message.author.id !== '409731934030135306') return;
             client.channels.cache.get("741711007465865339").send(message.author.username + "\nSpráva: \n```" + message.content + "```");
         } else {
             client.channels.cache.get("833625728310444042").send(message.author.username + "\nSpráva: \n```" + message.content + "```");
         }
         switch(command) {
+            case '8ball':
+                client.commands.get('8ball').execute(message, args);
+                break;
             case 'mlp':
                 if (message.author.id !== '409731934030135306') break;
                 client.commands.get('mlp').execute(message, args);
@@ -179,9 +184,28 @@ client.on("message", async message => {
 });
 
 function download(url){
-    request.get(url)
-        .on('error', console.error)
-        .pipe(fs.createWriteStream('./memes/' + filename));
+    if (fs.existsSync('./memes/' + filename)) {
+        fs.readFile('./number.txt', 'utf8', function readFileCallback(err, data){
+            if (err){
+		        console.log(err);
+            } else {
+                var cnumberINt = Integer(data);
+		        cnumberINt = cnumberINt + 1
+                filenameext = path.parse(filename).ext;
+                filename = 'downloaded_meme_' + cnumberINt + filenameext;
+		        fs.writeFile('number.txt', cnumberINt.toString(), (err) => {
+			        if (err) throw err;
+		        });
+                request.get(url)
+                    .on('error', console.error)
+                    .pipe(fs.createWriteStream('./memes/' + filename));
+            }
+        });
+    } else {
+        request.get(url)
+            .on('error', console.error)
+            .pipe(fs.createWriteStream('./memes/' + filename));
+    }
 }
 
 client.login(config.token);

@@ -1,14 +1,19 @@
 var fs = require('fs');
 var path = require('path');
-var files = fs.readdirSync('./memes-command/');
+var config = require('./config.json');
+const replaceJSONProperty = require('replace-json-property');
+const Integer = require('integer');
 
-var result = files[between(1, files.length)]
-console.log(result);
-var ext = path.extname('./memes-command/' + result);
-console.log(ext);
-
-function between(min, max) {  
-	return Math.floor(
-	  Math.random() * (max - min + 1) + min
-	)
-}
+fs.readFile('number.txt', 'utf8', function readFileCallback(err, data){
+    if (err){
+		console.log(err);
+    } else {
+        var cnumberINt = Integer(data);
+		cnumberINt = cnumberINt + 1
+        filename = 'downloaded_meme_' + cnumberINt;
+		console.log('\nInteger: ' + cnumberINt + '\nFilename: ' + filename);
+		fs.writeFile('number.txt', cnumberINt.toString(), (err) => {
+			if (err) throw err;
+			console.log('Saved!');
+		});
+    }});

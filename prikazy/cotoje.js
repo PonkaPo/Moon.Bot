@@ -10,8 +10,8 @@ module.exports = {
     var radjson = JSON.parse(fs.readFileSync('./rad.json', 'utf8'));
     const cotoje = new Discord.MessageEmbed()
       .setColor('#7162ba')
-      .setTitle('Čo to je?')
-      .setDescription('Tak čo to je, '+message.author.username+'?\nNápoveda: **'+radjson["rad"][0]["radNapoveda"]+'**\nPočet písmen: **'+radjson.rad[0]["radCislo"]+'**\nNaposledy Uhádol: '+radjson.rad[0]["uhadol"]);
+      .setTitle('Čo to je, '+message.author.username+'?')
+      .setDescription('Nápoveda: **'+radjson["rad"][0]["radNapoveda"]+'**\nPočet písmen: **'+radjson.rad[0]["radCislo"]+'**\nPrvý Uhádol: '+radjson.rad[0]["uhadol"]+'\nZadal to: '+radjson.rad[0]["ZadalTo"]);
     message.channel.send(cotoje);
     const msgcheck = await message.channel.awaitMessages(m => m.author.id === message.author.id, { max: 1 });
     const checkmsg = await msgcheck.first();
@@ -26,6 +26,7 @@ module.exports = {
         } else {
           radobj = JSON.parse(data);
           let uhadolto = radobj.rad[0]["uhadol"];
+          if (uhadolto != "-") return;
           if (uhadolto !== checkmsg.author.username) {
             radobj.rad[0]["uhadol"] = checkmsg.author.username;
             fs.writeFile('rad.json', JSON.stringify(radobj), 'utf8', function (err, data) {

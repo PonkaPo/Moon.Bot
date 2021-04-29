@@ -8,17 +8,17 @@ module.exports = {
 	description: 'Pošle náhodný meme.',
 	usage: '=meme',
   async execute(message, args) {
-	var filesArray = fs.readdirSync('./memes-command/');
+	var filesArray = fs.readdirSync('./memes/');
 	var randomMeme = filesArray[between(1, filesArray.length)];
-	var ext = path.extname('./memes-command/' + randomMeme);
+	var ext = path.extname('./memes/' + randomMeme);
 	if (VideoFormats.includes(ext)) {
 		message.channel.send('Meme for ' + message.author.username, {
 			files: [
-			  "./memes-command/" + randomMeme
+			  "./memes/" + randomMeme
 			]
 		  });
 	} else {
-		const MemeAttachment = new Discord.MessageAttachment('./memes-command/' + randomMeme);
+		const MemeAttachment = new Discord.MessageAttachment('./memes/' + randomMeme);
 		const MemeEmbed = new Discord.MessageEmbed()
 			.setTitle('Meme for ' + message.author.username)
 			.setImage('attachment://' + randomMeme);

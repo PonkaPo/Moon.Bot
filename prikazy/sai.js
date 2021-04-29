@@ -19,6 +19,8 @@ module.exports = {
       } else {
         message.delete()
         const saiMessage = args.join(" ");
+        console.log(args);
+        console.log(saiMessage);
         message.channel.send(saiMessage);
       }
     } else {
