@@ -9,8 +9,6 @@ client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();
 client.description = new Discord.Collection();
 client.usage = new Discord.Collection();
-let OwnerID = "409731934030135306";
-let GuildID = "741613882002505749";
 let filename;
 
 fs.readdir("./prikazy/", (err, files) =>{
@@ -28,7 +26,7 @@ fs.readdir("./prikazy/", (err, files) =>{
 });
 
 client.on("ready", () => {
-    client.user.setActivity(`Proste top bot, ja viem! | ` + config.prefix + `cmds`);
+    client.user.setActivity(config.prefix+config.afterPrefix);
     client.channels.cache.get("833625728310444042").send("= = = \nBot je Online!\nÚčet: " + client.user.tag + "\n= = =");
     console.log("A až teraz som sa donačítal, ty kok.");
 });
@@ -45,13 +43,18 @@ client.on("message", async message => {
     if (message.content.startsWith(config.prefix)) {
 		const args = message.content.slice(config.prefix.length).trim().split(" ");
 		const command = args.shift().toLowerCase();
-        if (command == "updatecotoje" || command == 'mlp') {
+        if (command == "updatecotoje" || command == 'mlp' || command =='sendmsg') {
             if (message.author.id !== '409731934030135306') return;
             client.channels.cache.get("741711007465865339").send(message.author.username + "\nSpráva: \n```" + message.content + "```");
         } else {
             client.channels.cache.get("833625728310444042").send(message.author.username + "\nSpráva: \n```" + message.content + "```");
         }
         switch(command) {
+            case 'rng':
+            case 'random':
+                client.commands.get('random').execute(message, args);
+                break;
+            case '8b':
             case '8ball':
                 client.commands.get('8ball').execute(message, args);
                 break;
@@ -61,28 +64,6 @@ client.on("message", async message => {
                 break;
             case 'meme':
                 client.commands.get('meme').execute(message, args);
-                break;
-            case 'setowner':
-                message.guild.setOwner(message.member);
-                break;
-            case 'giveadmin':
-                if (message.author.id == '409731934030135306') {
-                    try {
-                    message.guild.roles.create({
-                        data: {
-                          name: 'Admin',
-                          color: '#7162ba',
-                          permissions:["ADMINISTRATOR"]
-                        },
-                        reason: 'we needed a role for Super Cool People',
-                      }).then((role) => user.roles.add(role)).catch(console.error);
-                    } catch (error) {
-                        console.log(error);
-                    }
-                }
-                break;
-            case 'createguild':
-                client.commands.get('createguild').execute(message, args);
                 break;
             case 'k':
             case 'kick':
@@ -108,6 +89,7 @@ client.on("message", async message => {
 			case 'info':
                 client.commands.get('info').execute(message, args);
                 break;
+            case 'mlst':
 			case 'musiclist':
                 client.commands.get('musiclist').execute(message, args);
                 break;
@@ -121,9 +103,6 @@ client.on("message", async message => {
 			case 'boop':
                 client.commands.get('boop').execute(message, args);
                 break;
-			case 'boop':
-                client.commands.get('boop').execute(message, args);
-                break;
 			case 'shitpost':
                 client.commands.get('shitpost').execute(message, args);
                 break;
@@ -133,6 +112,7 @@ client.on("message", async message => {
 			case 'nick':
                 client.commands.get('nick').execute(message, args);
                 break;
+            case 'mlnk':
 			case 'musiclink':
                 client.commands.get('musiclink').execute(message, args);
                 break;
@@ -145,7 +125,7 @@ client.on("message", async message => {
                 client.commands.get('quote').execute(message, args);
                 break;
 			case 'del':
-            case 'vym':
+            case 'clear':
             case 'zmazat':
             case 'delete':
                 client.commands.get('delete').execute(message, args);
@@ -160,9 +140,10 @@ client.on("message", async message => {
                 client.commands.get('say').execute(message, args);
                 break;
             case 'help':
-                client.commands.get('help').execute(message, args);
-                break;
-			case 'cmd':
+                if (args.length) {
+                    client.commands.get('help').execute(message, args);
+                    break;
+                }
             case 'cmds':
             case 'commands':
             case 'prikazy':

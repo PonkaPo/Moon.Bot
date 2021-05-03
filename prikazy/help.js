@@ -1,16 +1,26 @@
 const Discord = require("discord.js");
 const config = require("../config.json");
+var fs = require("fs");
 
 module.exports = {
   name: 'help',
   description: 'Zobrazí embed s pomocou.',
   usage: '=help',
   async execute(message, args) {
-    const helpmsg = new Discord.MessageEmbed()
-			.setColor('#7162ba')
-			.setTitle('Potrebuješ pomôcť?')
-			.setDescription('Zoznam príkazov máš cez:\n```' + config.prefix + 'cmd\n' + config.prefix + 'cmds\n' + config.prefix + 'prikazy\n' + config.prefix + 'commands```\n\nPokiaľ potrebuješ pomoc s botom, stačí napísať <@409731934030135306>.')
-		message.channel.send(helpmsg);
+    var commandsinfo = JSON.parse(fs.readFileSync('./commands-info.json', 'utf8'));
+    if (Array.isArray(commandsinfo[args[0]][0]["alias"])) {
+      let Aliasy = commandsinfo[args[0]][0]["alias"].slice().join(', ');
+      const CommandsInfoArray = new Discord.MessageEmbed()
+        .setColor('#7162ba')
+        .setTitle(commandsinfo[args[0]][0]["name"])
+        .setDescription('Popis: **'+commandsinfo[args[0]][0]["popis"]+"**\nSyntax: `"+config.prefix+commandsinfo[args[0]][0]["syntax"]+'`\nAlias: '+Aliasy)
+      message.channel.send(CommandsInfoArray);
+    } else {
+      const CommandsInfoNonArray = new Discord.MessageEmbed()
+			  .setColor('#7162ba')
+			  .setTitle(commandsinfo[args[0]][0]["name"])
+			  .setDescription('Popis: **'+commandsinfo[args[0]][0]["popis"]+"**\nSyntax: `"+config.prefix+commandsinfo[args[0]][0]["syntax"]+"`")
+		  message.channel.send(CommandsInfoNonArray);
+    }
 	},
-
 }

@@ -23,7 +23,8 @@ module.exports = {
     } else {
       let PinArgument = args.join(" ");
       message.client.channels.resolve(message.channel.id).messages.fetch({ limit: 1 }).then(messages => {
-        let lastMessageArg = messages.first();
+        let lastMessageElse = messages.first();
+        lastMessageElse.delete();
         message.channel.send("**" + message.author.username + "**: " + PinArgument).then(msg => {
           msg.pin();
         })

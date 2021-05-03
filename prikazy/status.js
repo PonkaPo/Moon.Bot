@@ -8,7 +8,7 @@ module.exports = {
   async execute(message, args) {
     message.delete();
     if (message.author.id != OwnerID) {
-      message.channel.send("Kam si sa to dostal! ČO TU MORE ROBÍŠ, ty kok " + message.member.nickname + " nešahaj na tento príkaz!");
+      message.channel.send("Kam si sa to dostal! ČO TU MORE ROBÍŠ, ty kok " + message.author.username + " nešahaj na tento príkaz!");
     } else {
       if (args.length !== 0) {
         statusargs = args.join(" ");
