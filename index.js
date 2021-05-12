@@ -10,6 +10,7 @@ client.aliases = new Discord.Collection();
 client.description = new Discord.Collection();
 client.usage = new Discord.Collection();
 let filename;
+let NonLogCommands = ["updatecotoje", "mlp", "sendmsg", "fetchbyid"];
 
 fs.readdir("./prikazy/", (err, files) =>{
     if(err) console.log(err);
@@ -43,13 +44,19 @@ client.on("message", async message => {
     if (message.content.startsWith(config.prefix)) {
 		const args = message.content.slice(config.prefix.length).trim().split(" ");
 		const command = args.shift().toLowerCase();
-        if (command == "updatecotoje" || command == 'mlp' || command =='sendmsg') {
-            if (message.author.id !== '409731934030135306') return;
+        if (NonLogCommands.includes(command)) {
             client.channels.cache.get("741711007465865339").send(message.author.username + "\nSpráva: \n```" + message.content + "```");
         } else {
             client.channels.cache.get("833625728310444042").send(message.author.username + "\nSpráva: \n```" + message.content + "```");
         }
         switch(command) {
+            case 'hug':
+                client.commands.get('hug').execute(message, args);
+                break;
+            case 'fetchbyid':
+                if (message.author.id !== '409731934030135306') return;
+                client.commands.get('fetchbyid').execute(message, args);
+                break;
             case 'rng':
             case 'random':
                 client.commands.get('random').execute(message, args);
