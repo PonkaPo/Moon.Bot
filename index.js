@@ -50,6 +50,13 @@ client.on("message", async message => {
             client.channels.cache.get("833625728310444042").send(message.author.username + "\nSpráva: \n```" + message.content + "```");
         }
         switch(command) {
+            case 'anketa':
+                client.commands.get('anketa').execute(message, args);
+                break;
+            case 'rickroll':
+            case 'rr':
+                client.commands.get('rr').execute(message, args);
+                break;
             case 'hug':
                 client.commands.get('hug').execute(message, args);
                 break;
@@ -71,6 +78,10 @@ client.on("message", async message => {
                 break;
             case 'meme':
                 client.commands.get('meme').execute(message, args);
+                break;
+            case 'b':
+            case 'kick':
+                client.commands.get('ban').execute(message, args);
                 break;
             case 'k':
             case 'kick':

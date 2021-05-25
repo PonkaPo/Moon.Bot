@@ -51,7 +51,7 @@ module.exports = {
         }
       }
     } else {
-      message.reply("Nemáš ale právo na tento príkaz ty kok debylní!!!!!")
+      message.reply("sorko ale nemáš na to právo to meniť <:Redheart:846414934644228127>")
     }
 	},
 

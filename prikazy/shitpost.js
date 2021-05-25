@@ -47,6 +47,6 @@ function between(min, max) {
 	)
   }
   
-  function isEven(value) {
+function isEven(value) {
   return (value%2 == 0);
-  }
+}

@@ -67,8 +67,8 @@
           {
             "name": "Avatar",
             "alias": "-",
-            "popis": "Ukáže tvoj avatar v Embede",
-            "syntax": "avater (mention)"
+            "popis": "Ukáže tvoj avatar v Embede\nPovolené veľkosti: 16, 32, 64, 128, 256, 512, 1024, 2048, 4096",
+            "syntax": "avater (mention) (size)\nPríklad: =avatar <@409731934030135306> 2048"
           }
     ],
     "musiclink": [
@@ -197,6 +197,22 @@
             "alias": "-",
             "popis": "NEDOSTUPNÉ",
             "syntax": "mlp"
+          }
+    ],
+    "rr": [
+          {
+            "name": "Rick Roll",
+            "alias": ["rickroll"],
+            "popis": "Pošle náhodný rickroll do kanálu, ale pri označení to pošle niekomu do DM, pokiaľ by mal DM blokované, tak ho to upozorní v kanáli, kde to bolo poslané",
+            "syntax": "rr (mention)"
+          }
+    ],
+    "anketa": [
+          {
+            "name": "Anketa",
+            "alias": "-",
+            "popis": "V embede sa opýta otázku, ktorú napíšeš (dokáže to označiť i here či everyone cez argumenty)",
+            "syntax": "anketa (-E/-H) <otázka>"
           }
     ]
   }

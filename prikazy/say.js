@@ -6,6 +6,9 @@ module.exports = {
   usage: '=say <správa>',
   async execute(message, args) {
     message.delete({ timeout: 0 });
+    message.channel.send(".").then(msg => {
+			msg.delete({ timeout: 100 })
+		  })
     let sprava = args.slice().join(' ');
     if(!sprava){
       let notomute = new Discord.MessageEmbed()
@@ -14,11 +17,7 @@ module.exports = {
         .setDescription('`=say <správa>`')
       return message.channel.send(notomute);
     }
-    let SayEmbed = new Discord.MessageEmbed()
-    .setColor("#7162ba")
-    .setAuthor(message.author.username)
-    .setDescription(sprava)
-    await message.channel.send(SayEmbed);
+    message.channel.send('**'+message.author.username+'**: '+sprava);
 	},
 
 }

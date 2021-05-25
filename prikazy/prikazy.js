@@ -28,18 +28,17 @@ module.exports = {
       .setThumbnail(message.client.user.avatarURL())
       .addFields(
         { name: '`cotoje`', value: 'Hádanie hry Čo to je', inline: true},
-        { name: '`updatecotoje`', value: 'Zmení údaj pre Čo to je (len pre vybratých uživateľov)', inline: true},
+        { name: '`delete`', value: 'Vymaže určitý počet správ'},
+        { name: '`nick`', value: 'Môžeš si zmeniť nick, pokiaľ máš právo'},
+        { name: '`rr`', value: 'Prekvapenie', inline: true},
         { name: '`shitpost`', value: 'Bot povie xrupovu alebo mozuho shitpost vetu'},
         { name: '`say`', value: 'Bot povie, čo chceš', inline: true},
         { name: '`sai`', value: 'Bot povie, čo chceš (Len niektorým uživateľom)', inline: true},
         { name: '`boop`', value: 'Zaútočiš na niekoho'},
+        { name: '`hug`', value: 'Obíjmeš člena servera '},
         { name: '`pin`', value: 'Pinne poslednú správu, ktorú niekto poslal', inline: true},
         { name: '`save`', value: 'Uloží obsah a link správy do súboru bota', inline: true},
-        { name: '`delete`', value: 'Vymaže určitý počet správ'},
-        { name: '`avatar`', value: 'Pošle v Embede tvoj avatar'},
-        { name: '`status`', value: 'Zmení status bota'},
-        { name: '`nick`', value: 'Môžeš si zmeniť nick, pokiaľ máš právo'},
-        { name: '`citat|quote`', value: 'Ukáže krásny a úplne náhodný citát z MLP :O'}
+        { name: '`avatar`', value: 'Pošle v Embede tvoj avatar'}
       )
       .setTimestamp()
       .setFooter("Sweetie.Bot", Discord.ClientUser.displayAvatarURL);

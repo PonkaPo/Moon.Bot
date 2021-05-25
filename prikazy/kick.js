@@ -6,29 +6,17 @@ module.exports = {
   usage: '=kick <mention> (dôvod)',
   async execute(message, args) {
     if (!message.member.hasPermission('KICK_MEMBERS')) {
-      let NoPermToKick = new Discord.MessageEmbed()
-      .setColor("#7162ba")
-      .setTitle('Kick')
-      .setDescription('Nemáš právo tam proste dávať len tak kopance, debyl');
-    message.channel.send(NoPermToKick);
+    message.channel.send('**KICK**: <@'+message.author.id+'> -> Nemáš právo proste len tak kickovať niekoho');
     return;
     }
     if (message.mentions.users.first()) {
       if (message.mentions.users.first().id == message.author.id) return message.channel.send("TO sa chceš more sám vykopnúť? To kde sme ...");
       if (message.mentions.members.first().roles.highest.position > message.member.roles.highest.position) {
-        let HigherRoleKick = new Discord.MessageEmbed()
-        .setColor("#7162ba")
-        .setTitle('Kick')
-        .setDescription('Tento týpek má vyššiu rolu než ty, nemotorný...');
-        message.channel.send(HigherRoleKick);
+        message.channel.send('**KICK**: <@'+message.author.id+'> -> Tento týpek má vyššiu rolu než ty.');
         return;
       }
       if (!message.guild.member(message.mentions.users.first()).kickable) {
-        let CannotKick = new Discord.MessageEmbed()
-          .setColor("#7162ba")
-          .setTitle('Kick')
-          .setDescription('Toho týpka nemôže vykopnúť.')
-        message.channel.send(CannotKick);
+        message.channel.send('**KICK**: <@'+message.author.id+'> -> Toho týpka nemôže vykopnúť.');
       } else {
         args.shift();
         args.slice().join(" ");
@@ -41,11 +29,7 @@ module.exports = {
       }
       return;
     } else {
-      let NoMentionKick = new Discord.MessageEmbed()
-      .setColor("#7162ba")
-      .setTitle('Kick')
-      .setDescription('Neoznačil si more človeka, ktorého chceš dať do preč.')
-    message.channel.send(NoMentionKick);
+      message.channel.send('**KICK**: <@'+message.author.id+'> -> Neoznačil si more človeka, ktorého chceš dať do preč.');
     }
 	},
 

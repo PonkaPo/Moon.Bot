@@ -16,9 +16,12 @@ module.exports = {
     } else {
     if (!args.length) {
       message.client.channels.resolve(message.channel.id).messages.fetch({ limit: 2 }).then(messages => {
+        message.delete();
         let lastMessage = messages.last();
         if (!lastMessage.content.length && !lastMessage.attachments.size > 0) return message.channel.send("Prázdna správa");
-        lastMessage.pin();
+        lastMessage.pin().then(msg => {
+          msg.delete();
+        });
       })
     } else {
       let PinArgument = args.join(" ");
@@ -26,7 +29,9 @@ module.exports = {
         let lastMessageElse = messages.first();
         lastMessageElse.delete();
         message.channel.send("**" + message.author.username + "**: " + PinArgument).then(msg => {
-          msg.pin();
+          msg.pin().then(msg => {
+            msg.delete();
+          });
         })
       })
     }

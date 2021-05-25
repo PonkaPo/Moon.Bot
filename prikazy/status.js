@@ -8,7 +8,7 @@ module.exports = {
   async execute(message, args) {
     message.delete();
     if (message.author.id != OwnerID) {
-      message.channel.send("Kam si sa to dostal! ČO TU MORE ROBÍŠ, ty kok " + message.author.username + " nešahaj na tento príkaz!");
+      message.channel.send("Sorko, "+message.author.username+" ale nemôžeš šahať na ten command <:Redheart:846414934644228127>");
     } else {
       if (args.length !== 0) {
         statusargs = args.join(" ");

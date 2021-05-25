@@ -1,19 +1,12 @@
-var fs = require('fs');
-var path = require('path');
-var config = require('./config.json');
-const replaceJSONProperty = require('replace-json-property');
-const Integer = require('integer');
+var testArray = ['E1', '409731934030135306', '478258433611661322', '699214855823163433', '532512473492750356', '723265524213088412'];
+console.log(testArray);
+let testArray2 = testArray.slice().join(' ');
+console.log(testArray2+"\n\n"+testArray[0]);
+if (testArray[0]=="E1") {
+	console.log("\ntrue");
+} else {
+	console.log("\nfalse");
+}
 
-fs.readFile('number.txt', 'utf8', function readFileCallback(err, data){
-    if (err){
-		console.log(err);
-    } else {
-        var cnumberINt = Integer(data);
-		cnumberINt = cnumberINt + 1
-        filename = 'downloaded_meme_' + cnumberINt;
-		console.log('\nInteger: ' + cnumberINt + '\nFilename: ' + filename);
-		fs.writeFile('number.txt', cnumberINt.toString(), (err) => {
-			if (err) throw err;
-			console.log('Saved!');
-		});
-    }});
+
+

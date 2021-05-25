@@ -63,9 +63,7 @@ module.exports = {
             message.channel.send(cannotduetopermissionsself);
             return;
           }
-          console.log("1-3");
           if (!args[0]) {
-            console.log("1-4");
               const resetembednickself = new Discord.MessageEmbed()
                 .setColor('#7162ba')
                 .setTitle('Nick')
@@ -74,7 +72,6 @@ module.exports = {
               message.guild.members.cache.get(message.member.id).setNickname("");
               return;
           }
-          console.log("1-5");
           let nickReasonmanageself = args.join(" ");
           try {
             message.guild.members.cache.get(message.author.id).setNickname(nickReasonmanageself);
