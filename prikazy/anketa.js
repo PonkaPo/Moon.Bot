@@ -7,9 +7,9 @@ module.exports = {
   usage: '=anketa <otázka> -everybody',
   async execute(message, args) {
     if (!args.length) return message.channel.send("<@"+message.author.id+">, Nezadal si žiadnu otázku");
+    if (!message.member.hasPermission('MENTION_EVERYONE')) return message.channel.send("<@"+message.author.id+">, ale nemáš právo použiť everyone/here pre Anketu.");
     let TestArg = args[0];
     if (TestArg=="-E" || TestArg=="-H") {
-      if (!message.member.hasPermission('MENTION_EVERYONE')) return message.channel.send("<@"+message.author.id+">, ale nemáš právo použiť everyone/here pre Anketu.");
       args.shift();
       sprava = args.slice().join(' ');
       let AnketaEmbedEveryone = new Discord.MessageEmbed()
@@ -29,6 +29,7 @@ module.exports = {
             sentEmoji.react("\⬆")
             sentEmoji.react("\⬇")
           });
+          break;
         case '-H':
           message.delete();
           message.channel.send("@here ", {
@@ -37,6 +38,7 @@ module.exports = {
             sentEmoji.react("\⬆")
             sentEmoji.react("\⬇")
           });
+          break;
       }
     } else {
       sprava = args.slice().join(' ');
