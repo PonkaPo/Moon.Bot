@@ -35,7 +35,7 @@ module.exports = {
       }
       return;
     } else {
-      message.channel.send('**BAN**: <@'+message.author.id+'> -> Neoznačil si more človeka, ktorého chceš zabanovať.');
+      message.channel.send('**BAN**: <@'+message.author.id+'> -> Neoznačil si ale človeka, ktorého chceš zabanovať.');
     }
 	},
 

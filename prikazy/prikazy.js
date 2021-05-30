@@ -17,7 +17,7 @@ module.exports = {
           { name: '`musiclist`', value: 'Zoznam Artistov', inline: true }
         )
         .setTimestamp()
-        .setFooter("Sweetie.Bot | Music", message.client.user.avatarURL({ dynamic: true }));
+        .setFooter("Pinkamena.Bot | Music", message.client.user.avatarURL({ dynamic: true }));
       message.channel.send(helpembedmusic);
     } else {
     const helpembed = new Discord.MessageEmbed()
@@ -30,18 +30,17 @@ module.exports = {
         { name: '`cotoje`', value: 'Hádanie hry Čo to je', inline: true},
         { name: '`delete`', value: 'Vymaže určitý počet správ'},
         { name: '`nick`', value: 'Môžeš si zmeniť nick, pokiaľ máš právo'},
+        { name: '`avatar`', value: 'Pošle v Embede tvoj avatar'},
         { name: '`rr`', value: 'Prekvapenie', inline: true},
-        { name: '`shitpost`', value: 'Bot povie xrupovu alebo mozuho shitpost vetu'},
         { name: '`say`', value: 'Bot povie, čo chceš', inline: true},
         { name: '`sai`', value: 'Bot povie, čo chceš (Len niektorým uživateľom)', inline: true},
         { name: '`boop`', value: 'Zaútočiš na niekoho'},
         { name: '`hug`', value: 'Obíjmeš člena servera '},
         { name: '`pin`', value: 'Pinne poslednú správu, ktorú niekto poslal', inline: true},
-        { name: '`save`', value: 'Uloží obsah a link správy do súboru bota', inline: true},
-        { name: '`avatar`', value: 'Pošle v Embede tvoj avatar'}
+        { name: '`save`', value: 'Uloží obsah a link správy do súboru bota', inline: true}
       )
       .setTimestamp()
-      .setFooter("Sweetie.Bot", Discord.ClientUser.displayAvatarURL);
+      .setFooter("Pinkamena.Bot", Discord.ClientUser.displayAvatarURL);
     message.channel.send(helpembed);
     }
 	},

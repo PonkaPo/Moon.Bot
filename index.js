@@ -80,7 +80,7 @@ client.on("message", async message => {
                 client.commands.get('meme').execute(message, args);
                 break;
             case 'b':
-            case 'kick':
+            case 'ban':
                 client.commands.get('ban').execute(message, args);
                 break;
             case 'k':
@@ -127,6 +127,7 @@ client.on("message", async message => {
 			case 'sendmsg':
                 client.commands.get('sendmsg').execute(message, args);
                 break;
+            case 'n':
 			case 'nick':
                 client.commands.get('nick').execute(message, args);
                 break;

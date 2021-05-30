@@ -8,11 +8,11 @@ module.exports = {
   async execute(message, args) {
     if(AllowedIds.includes(message.author.id)) {
       if (!args[0]) {
-        const sendmsgno0 = new Discord.MessageEmbed()
+        const sendmsgno = new Discord.MessageEmbed()
             .setColor('#7162ba')
             .setTitle('Send Message')
             .setDescription('<@' + message.author.id + '>, Nenapísal si kanál, kam chceš správu napísať.')
-          message.channel.send(sainoarg).then(msg => {
+          message.channel.send(sendmsgno).then(msg => {
             msg.delete({ timeout: 5000 })
             })
         } else {

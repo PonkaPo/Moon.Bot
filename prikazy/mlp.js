@@ -12,7 +12,7 @@ module.exports = {
 		var MLPRandomMeme = MLPfilesArray[between(1, MLPfilesArray.length)];
 		var extMLP = path.extname('./MLP/' + MLPRandomMeme);
 		if (VideoFormats.includes(extMLP)) {
-			message.channel.send('Meme for ' + message.author.username, {
+			message.channel.send('MLP Meme for ' + message.author.username, {
 				files: [
 				  "./MLP/" + MLPRandomMeme
 				]
@@ -33,8 +33,4 @@ function between(min, max) {
 	return Math.floor(
 	  Math.random() * (max - min + 1) + min
 	)
-}
-  
-function isEven(value) {
-  return (value%2 == 0);
 }

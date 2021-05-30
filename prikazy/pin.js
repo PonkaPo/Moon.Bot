@@ -19,9 +19,7 @@ module.exports = {
         message.delete();
         let lastMessage = messages.last();
         if (!lastMessage.content.length && !lastMessage.attachments.size > 0) return message.channel.send("Prázdna správa");
-        lastMessage.pin().then(msg => {
-          msg.delete();
-        });
+        lastMessage.pin();
       })
     } else {
       let PinArgument = args.join(" ");
@@ -29,9 +27,7 @@ module.exports = {
         let lastMessageElse = messages.first();
         lastMessageElse.delete();
         message.channel.send("**" + message.author.username + "**: " + PinArgument).then(msg => {
-          msg.pin().then(msg => {
-            msg.delete();
-          });
+          msg.pin();
         })
       })
     }

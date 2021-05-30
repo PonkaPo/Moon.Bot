@@ -7,6 +7,14 @@ module.exports = {
   description: 'Pošle tvoj avatar v Embede.',
   usage: '=avatar (mention) (size)',
   async execute(message, args) {
+	if (args[0] == "-g") {
+		const GuildAvatarEmbed = new Discord.MessageEmbed()
+			.setColor('#7162ba')
+			.setTitle(`Guild icon of ${message.guild.name}:`)
+			.setImage(message.guild.iconURL({ dynamic: true}));
+		message.channel.send(GuildAvatarEmbed);
+		return;
+	}
 	if (message.mentions.users.first()) {
 		avatarSelect = message.mentions.users.first();
 		args.shift();
