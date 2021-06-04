@@ -121,10 +121,8 @@ module.exports = {
                 message.guild.members.cache.get(message.member.id).setNickname("");
                 return;
             }
-            console.log("2");
             let nickmyselfnotag = args.join(" ");
             try {
-              console.log("1");
               message.member.setNickname(nickmyselfnotag);
             }
             catch (err) {

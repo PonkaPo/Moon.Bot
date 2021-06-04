@@ -104,6 +104,8 @@ client.on("message", async message => {
 			case 'serverinfo':
                 client.commands.get('serverinfo').execute(message, args);
                 break;
+            case 'u':
+            case 'i':
 			case 'info':
                 client.commands.get('info').execute(message, args);
                 break;
@@ -145,7 +147,7 @@ client.on("message", async message => {
                 break;
 			case 'del':
             case 'clear':
-            case 'zmazat':
+            case 'd':
             case 'delete':
                 client.commands.get('delete').execute(message, args);
                 break;
@@ -159,13 +161,13 @@ client.on("message", async message => {
                 client.commands.get('say').execute(message, args);
                 break;
             case 'help':
-                if (args.length) {
-                    client.commands.get('help').execute(message, args);
-                    break;
-                }
             case 'cmds':
             case 'commands':
             case 'prikazy':
+                if (args.length && args[0] != "music") {
+                    client.commands.get('help').execute(message, args);
+                    break;
+                }
                 client.commands.get('prikazy').execute(message, args);
                 break;
             default:

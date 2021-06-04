@@ -1,7 +1,7 @@
 {
     "prikazy": [
         {
-            "name": "Prikazy",
+            "name": "**Prikazy**\n",
             "alias": ["cmds", "commands"],
             "popis": "Ukáže zoznam príkazov",
             "syntax": "prikazy"

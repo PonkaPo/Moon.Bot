@@ -21,7 +21,7 @@ module.exports = {
             { name: '`original`', value: 'Original', inline: true }
           )
           .setTimestamp()
-          .setFooter("Sweetie.Bot | Music", message.client.user.avatarURL({ dynamic: true }));
+          .setFooter("Pinkamena.Bot | Music", message.client.user.avatarURL({ dynamic: true }));
         message.channel.send(siaembed);
         break;
       case 'porter':
@@ -60,7 +60,7 @@ module.exports = {
             { name: 'with_you_friends`', value: 'With You, Friends', inline: true }
           )
           .setTimestamp()
-          .setFooter("Sweetie.Bot | Music", message.client.user.avatarURL({ dynamic: true }));
+          .setFooter("Pinkamena.Bot | Music", message.client.user.avatarURL({ dynamic: true }));
         message.channel.send(uncategorizedembed);
         break;
       case 'alanwalker':
@@ -82,7 +82,7 @@ module.exports = {
             { name: '`fake_a_smile`', value: 'Fame a Smile', inline: true }
           )
           .setTimestamp()
-          .setFooter("Sweetie.Bot | Music", message.client.user.avatarURL({ dynamic: true }));
+          .setFooter("Pinkamena.Bot | Music", message.client.user.avatarURL({ dynamic: true }));
         message.channel.send(alanwalkerembed);
         break;
       case 'thelivingtombstone':
@@ -98,7 +98,7 @@ module.exports = {
             { name: '`gypsy_bard_remix_nightcore`', value: 'The Gypsy Bard (Remix - Nightcore)', inline: true }
           )
           .setTimestamp()
-          .setFooter("Sweetie.Bot | Music", message.client.user.avatarURL({ dynamic: true }));
+          .setFooter("Pinkamena.Bot | Music", message.client.user.avatarURL({ dynamic: true }));
         message.channel.send(tltembed);
         break;
       case 'tridashie':
@@ -119,7 +119,7 @@ module.exports = {
             { name: '`twilightless`', value: 'Twilightless', inline: true }
           )
           .setTimestamp()
-          .setFooter("Sweetie.Bot | Music", message.client.user.avatarURL({ dynamic: true }));
+          .setFooter("Pinkamena.Bot | Music", message.client.user.avatarURL({ dynamic: true }));
         message.channel.send(tridashieembed);
         break;
       case 'rabiesbun':
@@ -142,7 +142,7 @@ module.exports = {
             { name: '`nrg`', value: 'NRG (Remix)', inline: true }
           )
           .setTimestamp()
-          .setFooter("Sweetie.Bot | Music", message.client.user.avatarURL({ dynamic: true }));
+          .setFooter("Pinkamena.Bot | Music", message.client.user.avatarURL({ dynamic: true }));
         message.channel.send(rabiesbunembed);
         break;
       default:
@@ -162,7 +162,7 @@ module.exports = {
           { name: '`uncategorized`', value: 'Uncategorized Music', inline: true }
         )
         .setTimestamp()
-        .setFooter("Sweetie.Bot | Music", message.client.user.avatarURL({ dynamic: true }));
+        .setFooter("Pinkamena.Bot | Music", message.client.user.avatarURL({ dynamic: true }));
       message.channel.send(musiclistembed);
       break;
     }
