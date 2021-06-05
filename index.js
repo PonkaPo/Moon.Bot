@@ -161,7 +161,7 @@ client.on("message", async message => {
                 break;
             default:
                 const nocommandembed = new Discord.MessageEmbed()
-					.setColor('#7162ba')
+					.setColor('#F9A3BB')
 					.setTitle('Neexistujúci príkaz')
 					.setDescription('Príkaz, ktorý si napísal neexistuje :(\nPokiaľ by si chcel vedieť zoznam príkazov, tak daj `' + config.prefix + 'cmds`.')
 				message.reply(nocommandembed);

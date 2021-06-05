@@ -22,7 +22,7 @@ module.exports = {
         args.slice().join(" ");
         message.guild.member(message.mentions.users.first()).kick();
         let KickedSucc = new Discord.MessageEmbed()
-          .setColor("#7162ba")
+          .setColor("#F9A3BB")
           .setTitle('Kick')
           .setDescription('Týpek ' + message.guild.member(message.mentions.users.first()).user.username + " bol vykopnutý zo servera: " + args.slice().join(" "));
         message.channel.send(KickedSucc);

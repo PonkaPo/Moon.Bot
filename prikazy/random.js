@@ -12,7 +12,7 @@ module.exports = {
 		if (firstArgNum > secondArgNum) return message.channel.send("**RANDOM**: Prvé číslo musí byť menšie ako druhé.");
 		if (firstArgNum == secondArgNum) return message.channel.send("**RANDOM**: Nemôžeš zadať dve rovnaké čísla.\n");
 		const RandomEmbed = new Discord.MessageEmbed()
-			.setColor('#7162ba')
+			.setColor('#F9A3BB')
 			.setTitle('Náhodné číslo ')
 			.setDescription('Vygenerované číslo: **'+between(firstArgNum, secondArgNum)+'**')
 			.setFooter('Range: '+firstArgNum+' a '+secondArgNum);

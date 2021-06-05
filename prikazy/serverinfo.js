@@ -19,7 +19,7 @@ module.exports = {
 	
     let serverembed = new Discord.MessageEmbed()
         .setTitle(`Informácie o serveri ${message.guild.name}`)
-        .setColor(`#7162ba`)
+        .setColor(`#F9A3BB`)
         .setThumbnail(guildicon)
 		.addField('**Vlastník Servera** ', "<@"+message.guild.ownerID+">", true)
 		.addField('**ID Vlastníka** ', message.guild.ownerID, true)

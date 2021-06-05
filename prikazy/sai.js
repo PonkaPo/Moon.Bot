@@ -10,7 +10,7 @@ module.exports = {
       if (!args.length) {
         message.delete()
         const sainoarg = new Discord.MessageEmbed()
-          .setColor('#7162ba')
+          .setColor('#F9A3BB')
           .setTitle('Sai')
           .setDescription('<@' + message.author.id + '>, Nenapísal si žiadnu správu.')
         message.channel.send(sainoarg).then(msg => {

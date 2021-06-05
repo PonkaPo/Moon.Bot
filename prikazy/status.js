@@ -14,7 +14,7 @@ module.exports = {
         statusargs = args.join(" ");
         message.client.user.setActivity(statusargs);
         const statusembedset = new Discord.MessageEmbed()
-          .setColor('#7162ba')
+          .setColor('#F9A3BB')
           .setTitle('Zmena Statusu')
           .setDescription("Mám teraz po novom tento neskutočne super status:\n" + statusargs)
         message.channel.send(statusembedset).then(msg => {
@@ -22,7 +22,7 @@ module.exports = {
         })
       } else {
         const statusembednoarg = new Discord.MessageEmbed()
-          .setColor('#7162ba')
+          .setColor('#F9A3BB')
           .setTitle('Zmena Statusu')
           .setDescription("Ale však si tu nič nedal more.")
         message.channel.send(statusembednoarg).then(msg => {

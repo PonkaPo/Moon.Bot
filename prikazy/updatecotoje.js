@@ -11,14 +11,14 @@ module.exports = {
       message.delete();
       if (!args[0]) {
         const radnoarg1 = new Discord.MessageEmbed()
-          .setColor('#7162ba')
+          .setColor('#F9A3BB')
           .setTitle('Update: Čo to je')
           .setDescription('<@' + message.author.id + '>, Nenapísal si žiadnu odpoveď.')
         message.channel.send(radnoarg1)
       } else {
         if (!args[1]) {
           const radnoarg2 = new Discord.MessageEmbed()
-            .setColor('#7162ba')
+            .setColor('#F9A3BB')
             .setTitle('Update: Čo to je')
             .setDescription('<@' + message.author.id + '>, Nenapísal nápovedu.')
           message.channel.send(radnoarg2);
@@ -41,7 +41,7 @@ module.exports = {
               if(err) message.channel.send('error: '+err);
             });
             const radsuccesschange = new Discord.MessageEmbed()
-              .setColor('#7162ba')
+              .setColor('#F9A3BB')
               .setTitle('Update: Čo to je')
               .setDescription('Tak <@' + message.author.id + '>, tu sú tvoje zmeny:\nNápoveda: ' + napovedaRAD + '\nOdpoveď: ' + RadKlucEmbed + '\nAká dlhá je odpoveď: ' + RadCisloEmbed);
             message.channel.send(radsuccesschange).then(msg => {

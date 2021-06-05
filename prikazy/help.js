@@ -11,13 +11,13 @@ module.exports = {
     if (Array.isArray(commandsinfo[args[0]][0]["alias"])) {
       let Aliasy = commandsinfo[args[0]][0]["alias"].slice().join(', ');
       const CommandsInfoArray = new Discord.MessageEmbed()
-        .setColor('#7162ba')
+        .setColor('#F9A3BB')
         .setTitle(commandsinfo[args[0]][0]["name"])
         .setDescription('Popis: **'+commandsinfo[args[0]][0]["popis"]+"**\nSyntax: `"+config.prefix+commandsinfo[args[0]][0]["syntax"]+'`\nAlias: '+Aliasy)
       message.channel.send(CommandsInfoArray);
     } else {
       const CommandsInfoNonArray = new Discord.MessageEmbed()
-			  .setColor('#7162ba')
+			  .setColor('#F9A3BB')
 			  .setTitle(commandsinfo[args[0]][0]["name"])
 			  .setDescription('Popis: **'+commandsinfo[args[0]][0]["popis"]+"**\nSyntax: `"+config.prefix+commandsinfo[args[0]][0]["syntax"]+"`")
 		  message.channel.send(CommandsInfoNonArray);

@@ -8,7 +8,7 @@ module.exports = {
     switch (args[0]) {
       case 'sia':
         const siaembed = new Discord.MessageEmbed()
-          .setColor('#7162ba')
+          .setColor('#F9A3BB')
           .setTitle('Music List | Sia')
           .setAuthor(message.author.username, message.author.avatarURL({ dynamic: true }))
           .setDescription('Zoznam Skladieb: ')
@@ -26,7 +26,7 @@ module.exports = {
         break;
       case 'porter':
         const porterembed = new Discord.MessageEmbed()
-          .setColor('#7162ba')
+          .setColor('#F9A3BB')
           .setTitle('Music List | Porter Robinson')
           .setAuthor(message.author.username, message.author.avatarURL({ dynamic: true }))
           .setDescription('Zoznam Skladieb: ')
@@ -45,7 +45,7 @@ module.exports = {
         break;
       case 'uncategorized':
         const uncategorizedembed = new Discord.MessageEmbed()
-          .setColor('#7162ba')
+          .setColor('#F9A3BB')
           .setTitle('Music List | Uncategorized')
           .setAuthor(message.author.username, message.author.avatarURL({ dynamic: true }))
           .setDescription('Zoznam Skladieb: ')
@@ -65,7 +65,7 @@ module.exports = {
         break;
       case 'alanwalker':
         const alanwalkerembed = new Discord.MessageEmbed()
-          .setColor('#7162ba')
+          .setColor('#F9A3BB')
           .setTitle('Music List | Alan Walker')
           .setAuthor(message.author.username, message.author.avatarURL({ dynamic: true }))
           .setDescription('Zoznam Skladieb: ')
@@ -87,7 +87,7 @@ module.exports = {
         break;
       case 'thelivingtombstone':
         const tltembed = new Discord.MessageEmbed()
-          .setColor('#7162ba')
+          .setColor('#F9A3BB')
           .setTitle('Music List | The Living Tombstone')
           .setAuthor(message.author.username, message.author.avatarURL({ dynamic: true }))
           .setDescription('Zoznam Skladieb: ')
@@ -103,7 +103,7 @@ module.exports = {
         break;
       case 'tridashie':
         const tridashieembed = new Discord.MessageEmbed()
-          .setColor('#7162ba')
+          .setColor('#F9A3BB')
           .setTitle('Music List | Tridashie')
           .setAuthor(message.author.username, message.author.avatarURL({ dynamic: true }))
           .setDescription('Zoznam Skladieb: ')
@@ -124,7 +124,7 @@ module.exports = {
         break;
       case 'rabiesbun':
         const rabiesbunembed = new Discord.MessageEmbed()
-          .setColor('#7162ba')
+          .setColor('#F9A3BB')
           .setTitle('Music List | Rabies Bun')
           .setAuthor(message.author.username, message.author.avatarURL({ dynamic: true }))
           .setDescription('Zoznam skladieb: ')
@@ -147,7 +147,7 @@ module.exports = {
         break;
       default:
       const musiclistembed = new Discord.MessageEmbed()
-        .setColor('#7162ba')
+        .setColor('#F9A3BB')
         .setTitle('Music List')
         .setAuthor(message.author.username, message.author.avatarURL({ dynamic: true }))
         .setDescription('Dostupný Umelci: ')

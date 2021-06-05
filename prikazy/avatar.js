@@ -9,7 +9,7 @@ module.exports = {
   async execute(message, args) {
 	if (args[0] == "-g") {
 		const GuildAvatarEmbed = new Discord.MessageEmbed()
-			.setColor('#7162ba')
+			.setColor('#F9A3BB')
 			.setTitle(`Guild icon of ${message.guild.name}:`)
 			.setImage(message.guild.iconURL({ dynamic: true}));
 		message.channel.send(GuildAvatarEmbed);
@@ -31,7 +31,7 @@ module.exports = {
 		NumberCheck = 512;
 	}
 	const avatarembed = new Discord.MessageEmbed()
-			.setColor('#7162ba')
+			.setColor('#F9A3BB')
 			.setTitle(`${avatarSelect.username}'s avatar:`)
 			.setImage(avatarSelect.displayAvatarURL({ dynamic: true, size: NumberCheck}));
 	message.channel.send(avatarembed);

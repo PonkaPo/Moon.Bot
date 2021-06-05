@@ -9,7 +9,7 @@ module.exports = {
   async execute(message, args) {
     var radjson = JSON.parse(fs.readFileSync('./rad.json', 'utf8'));
     const cotoje = new Discord.MessageEmbed()
-      .setColor('#7162ba')
+      .setColor('#F9A3BB')
       .setTitle('Čo to je, '+message.author.username+'?')
       .setDescription('Nápoveda: **'+radjson["rad"][0]["radNapoveda"]+'**\nPočet písmen: **'+radjson.rad[0]["radCislo"]+'**\nPrvý Uhádol: '+radjson.rad[0]["uhadol"]+'\nZadal to: '+radjson.rad[0]["ZadalTo"]);
     message.channel.send(cotoje);

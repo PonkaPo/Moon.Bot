@@ -19,7 +19,7 @@ module.exports = {
         let dovodna = args.slice().join(" ");
         message.guild.member(message.mentions.users.first()).unban();
         let SuccBan = new Discord.MessageEmbed()
-          .setColor("#7162ba")
+          .setColor("#F9A3BB")
           .setTitle('UNBAN')
           .setDescription('Týpek ' + message.guild.member(message.mentions.users.first()).user.username + " bol zabanovaný zo servera: " + dovodna);
         try {

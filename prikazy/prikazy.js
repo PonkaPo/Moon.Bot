@@ -6,7 +6,7 @@ module.exports = {
   async execute(message, args) {
     if (typeof args[0] !== 'undefined' && args[0] == "music") {
       const helpembedmusic = new Discord.MessageEmbed()
-        .setColor('#7162ba')
+        .setColor('#F9A3BB')
         .setTitle('Music')
         .setAuthor(message.author.username, message.author.avatarURL({ dynamic: true }))
         .setDescription('Dostupné príkazy pre hudbu\n`Knižnica ďakuje aj iným členom: Fildoff, GuiHuiZui, TomSK1`')
@@ -20,7 +20,7 @@ module.exports = {
       message.channel.send(helpembedmusic);
     } else {
     const helpembed = new Discord.MessageEmbed()
-      .setColor('#7162ba')
+      .setColor('#F9A3BB')
       .setTitle('Dostupné príkazy')
       .setAuthor(message.author.username, message.author.avatarURL({ dynamic: true }))
       .setDescription('```8ball\nanketa\navatar\nban\nboop\ncotoje\ndelete\nhug\ninfo\nmeme\nnick\npin\nquote\nrandom\nrr\nsai\nsay\nserverinfo```')

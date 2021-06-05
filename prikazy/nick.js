@@ -13,7 +13,7 @@ module.exports = {
         let mentionedusername = message.mentions.users.first().username;
         if (message.mentions.members.first().roles.highest.position > message.guild.members.resolve(message.client.user).roles.highest.position) {
           const cannotduetopermissions = new Discord.MessageEmbed()
-            .setColor('#7162ba')
+            .setColor('#F9A3BB')
             .setTitle('Nick')
             .setDescription('Označený uživateľ (' + mentionedusername + ') má vyššiu rolu ako ja, takže nemôžem mu zmeniť nick')
           message.channel.send(cannotduetopermissions);
@@ -21,7 +21,7 @@ module.exports = {
         }
         if (!args[1]) {
             const resetembednick = new Discord.MessageEmbed()
-              .setColor('#7162ba')
+              .setColor('#F9A3BB')
               .setTitle('Nick')
               .setDescription(mentionedusername + ' má odstránený nick')
             message.channel.send(resetembednick);
@@ -32,7 +32,7 @@ module.exports = {
           let nickReasonmanage = args.join(" ");
           if (mentioneduserid == "746409149507567632" && message.author.id == "409731934030135306") {
             const nickembedself = new Discord.MessageEmbed()
-              .setColor('#7162ba')
+              .setColor('#F9A3BB')
               .setTitle('Nový nick pre mňa')
               .setDescription('Dostal som tento cool nick: ' + nickReasonmanage)
             message.channel.send(nickembedself);
@@ -42,13 +42,13 @@ module.exports = {
           try {
             message.guild.members.cache.get(mentioneduserid).setNickname(nickReasonmanage);
             const nickembed = new Discord.MessageEmbed()
-              .setColor('#7162ba')
+              .setColor('#F9A3BB')
               .setTitle('Nový nick pre ' + mentionedusername)
               .setDescription('Nový nick: ' + nickReasonmanage + '\nZadrel mu ho: ' + message.author.username)
             message.channel.send(nickembed);
           } catch(err) {
             const errnickembed = new Discord.MessageEmbed()
-              .setColor('#7162ba')
+              .setColor('#F9A3BB')
               .setTitle('Nick')
               .setDescription('Tu máš ten zasratí error: ' + err)
             message.channel.send(errnickembed);
@@ -57,7 +57,7 @@ module.exports = {
         } else {
           if (message.member.roles.highest.position > message.guild.members.resolve(message.client.user).roles.highest.position) {
             const cannotduetopermissionsself = new Discord.MessageEmbed()
-              .setColor('#7162ba')
+              .setColor('#F9A3BB')
               .setTitle('Nick')
               .setDescription('Máš vyššiu rolu ako ja, takže nemôžem tebe zmeniť nick')
             message.channel.send(cannotduetopermissionsself);
@@ -65,7 +65,7 @@ module.exports = {
           }
           if (!args[0]) {
               const resetembednickself = new Discord.MessageEmbed()
-                .setColor('#7162ba')
+                .setColor('#F9A3BB')
                 .setTitle('Nick')
                 .setDescription(message.author.username + ' má odstránený nick')
               message.channel.send(resetembednickself);
@@ -76,13 +76,13 @@ module.exports = {
           try {
             message.guild.members.cache.get(message.author.id).setNickname(nickReasonmanageself);
             const nickembedselfmanage = new Discord.MessageEmbed()
-              .setColor('#7162ba')
+              .setColor('#F9A3BB')
               .setTitle('Nový nick pre ' + message.author.username)
               .setDescription('Nový nick: ' + nickReasonmanageself)
             message.channel.send(nickembedselfmanage);
           } catch(err) {
             const errnickembed = new Discord.MessageEmbed()
-              .setColor('#7162ba')
+              .setColor('#F9A3BB')
               .setTitle('Nick')
               .setDescription('Tu máš ten zasratí error: ' + err)
             message.channel.send(errnickembed);
@@ -95,7 +95,7 @@ module.exports = {
             let mentioneduseridself = message.mentions.users.first().id;
             if (mentioneduseridself != message.author.id) {
               const notsameidnick = new Discord.MessageEmbed()
-                .setColor('#7162ba')
+                .setColor('#F9A3BB')
                 .setTitle('Nick')
                 .setDescription('Nemôžeš meniť inému nick.')
               message.channel.send(notsameidnick);
@@ -106,7 +106,7 @@ module.exports = {
               let nickmyself = args.join(" ");
               message.member.setNickname(nickmyself);
               const myselfermnickembed = new Discord.MessageEmbed()
-                .setColor('#7162ba')
+                .setColor('#F9A3BB')
                 .setTitle('Nick')
                 .setDescription('Zadrel som tebe tento nový nick: ' + nickmyself)
               message.channel.send(myselfermnickembed);
@@ -114,7 +114,7 @@ module.exports = {
           } else {
             if (!args[0]) {
                 const resetembednick = new Discord.MessageEmbed()
-                  .setColor('#7162ba')
+                  .setColor('#F9A3BB')
                   .setTitle('Nick')
                   .setDescription(message.author.username + ' má odstránený nick')
                 message.channel.send(resetembednick);
@@ -129,14 +129,14 @@ module.exports = {
               message.channel.send(err);
             }
             const myselfermnickembednotag = new Discord.MessageEmbed()
-              .setColor('#7162ba')
+              .setColor('#F9A3BB')
               .setTitle('Nick')
               .setDescription('Zadrel som tebe tento nový nick: ' + nickmyselfnotag)
             message.channel.send(myselfermnickembednotag);
           }
         } else {
           const nopermnickembed = new Discord.MessageEmbed()
-          .setColor('#7162ba')
+          .setColor('#F9A3BB')
           .setTitle('Nick')
           .setDescription('Nemáš permissiu `CHANGE_NICKNAME` aby si mohol meniť nick.')
         message.channel.send(nopermnickembed);

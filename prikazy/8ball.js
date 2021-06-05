@@ -10,7 +10,7 @@ module.exports = {
 		selectrandomanswer = odpovede[between(1, 8)];
 		let questionvar = args.slice().join(' ');
 		let ballembed = new Discord.MessageEmbed()
-    		.setColor("#7162ba")
+    		.setColor("#F9A3BB")
     		.setAuthor("🎱 8-ball")
 			.addFields(
 				{ name: '**Tvoja otázka ❓**', value: questionvar},

@@ -12,7 +12,7 @@ module.exports = {
     let sprava = args.slice().join(' ');
     if(!sprava){
       let notomute = new Discord.MessageEmbed()
-        .setColor("#7162ba")
+        .setColor("#F9A3BB")
         .setAuthor('Say')
         .setDescription('`=say <správa>`')
       return message.channel.send(notomute);

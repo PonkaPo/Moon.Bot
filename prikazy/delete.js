@@ -7,7 +7,7 @@ module.exports = {
   async execute(message, args) {
 	if (message.member.hasPermission('MANAGE_MESSAGES')) {
 	const delembedmsg = new Discord.MessageEmbed()
-		.setColor('#7162ba')
+		.setColor('#F9A3BB')
 		.setTitle('Delete')
 		.setDescription('Koľko správ chceš vymazať? Maximálne 100 správ.')
 	if (!args.length) {
@@ -18,7 +18,7 @@ module.exports = {
 	}
 	deleteCount = parseInt(args[0], 10);
 	const delmsgconfirm = new Discord.MessageEmbed()
-		.setColor('#7162ba')
+		.setColor('#F9A3BB')
 		.setTitle('Delete')
 		.setDescription('Odstránil som toľkoto správ: ' + deleteCount)
 	if(!deleteCount || deleteCount < 1 || deleteCount > 100)
@@ -32,7 +32,7 @@ module.exports = {
 	} else {
 		message.delete();
 		const delembedmsgnoperm = new Discord.MessageEmbed()
-			.setColor('#7162ba')
+			.setColor('#F9A3BB')
 			.setTitle('Delete')
 			.setDescription('Nemáš more právo mazať správy.')
 		message.channel.send(delembedmsgnoperm);
