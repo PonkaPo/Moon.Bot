@@ -10,7 +10,7 @@ client.aliases = new Discord.Collection();
 client.description = new Discord.Collection();
 client.usage = new Discord.Collection();
 let filename;
-let NonLogCommands = ["updatecotoje", "mlp", "sendmsg", "fetchbyid"];
+let NonLogCommands = ["updatecotoje", "mlp"];
 
 fs.readdir("./prikazy/", (err, files) =>{
     if(err) console.log(err);
@@ -21,7 +21,7 @@ fs.readdir("./prikazy/", (err, files) =>{
     }
     jsfile.forEach((f) =>{
       let prikaz = require(`./prikazy/${f}`);
-      console.log(`Príkaz ${f} sa načítal!`);
+      console.log(`${f} -> načítaný`);
       client.commands.set(prikaz.name, prikaz);
     });
 });
@@ -60,10 +60,6 @@ client.on("message", async message => {
             case 'hug':
                 client.commands.get('hug').execute(message, args);
                 break;
-            case 'fetchbyid':
-                if (message.author.id !== '409731934030135306') return;
-                client.commands.get('fetchbyid').execute(message, args);
-                break;
             case 'rng':
             case 'random':
                 client.commands.get('random').execute(message, args);
@@ -87,12 +83,6 @@ client.on("message", async message => {
             case 'kick':
                 client.commands.get('kick').execute(message, args);
                 break;
-            case 'ps':
-            case 'sp':
-            case 'pinsave':
-            case 'savepin':
-                client.commands.get('savepin').execute(message,args);
-                break;
             case 'p':
             case 'pin':
                 client.commands.get('pin').execute(message,args);
@@ -101,6 +91,7 @@ client.on("message", async message => {
 			case 'save':
                 client.commands.get('save').execute(message, args);
                 break;
+            case 'si':
 			case 'serverinfo':
                 client.commands.get('serverinfo').execute(message, args);
                 break;
@@ -116,7 +107,6 @@ client.on("message", async message => {
 			case 'updatecotoje':
                 client.commands.get('updatecotoje').execute(message, args);
                 break;
-            case 'coto':
 			case 'cotoje':
                 client.commands.get('cotoje').execute(message, args);
                 break;
@@ -140,7 +130,6 @@ client.on("message", async message => {
 			case 'avatar':
                 client.commands.get('avatar').execute(message, args);
                 break;
-			case 'zivotnarada':
 			case 'quote':
 			case 'citat':
                 client.commands.get('quote').execute(message, args);
@@ -188,9 +177,7 @@ client.on("message", async message => {
 function download(url){
     if (fs.existsSync('./memes/' + filename)) {
         fs.readFile('./number.txt', 'utf8', function readFileCallback(err, data){
-            if (err){
-		        console.log(err);
-            } else {
+            if (err) return console.log(err);
                 var cnumberINt = Integer(data);
 		        cnumberINt = cnumberINt + 1
                 filenameext = path.parse(filename).ext;
@@ -201,7 +188,6 @@ function download(url){
                 request.get(url)
                     .on('error', console.error)
                     .pipe(fs.createWriteStream('./memes/' + filename));
-            }
         });
     } else {
         request.get(url)

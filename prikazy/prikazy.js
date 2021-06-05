@@ -1,6 +1,4 @@
 const Discord = require("discord.js");
-let medzera = "\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0";
-
 module.exports = {
   name: 'prikazy',
   description: 'Ukáže zoznam príkazov.',
@@ -23,14 +21,13 @@ module.exports = {
     } else {
     const helpembed = new Discord.MessageEmbed()
       .setColor('#7162ba')
-      .setTitle('Príkazy')
+      .setTitle('Dostupné príkazy')
       .setAuthor(message.author.username, message.author.avatarURL({ dynamic: true }))
-      .setDescription('Dostupné príkazy:\ndelete'+medzera+'nick\navatar'+medzera+'say\nboop'+medzera+'hug\nrr'+medzera+'cotoje')
+      .setDescription('```8ball\nanketa\navatar\nban\nboop\ncotoje\ndelete\nhug\ninfo\nmeme\nnick\npin\nquote\nrandom\nrr\nsai\nsay\nserverinfo```')
       .setThumbnail(message.client.user.avatarURL())
       .setTimestamp()
       .setFooter("Pinkamena.Bot", Discord.ClientUser.displayAvatarURL);
     message.channel.send(helpembed);
     }
 	},
-
 }
