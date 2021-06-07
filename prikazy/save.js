@@ -8,6 +8,7 @@ module.exports = {
   async execute(message, args) {
     if (message.channel.type == "dm") return message.channel.send("Tento príkaz nefunguje v Priamej Správe");
     if (!AllowedIdsSave.includes(message.member.id)) return message.channel.send("**SAVE**: Nemáš povolenie na tento príkaz");
+    console.log(args);
     if (!args.length) {
       message.client.channels.resolve(message.channel.id).messages.fetch({ limit: 2 }).then(messages => {
         let lM = messages.last();

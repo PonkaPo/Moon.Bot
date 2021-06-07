@@ -50,6 +50,10 @@ client.on("message", async message => {
             client.channels.cache.get("833625728310444042").send(message.author.username + "\nSpráva: \n```" + message.content + "```");
         }
         switch(command) {
+            case 'ub':
+            case 'unban':
+                client.commands.get('unban').execute(message, args);
+                break;
             case 'anketa':
                 client.commands.get('anketa').execute(message, args);
                 break;

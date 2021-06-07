@@ -1,42 +1,32 @@
 const Discord = require("discord.js");
+let dovodna, SuccBan;
 
 module.exports = {
   name: 'ban',
   description: 'Zabanuje člena zo servera.',
   usage: '=ban <mention> (dôvod)',
   async execute(message, args) {
-    if (!message.member.hasPermission('BAN_MEMBERS')) {
-      message.channel.send('**BAN**: <@'+message.author.id+'> -> Nemáš permissiu `BAN_MEMBERS`');
-      return;
-    }
-    if (message.mentions.users.first()) {
-      if (message.mentions.users.first().id == message.author.id) return message.channel.send("TO prečo by si sebe dával ban, "+message.author.username+"? To kde sme ...");
-      if (message.mentions.members.first().roles.highest.position > message.member.roles.highest.position) {
-        message.channel.send('**BAN**: <@'+message.author.id+'> -> Tento týpek má vyššiu rolu než ty.');
-        return;
-      }
-      if (!message.guild.member(message.mentions.users.first()).bannable) {
-        message.channel.send('**BAN**: <@'+message.author.id+'> -> Toho týpka nemôže vykopnúť.');
-      } else {
-        args.shift();
-        let dovodna = args.slice().join(" ");
-        message.guild.member(message.mentions.users.first()).ban();
-        let SuccBan = new Discord.MessageEmbed()
-          .setColor("#F9A3BB")
-          .setTitle('BAN')
-          .setDescription('Týpek ' + message.guild.member(message.mentions.users.first()).user.username + " bol zabanovaný zo servera: " + dovodna);
-        try {
-          message.client.users.cache.get(message.mentions.users.first().id).send(message.guild.name+' **BAN** -> _'+dovodna+'_');
-          message.channel.send(SuccBan);
-        } catch(err) {
-          console.log(err);
-          message.channel.send(SuccBan);
-        }
-      }
-      return;
+    if (!message.member.hasPermission('BAN_MEMBERS')) return message.channel.send('**BAN**: <@'+message.author.id+'> -> Nemáš permissiu `BAN_MEMBERS`');
+    if (hasNumber(args[0])) {
+    let { user } = message.guild.members.cache.get(args[0]) || message.guild.member(message.mentions.users.first())
+      console.log(message.guild.member(message.mentions.users.first()));
     } else {
-      message.channel.send('**BAN**: <@'+message.author.id+'> -> Neoznačil si ale človeka, ktorého chceš zabanovať.');
+      if (!message.mentions.users.first()) return message.channel.send('**BAN**: <@'+message.author.id+'> -> Neoznačil si človeka, ktorého chceš zabanovať.');
+      if (user) return message.channel.send("TO prečo by si sebe dával ban, "+message.author.username+"? To kde sme ...");
+      if (user.roles.highest.position > message.member.roles.highest.position) return message.channel.send('**BAN**: <@'+message.author.id+'> -> Tento týpek má vyššiu rolu než ty.');  
+      if (!message.guild.member(user).bannable) return message.channel.send('**BAN**: <@'+message.author.id+'> -> Toho týpka nemôže vykopnúť.');
     }
+    args.shift();
+    dovodna = ":\n"+args.slice().join(" ");
+    message.guild.member(user).ban();
+    SuccBan = new Discord.MessageEmbed()
+      .setColor("#F9A3BB")
+      .setTitle('BAN')
+      .setDescription('Týpek ' + message.guild.member(user).user.username + " bol zabanovaný zo servera"+dovodna);
+    message.channel.send(SuccBan);
 	},
+}
 
+function hasNumber(CheckForNumbers) {
+  return /\d/.test(CheckForNumbers);
 }
