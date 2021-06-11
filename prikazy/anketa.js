@@ -1,21 +1,20 @@
 const Discord = require("discord.js");
-let sprava, EHMention;
+let sprava, EHMention, TestArg;
 
 module.exports = {
   name: 'anketa',
   description: 'Anketa',
-  usage: '=anketa <otázka> -everybody',
+  usage: '=anketa (-E/-H) <otázka>',
   async execute(message, args) {
     if (!args.length) return message.channel.send("<@"+message.author.id+">, Nezadal si žiadnu otázku");
-    message.delete();
-    let TestArg = args[0];
-    args.shift();
-    sprava = args.slice().join(' ');
+    TestArg = args[0];
     if (TestArg=="-E" || TestArg=="-H") {
+      args.shift();
       if (!message.member.hasPermission('MENTION_EVERYONE')) return message.channel.send("<@"+message.author.id+">, ale nemáš právo použiť everyone/here pre Anketu.");
       if (TestArg == "-E") EHMention = "@everyone";
       if (TestArg == "-H") EHMention = "@here";
     }
+    sprava = args.slice().join(' ');
     let AnketaEmbed = new Discord.MessageEmbed()
       .setColor('#F9A3BB')
       .setTitle('Anketa')
@@ -24,9 +23,10 @@ module.exports = {
       .setDescription(sprava)
       .setTimestamp()
       .setFooter("Pinkamena.Bot");
+    message.delete();
     message.channel.send(EHMention, {embed: AnketaEmbed, }).then(sentEmoji => {
-      sentEmoji.react("\⬆")
-      sentEmoji.react("\⬇")
+      sentEmoji.react("\<:pinkie_yes:852973753465831474>")
+      sentEmoji.react("\<:pinkie_no:852973704556183552>")
     });
 
 	},
