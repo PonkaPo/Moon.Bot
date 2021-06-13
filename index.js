@@ -150,9 +150,6 @@ client.on("message", async message => {
             case 'status':
                 client.commands.get('status').execute(message, args);
                 break;
-            case 'sai':
-                client.commands.get('sai').execute(message, args);
-                break;
             case 'say':
                 client.commands.get('say').execute(message, args);
                 break;

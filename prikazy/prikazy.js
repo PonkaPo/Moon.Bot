@@ -23,7 +23,7 @@ module.exports = {
       .setColor('#F9A3BB')
       .setTitle('Dostupné príkazy')
       .setAuthor(message.author.username, message.author.avatarURL({ dynamic: true }))
-      .setDescription('```8ball\nanketa\navatar\nban\nboop\ncotoje\ndelete\nhug\ninfo\nmeme\nnick\npin\nquote\nrandom\nrr\nsai\nsay\nserverinfo```')
+      .setDescription('```8ball\nanketa\navatar\nban\nboop\ncotoje\ndelete\nhug\ninfo\nmeme\nnick\npin\nquote\nrandom\nrr\nsay\nserverinfo```')
       .setThumbnail(message.client.user.avatarURL())
       .setTimestamp()
       .setFooter("Pinkamena.Bot", Discord.ClientUser.displayAvatarURL);

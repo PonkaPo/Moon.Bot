@@ -39,14 +39,6 @@
             "syntax": "say <správa>"
           }
     ],
-    "sai": [
-          {
-            "name": "Sai",
-            "alias": "-",
-            "popis": "Povie bot za teba vetu (len pre vybraných uživateľov)",
-            "syntax": "sai <správa>"
-          }
-    ],
     "status": [
           {
             "name": "Status",

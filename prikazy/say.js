@@ -1,23 +1,22 @@
 const Discord = require("discord.js");
+let AllowedIds = ['422882850166276096', '409731934030135306', '478258433611661322', '699214855823163433', '532512473492750356'];
+let SpravaArgs;
 
 module.exports = {
   name: 'say',
   description: 'Poviem čo len budeš chcieť.',
   usage: '=say <správa>',
   async execute(message, args) {
-    message.delete({ timeout: 0 });
-    message.channel.send(".").then(msg => {
-			msg.delete({ timeout: 100 })
-		  })
-    let sprava = args.slice().join(' ');
-    if(!sprava){
-      let notomute = new Discord.MessageEmbed()
-        .setColor("#F9A3BB")
-        .setAuthor('Say')
-        .setDescription('`=say <správa>`')
-      return message.channel.send(notomute);
+    if (!args.length) return message.channel.send('<@' + message.author.id + '>, Nenapísal si žiadnu správu.');
+    if (args[0] == "-i") {
+      if(!AllowedIds.includes(message.author.id)) return message.channel.send("Nemáš povolenie na tento príkaz, <@" + message.author.id + ">");
+      args.shift();
+      SpravaArgs = args.slice().join(' ');
+    } else {
+      SpravaArgs = '**'+message.author.username+'**: '+args.slice().join(' ');
     }
-    message.channel.send('**'+message.author.username+'**: '+sprava);
+    message.delete({ timeout: 0 });
+    message.channel.send(SpravaArgs);
 	},
 
 }
