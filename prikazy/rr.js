@@ -4,11 +4,7 @@ var Links = ['http://mc.fifqo.sk:8088/alanwalker.html', 'https://discordgift.sit
 var rrArray, RandomDecide, rrSelectFromArray;
 var LinkCheck = 1;
 
-module.exports = {
-	name: 'rr',
-	description: 'Rick Roll',
-	usage: '=rr',
-  async execute(message, args) {
+module.exports.run = async (client, message, args) => {
 	RandomDecide = between(1, 100);
 	if (rrIsEven(RandomDecide)) {
 		rrArray = fs.readdirSync('./rr/');
@@ -54,9 +50,12 @@ module.exports = {
 			});
 		}
 	}
-	},
-
-}
+};
+module.exports.help = {
+	name: 'rr',
+	description: 'Rick Roll',
+	usage: '=rr'
+};
 
 function between(min, max) {  
 	return Math.floor(

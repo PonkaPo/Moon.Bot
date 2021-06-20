@@ -2,12 +2,7 @@ const Discord = require("discord.js");
 const fs = require('fs');
 var path = require('path');
 const VideoFormats = ['.mp4', '.webm', '.mov'];
-
-module.exports = {
-	name: 'meme',
-	description: 'Pošle náhodný meme.',
-	usage: '=meme',
-  async execute(message, args) {
+module.exports.run = async (client,message,args) => {
 	var filesArray = fs.readdirSync('./memes/');
 	var randomMeme = filesArray[between(1, filesArray.length)];
 	var ext = path.extname('./memes/' + randomMeme);
@@ -24,9 +19,12 @@ module.exports = {
 			.setImage('attachment://' + randomMeme);
 		message.channel.send({ files: [MemeAttachment], embed: MemeEmbed});
 	}
-	},
-
 }
+module.exports.help = {
+	name: 'meme',
+	description: 'Pošle náhodný meme.',
+	usage: '=meme',
+};
 
 function between(min, max) {  
 	return Math.floor(

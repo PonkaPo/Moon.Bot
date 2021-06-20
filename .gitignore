@@ -1,12 +1,10 @@
-config.json
-rad.json
 package-lock.json
 package.json
 node_modules/
 MLP/
 memes/
 citaty/
-number.txt
 rr/
-test.js
 music/library_db_new.json
+ignore_these_files/
+config/

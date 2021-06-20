@@ -1,15 +1,10 @@
 const Discord = require("discord.js");
 const fs = require('fs');
-var SiPath = "./citaty/Single_Quotes-Quoterific/";
-var ScPath = "./citaty/Scene_Cut_Quotes-Quoterific/";
+const SiPath = "./citaty/Single_Quotes-Quoterific/";
+const ScPath = "./citaty/Scene_Cut_Quotes-Quoterific/";
 var SelectedPath;
-var ArgsForCheck = ["single", "scene"];
 
-module.exports = {
-  name: 'quote',
-  description: 'Ukáže krásny a úplne náhodný citát z MLP :O.',
-  usage: '=quote (single/scene)',
-  async execute(message, args) {
+module.exports.run = async (client,message, args) => {
     switch (args[0]) {
       case 'single':
         SingleArray = fs.readdirSync(SiPath);
@@ -45,9 +40,12 @@ module.exports = {
         .setTitle('Hope, you are now better person. :heart:')
         .setImage('attachment://'+SelectFromArray);
       message.channel.send({ files: [QuoteAttach], embed: QuoteEmbed});
-	},
-
-}
+	};
+module.exports.help = {
+  name: 'quote',
+  description: 'Ukáže krásny a úplne náhodný citát z MLP :O.',
+  usage: '=quote (single/scene)'
+};
 
 function between(min, max) {  
   return Math.floor(

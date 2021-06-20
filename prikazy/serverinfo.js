@@ -1,22 +1,14 @@
 const Discord = require("discord.js");
-
-module.exports = {
-  name: 'serverinfo',
-  description: 'Pošle údaje o serveri v Embede.',
-  usage: '=serverinfo',
-  async execute(message, args) {
+module.exports.run = async (client,message, args) => {
 	let guildicon = message.guild.iconURL({ format: 'png'});
-
 	let verifikacia = message.guild.verificationLevel;
     if(verifikacia === "LOW") verifikacie = "Slabé";
     if(verifikacia === "MEDIUM") verifikacie = "Stredné";
     if(verifikacia === "HIGH") verifikacie = "Silné";
     if(verifikacia === "VERY_HIGH") verifikacie = "Veľmi silné";
-
     let notifikacie = message.guild.defaultMessageNotifications;
     if(notifikacie === "MENTIONS") notifikacie = "Iba pingy";
     if(notifikacie === "ALL") notifikacie = "Všetky správy";
-	
     let serverembed = new Discord.MessageEmbed()
         .setTitle(`Informácie o serveri ${message.guild.name}`)
         .setColor(`#F9A3BB`)
@@ -32,6 +24,9 @@ module.exports = {
 		.addField('**Režim upozornenia** ', notifikacie, true)
         .setFooter(`${message.author.username}`, message.author.displayAvatarURL())
     return message.channel.send(serverembed);
-	},
-
-}
+};
+module.exports.help = {
+    name: 'serverinfo',
+    description: 'Pošle údaje o serveri v Embede.',
+    usage: '=serverinfo'
+};

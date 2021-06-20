@@ -1,25 +1,28 @@
 const Discord = require("discord.js");
+let userInfo;
+let botinfodesc = "Vytorený uživateľom: **Pinkamena Diane Song**.\nBot už aktuálne ma viacero funkcií plno funkčných príkazov.\nBot Server: https://discord.gg/jHbZ7fa2vq\n\nTesteri:\n```\nFildoff\nMkingSK\nTomSK1\nGuiHuiZui\nRopko ¯\\_(ツ)_/¯```";
 
-module.exports = {
-  name: 'info',
-  description: 'Pošle o tebe údaje v Embede.',
-  usage: '=info (mention)',
-  async execute(message, args) {
+module.exports.run = async (client, message, args) => {
 	if (!message.mentions.members.first()) {
-		const userinfoembedself = new Discord.MessageEmbed()
-		.setDescription(`<@` + message.author.id + `> Info`)
-		.setAuthor(`${message.member.user.tag}`, message.member.user.displayAvatarURL())
-		.setColor('#F9A3BB')
-		.setFooter(`ID: ${message.author.id}`)
-		.setThumbnail(message.member.user.displayAvatarURL())
-		.setTimestamp()
-		.addField('**Pripojil sa** ', message.member.joinedAt.toLocaleString(), true)
-		.addField('**Vytvorený**', message.member.user.createdAt.toLocaleString(), true)
-		.addField(`\n**Role [${message.member.roles.cache.filter(r => r.id !== message.guild.id).map(roles => `\`${roles.name}\``).length}]**`,`${message.member.roles.cache.filter(r => r.id !== message.guild.id).map(roles => `<@&${roles.id }>`).join(" **|** ") || "Žiadne role"}`, true)
-		message.channel.send(userinfoembedself);
+		userInfo = message.member;
 	} else {
-		let userInfo = message.mentions.members.first();
-		const userinfoembed = new Discord.MessageEmbed()
+		userInfo = message.mentions.members.first();
+	}
+	if (userInfo == "746409149507567632") {
+		let botinfo = new Discord.MessageEmbed()
+			.setAuthor(`${message.client.user.username} Info`, message.member.user.displayAvatarURL())
+			.setDescription(`<@${userInfo.id}>`)
+			.setColor('#F9A3BB')
+			.setFooter(`${message.member.user.tag}`)
+			.setThumbnail(message.client.user.avatarURL())
+			.setTimestamp()
+			.addField('**Pripojil sa** ', userInfo.joinedAt.toLocaleString(), true)
+			.addField('**Vytvorený**', userInfo.user.createdAt.toLocaleString(), true)
+			.addField(`\n**Role [${userInfo.roles.cache.filter(r => r.id !== message.guild.id).map(roles => `\`${roles.name}\``).length}]**`,`${userInfo.roles.cache.filter(r => r.id !== message.guild.id).map(roles => `<@&${roles.id }>`).join(" **|** ") || "No Roles"}`, true)
+			.addField("Základné informácie: ",botinfodesc, false);
+		return message.channel.send(botinfo);
+	}
+	const userinfoembed = new Discord.MessageEmbed()
 		.setDescription(`<@${userInfo.id}>`)
 		.setAuthor(`${userInfo.user.tag}`, userInfo.user.displayAvatarURL())
 		.setColor('#F9A3BB')
@@ -29,8 +32,11 @@ module.exports = {
 		.addField('**Pripojil sa** ', userInfo.joinedAt.toLocaleString(), true)
 		.addField('**Vytvorený**', userInfo.user.createdAt.toLocaleString(), true)
 		.addField(`\n**Role [${userInfo.roles.cache.filter(r => r.id !== message.guild.id).map(roles => `\`${roles.name}\``).length}]**`,`${userInfo.roles.cache.filter(r => r.id !== message.guild.id).map(roles => `<@&${roles.id }>`).join(" **|** ") || "No Roles"}`, true)
-		message.channel.send(userinfoembed);
-	}
-	},
-
+	message.channel.send(userinfoembed);
 }
+module.exports.help = {
+	name: 'info',
+	aliases: ['i', 'userinfo', 'u'],
+	description: 'Pošle o tebe údaje v Embede.',
+	usage: '=info (mention)',
+};
