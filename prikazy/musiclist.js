@@ -32,7 +32,7 @@ module.exports.run = async (client,message, args) => {
       break;
     case 'list':
     default:
-      MusicListArtist = "Dostupný Umelci:";
+      MusicListArtist = "Artists in the list:";
       MusicListSongs = "`rabiesbun` - Rabies Bun\n`tridashie` - Tridashie\n`tlt` - The Living Tombstone\n`aw` - Alan Walker\n`sia` - Sia\n`porter` - Porter Robinson\n`uncategorized` - Uncategorized"
       break;
     }  
@@ -40,7 +40,7 @@ module.exports.run = async (client,message, args) => {
       .setColor('#F9A3BB')
       .setTitle('Music List | '+MusicListArtist)
       .setAuthor(message.author.username, message.author.avatarURL({ dynamic: true }))
-      .setDescription('Zoznam Skladieb: ')
+      .setDescription('List of songs: ')
       .setThumbnail(message.client.user.avatarURL())
       .addFields( { name: 'Music List:', value: MusicListSongs, inline: false } )
       .setTimestamp()

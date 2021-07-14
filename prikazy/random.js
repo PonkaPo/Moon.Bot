@@ -1,16 +1,24 @@
 const Discord = require("discord.js");
-let firstArgNum, secondArgNum;
+let firstArgNum, secondArgNum, changeArgNum, CheckForOnlyNumbers;
 module.exports.run = async (client, message, args) => {
-	message.delete();
-	if (!args[0] && !args[1]) return message.channel.send("**RANDOM**: "+message.author.username+" -> musíš zadať dve čísla.");
+	if (!args[0] && !args[1]) return message.channel.send("**RANDOM**: You must provide 2 different numbers.");
 	firstArgNum = parseInt(args[0], 10);
 	secondArgNum = parseInt(args[1], 10);
-	if (firstArgNum > secondArgNum) return message.channel.send("**RANDOM**: "+message.author.username+" -> Prvé číslo musí byť menšie ako druhé.");
-	if (firstArgNum == secondArgNum) return message.channel.send("**RANDOM**: "+message.author.username+" -> Nemôžeš zadať dve rovnaké čísla.\n");
+	for (let i=0;i<2;i++) {
+		CheckForOnlyNumbers = args[i]
+		if (!hasNumber(CheckForOnlyNumbers)) return ("**RANDOM**: You can only use numbers.");
+	}
+	if (firstArgNum == secondArgNum) return message.channel.send("**RANDOM**: The numbers cannot be the same.");
+	if (firstArgNum > secondArgNum) {
+		changeArgNum = firstArgNum;
+		firstArgNum = secondArgNum;
+		secondArgNum = changeArgNum;
+	}
+	message.delete();
 	const RandomEmbed = new Discord.MessageEmbed()
 		.setColor('#F9A3BB')
-		.setTitle('Náhodné číslo ('+firstArgNum+', '+secondArgNum+')')
-		.setDescription('Vygenerované číslo: **'+(Math.floor(Math.random()*(secondArgNum-firstArgNum)+firstArgNum))+'**')
+		.setTitle('Random Number')
+		.setDescription('Generated number: **'+(Math.floor(Math.random()*(secondArgNum-firstArgNum)+firstArgNum))+'**')
 		.setTimestamp()
 		.setFooter('Range: '+firstArgNum+' a '+secondArgNum);
 	message.channel.send(RandomEmbed);
@@ -20,3 +28,6 @@ module.exports.help = {
 	description: 'Vygeneruje náhodné číslo v tvojom určenom rozsahu.',
 	usage: '=random <menšie číslo> <väčšie číslo>'
 };
+function hasNumber(CheckForOnlyNumbers) {
+  return /^[0-9]+$/.test(CheckForOnlyNumbers);
+}

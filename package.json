@@ -1,16 +1,13 @@
 {
-  "name": "Sweetie.Bot",
+  "name": "Pinkamena.Bot",
   "version": "1.0.0",
-  "description": "Sweetie Discord Bot",
-  "engines": {
-    "node": "v14.16.1"
-  },
+  "description": "Pinkamena Discord Bot",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
   },
   "keywords": [],
-  "author": "SergeantRarity",
+  "author": "Pinkamena Diane Song",
   "license": "ISC",
   "dependencies": {
     "discord.js": "^12.5.3",

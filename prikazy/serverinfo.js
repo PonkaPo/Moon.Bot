@@ -2,27 +2,28 @@ const Discord = require("discord.js");
 module.exports.run = async (client,message, args) => {
 	let guildicon = message.guild.iconURL({ format: 'png'});
 	let verifikacia = message.guild.verificationLevel;
-    if(verifikacia === "LOW") verifikacie = "Slabé";
-    if(verifikacia === "MEDIUM") verifikacie = "Stredné";
-    if(verifikacia === "HIGH") verifikacie = "Silné";
-    if(verifikacia === "VERY_HIGH") verifikacie = "Veľmi silné";
+    if(verifikacia === "LOW") verifikacie = "Low";
+    if(verifikacia === "MEDIUM") verifikacie = "Medium";
+    if(verifikacia === "HIGH") verifikacie = "High";
+    if(verifikacia === "VERY_HIGH") verifikacie = "Very High";
     let notifikacie = message.guild.defaultMessageNotifications;
-    if(notifikacie === "MENTIONS") notifikacie = "Iba pingy";
-    if(notifikacie === "ALL") notifikacie = "Všetky správy";
+    if(notifikacie === "MENTIONS") notifikacie = "Only mentions";
+    if(notifikacie === "ALL") notifikacie = "All messages";
     let serverembed = new Discord.MessageEmbed()
         .setTitle(`Informácie o serveri ${message.guild.name}`)
         .setColor(`#F9A3BB`)
         .setThumbnail(guildicon)
-		.addField('**Vlastník Servera** ', "<@"+message.guild.ownerID+">", true)
-		.addField('**ID Vlastníka** ', message.guild.ownerID, true)
-		.addField('**Meno Servera** ', message.guild.name, true)
-		.addField('**ID Servera** ', message.guild.id, true)
-		.addField('**Server vytvorený** ', message.guild.createdAt.toLocaleDateString(), true)
-		.addField('**Celkovo Členov** ', message.guild.memberCount, true)
-		.addField('**Celkový počet rolí** ', message.guild.roles.cache.size, true)
-		.addField('**Počet kanálov** ', message.guild.channels.cache.size, true)
-		.addField('**Režim upozornenia** ', notifikacie, true)
-        .setFooter(`${message.author.username}`, message.author.displayAvatarURL())
+		.addField('**Server Owner** ', "<@"+message.guild.ownerID+">", true)
+		.addField('**Server Owner ID** ', message.guild.ownerID, true)
+		.addField('**Server Name** ', message.guild.name, true)
+		.addField('**Server ID** ', message.guild.id, true)
+		.addField('**Server created at** ', message.guild.createdAt.toLocaleDateString(), true)
+		.addField('**Members** ', message.guild.memberCount, true)
+		.addField('**Roles** ', message.guild.roles.cache.size, true)
+		.addField('**Channels** ', message.guild.channels.cache.size, true)
+		.addField('**Notifications** ', notifikacie, true)
+        .addField('**Verification** ', verifikacia, true)
+        .setFooter(`${message.author.username}`, message.author.displayAvatarURL());
     return message.channel.send(serverembed);
 };
 module.exports.help = {

@@ -10,6 +10,8 @@ client.aliases = new Discord.Collection();
 client.description = new Discord.Collection();
 client.usage = new Discord.Collection();
 let filename;
+const CannotUseInDM = ["ban", "boop", "delete", "hug", "info", "kick", "nick", "pin", "poll", "rr", "serverinfo", "unban"];
+const AllCommands = ["8ball", "avatar", "ban", "boop", "delete", "help", "hug", "info", "kick", "meme", "mlp", "musiclink", "musiclist", "nick", "pin", "poll", "quote", "random", "rr", "say", "serverinfo", "shitpost", "status", "unban", "updatewhatisit", "whatisit"];
 
 fs.readdir("./prikazy/", (err, files) =>{
     if(err) console.log(err);
@@ -24,7 +26,7 @@ fs.readdir("./prikazy/", (err, files) =>{
       client.commands.set(prikaz.help.name, prikaz);
       if (prikaz.help.aliases) {
         prikaz.help.aliases.forEach(alias => {
-            client.aliases.set(alias, prikaz.help.aliases)
+            client.aliases.set(alias, prikaz.help.name)
         });
     }
     });
@@ -32,7 +34,7 @@ fs.readdir("./prikazy/", (err, files) =>{
 
 client.on("ready", () => {
     client.user.setActivity(config.prefix+config.afterPrefix);
-    //client.channels.cache.get("833625728310444042").send("= = = \nBot je Online!\nÚčet: " + client.user.tag + "\n= = =");
+    //client.channels.cache.get("833625728310444042").send("Online!\nRunning as: "+client.user.tag);
     console.log("A až teraz som sa donačítal, ty kok.");
 });
 
@@ -47,9 +49,13 @@ client.on("message", async message => {
     }
     if (!message.content.startsWith(config.prefix)) return;
 	const args = message.content.slice(config.prefix.length).trim().split(" ");
-	const commandName = args.shift().toLowerCase();
+	let commandName = args.shift().toLowerCase();
     let command = client.commands.get(commandName);
-    if (!command) command = client.commands.find(prikaz => prikaz.aliases && prikaz.aliases.includes(commandName));
+    if (!command) command = client.commands.get(client.aliases.get(commandName))
+    if (!command) return;
+    commandName = command.help.name;
+    if (CannotUseInDM.includes(commandName) && message.channel.type == "dm") return message.channel.send("This command **"+commandName+"** cannot be used in Direct Messages");
+    if (!AllCommands.includes(commandName)) return;
     command.run(client, message, args);
 });
 

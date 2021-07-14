@@ -6,8 +6,8 @@ let ActivitiesArray = ["PLAYING", "STREAMING", "LISTENING", "WATCHING", "CUSTOM_
 
 module.exports.run = async (client,message, args) => {
     message.delete();
-    if (message.author.id != OwnerID) return message.channel.send("Sorko, "+message.author.username+" ale nemôžeš šahať na ten command <:Redheart:846414934644228127>");
-    if (!args.length) return message.channel.send("Ale však si nič nezadal čo by si dal do statusu").then(msg => { msg.delete({ timeout: 7000 }) });
+    if (message.author.id != OwnerID) return message.channel.send("**Status**: You can't use this command <:Redheart:846414934644228127>");
+    if (!args.length) return message.channel.send("**Status**: You didn't write any text to put in status.").then(msg => { msg.delete({ timeout: 7000 }) });
     if (StatusArray.includes(args[0])) {
       StatusSet = args[0];
       args.shift();
@@ -30,12 +30,11 @@ module.exports.run = async (client,message, args) => {
       }, 
         status: StatusSet 
     })
-      .then(console.log)
       .catch(console.error);
     let statusembedset = new Discord.MessageEmbed()
       .setColor('#F9A3BB')
-      .setTitle('Zmena Statusu')
-      .setDescription("Mám teraz po novom tento neskutočne super status:\n" + statusargs)
+      .setTitle('Status')
+      .setDescription("From now I have this cool status:\n" + statusargs)
     message.channel.send(statusembedset).then(msg => { msg.delete({ timeout: 7000 }) });
 };
 module.exports.help = {

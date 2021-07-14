@@ -1,10 +1,9 @@
 let AllowedIds = ['422882850166276096', '409731934030135306', '478258433611661322', '699214855823163433', '532512473492750356'];
 let SpravaArgs;
-
 module.exports.run = async (client,message, args) => {
-    if (!args.length) return message.channel.send('<@' + message.author.id + '>, Nenapísal si žiadnu správu.');
+    if (!args.length || (args[0] == "-i" && args.length == 1)) return message.channel.send("**Say**: You didn't write any message");
     if (args[0] == "-i") {
-      if(!AllowedIds.includes(message.author.id)) return message.channel.send("Nemáš povolenie na tento príkaz, <@" + message.author.id + ">");
+      if(!message.member.hasPermission('MANAGE_MESSAGES') || !AllowedIds.includes(message.author.id)) return message.channel.send("**Say**: You don't have permission `MANAGE_MESSAGES` to use this command with `-i` argument.");
       args.shift();
       SpravaArgs = args.slice().join(' ');
     } else {

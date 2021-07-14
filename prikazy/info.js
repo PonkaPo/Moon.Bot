@@ -1,8 +1,7 @@
 const Discord = require("discord.js");
 let userInfo;
 let botinfodesc = "Vytorený uživateľom: **Pinkamena Diane Song**.\nBot už aktuálne ma viacero funkcií plno funkčných príkazov.\nBot Server: https://discord.gg/jHbZ7fa2vq\n\nTesteri:\n```\nFildoff\nMkingSK\nTomSK1\nGuiHuiZui\nRopko ¯\\_(ツ)_/¯```";
-
-module.exports.run = async (client, message, args) => {
+module.exports.run = async (client,message,args) => {
 	if (!message.mentions.members.first()) {
 		userInfo = message.member;
 	} else {
@@ -16,9 +15,9 @@ module.exports.run = async (client, message, args) => {
 			.setFooter(`${message.member.user.tag}`)
 			.setThumbnail(message.client.user.avatarURL())
 			.setTimestamp()
-			.addField('**Pripojil sa** ', userInfo.joinedAt.toLocaleString(), true)
-			.addField('**Vytvorený**', userInfo.user.createdAt.toLocaleString(), true)
-			.addField(`\n**Role [${userInfo.roles.cache.filter(r => r.id !== message.guild.id).map(roles => `\`${roles.name}\``).length}]**`,`${userInfo.roles.cache.filter(r => r.id !== message.guild.id).map(roles => `<@&${roles.id }>`).join(" **|** ") || "No Roles"}`, true)
+			.addField('**Pripojil sa** ', userInfo.joinedAt.toLocaleString())
+			.addField('**Vytvorený**', userInfo.user.createdAt.toLocaleString())
+			.addField(`\n**Role [${userInfo.roles.cache.filter(r => r.id !== message.guild.id).map(roles => `\`${roles.name}\``).length}]**`,`${userInfo.roles.cache.filter(r => r.id !== message.guild.id).map(roles => `<@&${roles.id }>`).join(" **|** ") || "No Roles"}`)
 			.addField("Základné informácie: ",botinfodesc, false);
 		return message.channel.send(botinfo);
 	}
@@ -29,9 +28,9 @@ module.exports.run = async (client, message, args) => {
 		.setFooter(`ID: ${userInfo.id}`)
 		.setThumbnail(userInfo.user.displayAvatarURL())
 		.setTimestamp()
-		.addField('**Pripojil sa** ', userInfo.joinedAt.toLocaleString(), true)
-		.addField('**Vytvorený**', userInfo.user.createdAt.toLocaleString(), true)
-		.addField(`\n**Role [${userInfo.roles.cache.filter(r => r.id !== message.guild.id).map(roles => `\`${roles.name}\``).length}]**`,`${userInfo.roles.cache.filter(r => r.id !== message.guild.id).map(roles => `<@&${roles.id }>`).join(" **|** ") || "No Roles"}`, true)
+		.addField('**Pripojil sa** ', userInfo.joinedAt.toLocaleString())
+		.addField('**Vytvorený**', userInfo.user.createdAt.toLocaleString())
+		.addField(`\n**Role [${userInfo.roles.cache.filter(r => r.id !== message.guild.id).map(roles => `\`${roles.name}\``).length}]**`,`${userInfo.roles.cache.filter(r => r.id !== message.guild.id).map(roles => `<@&${roles.id }>`).join(" **|** ") || "No Roles"}`)
 	message.channel.send(userinfoembed);
 }
 module.exports.help = {

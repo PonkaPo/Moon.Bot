@@ -1,16 +1,16 @@
 const Discord = require("discord.js");
-const odpovede = ["Jae (Áno)", "Nae (Nie)", "Nae vieg (V žiadnom prípade)", "I'southe (Určite)", "Mag (Možno)", "Min (Trošku)", "Wal (Pravdepodobne)", "Wal nae (Pravdepodobne nie)"];
+const odpovede = ["Jae (Yes)", "Nae (No)", "Nae vieg (No way)", "I'southe (Určite)", "Mag (Definitely)", "Min (Trošku)", "Wal (Probably)", "Wal nae (Probably not)"];
 
 module.exports.run = async (client, message, args) => {
-	if (!args.length || !" ") return message.channel.send("Nezadal si žiadnu otázku, "+message.author.username);
+	if (!args.length || !" ") return message.channel.send("**8-Ball**: You didn't wrote any question, "+message.author.username);
 	selectrandomanswer = odpovede[between(1, odpovede.length)];
 	let questionvar = args.slice().join(' ');
 	let ballembed = new Discord.MessageEmbed()
     	.setColor("#F9A3BB")
     	.setAuthor("🎱 8-ball")
 		.addFields(
-			{ name: '**Tvoja otázka ❓**', value: questionvar},
-			{ name: '**8-ball hovorí 🔮**', value: selectrandomanswer}
+			{ name: '**Your question ❓**', value: questionvar},
+			{ name: '**8-ball answers 🔮**', value: selectrandomanswer}
 		)
 		.setFooter(message.author.username);
     await message.channel.send(ballembed);

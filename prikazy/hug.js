@@ -1,25 +1,14 @@
 let SelectArray
 module.exports.run = async (client,message,args) => {
-  if (!message.mentions.users.first()) return message.channel.send("Nenapísal si koho chceš objať.");
-  if (message.mentions.users.first().id == message.author.id) return message.channel.send("Nemôžeš seba objať \🙁");
-  let BotRandom = ["<:lyra_bonbon_hug:842048414871060530> | Člen **"+message.author.username+"** krásne objal bota **"+ message.mentions.users.first().username+"**", "<:lyra_bonbon_hug:842048414871060530> | Bot **"+message.mentions.users.first().username+"** dostal priteľské objatie od **"+message.author.username+"**"];
-  let UserRandom = ["<:lyra_bonbon_hug:842048414871060530> | Člen **"+message.author.username+"** krásne objal člena **"+ message.mentions.users.first().username+"**", "<:lyra_bonbon_hug:842048414871060530> | Člen **"+message.mentions.users.first().username+"** dostal priteľské objatie od **"+message.author.username+"**"];
-  if (message.mentions.users.first().bot == true) {
-    SelectArray = BotRandom;
-  } else {
-    SelectArray = UserRandom;
-  }
+  if (!message.mentions.members.first()) return message.channel.send("*Hug**: You didn't wrote who you want to hug.");
+  if (message.mentions.members.first().id == message.author.id) return message.channel.send("**Hug**: You can't hug yourself 🙁.");
+  if (message.mentions.members.first().bot == true) {SendThis = "<:lyra_bonbon_hug:842048414871060530> | **"+message.author.username+"** hugged bot **"+ message.mentions.users.first().username+"**";} else {SendThis = "<:lyra_bonbon_hug:842048414871060530> | **"+message.author.username+"** hugged user **"+ message.mentions.users.first().username+"**";}
   message.delete();
   args.shift();
-  if (!args.length) {
-    var SelectFromArray = SelectArray[Math.floor(Math.random()*SelectArray.length)];
-    message.channel.send(SelectFromArray);
-  } else {
+  if (!args.length) {message.channel.send(SendThis);} else {
     let HugArgs = args.slice().join(' ');
-    var SelectFromArrayArgs = SelectArray[Math.floor(Math.random()*SelectArray.length)];
-    message.channel.send(SelectFromArrayArgs+", lebo"+HugArgs);
-  }
-}
+    message.channel.send(SendThis+", because "+HugArgs);
+  }}
 module.exports.help = {
   name: 'hug',
   description: 'Budeš sa z objať z označenou osobou.',

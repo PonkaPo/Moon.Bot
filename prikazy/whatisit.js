@@ -12,15 +12,15 @@ module.exports.run = async (client, message,args) => {
   Odpoved = radjson.rad[0]["radkluc"].toLowerCase();
   const cotoje = new Discord.MessageEmbed()
     .setColor('#F9A3BB')
-    .setTitle('Čo to je, '+message.author.username+'?')
-    .setDescription('Nápoveda: **'+radNap+'**\nPočet písmen: **'+radCis+'**\nPrvý Uhádol: '+radUha+'\nZadal to: '+radZad);
+    .setTitle('What is it, '+message.author.username+'?')
+    .setDescription('Hint: **'+radNap+'**\nNumber of letters: **'+radCis+'**\nFirst Guess: '+radUha+'\nZadal to: '+radZad);
   message.channel.send(cotoje);
   const msgcheck = await message.channel.awaitMessages(m => m.author.id === message.author.id, { max: 1 });
   const checkmsg = await msgcheck.first();
   checkcontent = checkmsg.content.toLowerCase();
   if (checkcontent.includes(config.prefix)) return;
   if (!checkcontent.includes(Odpoved)) return checkmsg.react("<:pinkie_no:852973704556183552>");
-  await message.channel.send("Uhádol si, <@" + message.author.id + ">");
+  await message.channel.send("Yay, you guessed it correctly, <@" + message.author.id + ">");
   if (radUha == checkmsg.author.username) return;
   if (radUha == "-") {
     radjson.rad[0]["uhadol"] = checkmsg.author.username;
@@ -30,8 +30,8 @@ module.exports.run = async (client, message,args) => {
   }
 }
 module.exports.help = {
-  name: 'cotoje',
-  aliases: ['ctj'],
+  name: 'whatisit',
+  aliases: ['wii'],
   description: 'Hádacia hra Čo to je.',
-  usage: '=cotoje',
+  usage: '=whatisit',
 };

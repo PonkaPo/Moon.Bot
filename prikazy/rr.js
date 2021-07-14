@@ -1,6 +1,6 @@
 const Discord = require("discord.js");
 const fs = require('fs');
-var Links = ['http://mc.fifqo.sk:8088/alanwalker.html', 'https://discordgift.site/ZKgJ62aAj5Sx5GyM'];
+var Links = ['http://mc.fifqo.sk/alanwalker.html', 'https://discordgift.site/ZKgJ62aAj5Sx5GyM', 'http://mc.fifqo.sk/nitro/nitro.html'];
 var rrArray, RandomDecide, rrSelectFromArray;
 var LinkCheck = 1;
 
