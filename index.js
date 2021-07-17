@@ -17,7 +17,7 @@ fs.readdir("./prikazy/", (err, files) =>{
     }
     jsfile.forEach((f) =>{
       let prikaz = require(`./prikazy/${f}`);
-      console.log(`${f} -> načítaný`);
+      console.log(`Loaded: ${f}`);
       client.commands.set(prikaz.help.name, prikaz);
       if (prikaz.help.aliases) {
         prikaz.help.aliases.forEach(alias => {
@@ -28,21 +28,21 @@ fs.readdir("./prikazy/", (err, files) =>{
 });
 
 client.on("ready", () => {
-    client.user.setActivity(config.prefix+config.afterPrefix);
-    //client.channels.cache.get("833625728310444042").send("Online!\nRunning as: "+client.user.tag);
-    console.log("A až teraz som sa donačítal, ty kok.");
+    client.user.setActivity(config.client.prefix+config.client.afterPrefix);
+    client.channels.cache.get("833625728310444042").send("Online as "+client.user.tag);
+    console.log("Online as "+client.user.tag);
 });
 
 client.on("message", async message => {
 	if (message.author.bot) return;
-    if (!message.content.startsWith(config.prefix)) return;
-	const args = message.content.slice(config.prefix.length).trim().split(" ");
+    if (!message.content.startsWith(config.client.prefix)) return;
+	const args = message.content.slice(config.client.prefix.length).trim().split(" ");
 	let commandName = args.shift().toLowerCase();
     let command = client.commands.get(commandName);
     if (!command) command = client.commands.get(client.aliases.get(commandName))
     if (!command) return;
     commandName = command.help.name;
-    if (CannotUseInDM.includes(commandName) && message.channel.type == "dm") return message.channel.send("This command **"+commandName+"** cannot be used in Direct Messages");
+    if (CannotUseInDM.includes(commandName) && message.channel.type == "dm") return message.channel.send("Command **"+commandName+"** cannot be used in Direct Messages");
     command.run(client, message, args);
 });
-client.login(config.token);
+client.login(config.client.token);

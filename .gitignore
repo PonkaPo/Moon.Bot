@@ -8,3 +8,4 @@ rr/
 music/library_db_new.json
 ignore_these_files/
 config/
+.gitconfig

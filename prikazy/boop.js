@@ -11,12 +11,10 @@ module.exports.run = async (client,message,args) => {
   } else {
     message.channel.send(SendBoop+", "+args.slice().join(' '));
   }
-
- 
 }
 module.exports.help = {
   name: 'boop',
   aliases: ['att'],
   description: 'Zaútočí na teba moja ruka.',
   usage: '=utok <mention> (dôvod)',
-}; 
+};

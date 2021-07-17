@@ -3,10 +3,10 @@ let dovod, SuccBan, oznacenytypek;
 
 module.exports.run = async (client, message, args) => {
   if (!message.guild.me.hasPermission('BAN_MEMBERS')) return message.channel.send('**BAN**: I do not have a `BAN_MEMBERS` permission to ban someone.');
-  if (!message.member.hasPermission('BAN_MEMBERS')) return message.channel.send('**BAN**: You do not have a permission `BAN_MEMBERS` to ban someone, '+message.author.username);
-  if (!message.mentions.members.first()) return message.channel.send('**BAN**: You did not mentioned anybody to ban, '+message.author.username);
+  if (!message.member.hasPermission('BAN_MEMBERS')) return message.channel.send('**BAN**: You do not have a permission `BAN_MEMBERS` to ban someone');
+  if (!message.mentions.members.first()) return message.channel.send('**BAN**: You did not mentioned anybody to ban');
   oznacenytypek = message.mentions.members.first();
-  if (oznacenytypek.id == message.author.id) return message.channel.send("**BAN**: Why you would like to ban yourself? "+message.author.username);
+  if (oznacenytypek.id == message.author.id) return message.channel.send("**BAN**: Why you would like to ban yourself?");
   if (oznacenytypek.roles.highest.position > message.member.roles.highest.position) return message.channel.send('**BAN**: Mentioned member has higher role than you, '+message.author.username);  
   if (!message.guild.member(oznacenytypek).bannable) return message.channel.send('**BAN**: Mentioned member ('+message.mentions.users.first().username+') cannot be banned.');
   args.shift();
