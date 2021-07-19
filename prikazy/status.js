@@ -34,11 +34,11 @@ module.exports.run = async (client,message, args) => {
     let statusembedset = new Discord.MessageEmbed()
       .setColor('#F9A3BB')
       .setTitle('Status')
-      .setDescription("From now I have this cool status:\n" + statusargs)
+      .setDescription("Status: "+StatusSet+"\nType: "+ActivitySet+"\nActivity: "+statusargs)
     message.channel.send(statusembedset).then(msg => { msg.delete({ timeout: 7000 }) });
 };
 module.exports.help = {
   name: 'status',
   description: 'Zmení status bota.',
-  usage: '=status <správa>'
+  usage: '=status (status) (Aktivita) <správa>'
 };

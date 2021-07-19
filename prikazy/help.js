@@ -14,13 +14,13 @@ module.exports.run = async (client,message,args) => {
     return message.channel.send(helpembed);
   }
   var commandsinfo = JSON.parse(fs.readFileSync('./config/commands-info.json', 'utf8'));
-  console.log(commandsinfo[args[0]][0]["alias"]);
+  try {console.log(commandsinfo[args[0]][0]["name"]);} catch {return message.channel.send("**Help**: Command `"+args[0]+"` doesn't have any stored information.");}
   if (Array.isArray(commandsinfo[args[0]][0]["alias"])) {
     let Aliasy = commandsinfo[args[0]][0]["alias"].slice().join(', ');
     const CommandsInfoArray = new Discord.MessageEmbed()
       .setColor('#F9A3BB')
       .setTitle(commandsinfo[args[0]][0]["name"])
-      .setDescription('Description: **'+commandsinfo[args[0]][0]["popis"]+"**\nSyntax: `"+config.prefix+commandsinfo[args[0]][0]["syntax"]+'`\nAlias: '+Aliasy)
+      .setDescription('Description: **'+commandsinfo[args[0]][0]["popis"]+"**\nSyntax: `"+config.client.prefix+commandsinfo[args[0]][0]["syntax"]+'`\nAlias: '+Aliasy)
     message.channel.send(CommandsInfoArray);
   } else {
     const CommandsInfoNonArray = new Discord.MessageEmbed()
