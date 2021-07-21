@@ -1,3 +1,3 @@
 # Pinkamena.Bot
 
-Proste normálny Discord bot v JS, ktorý je programovaný pomocou oficiálnej dokumentácie a fóra StackOverflow. - Song
+Little bit advanced Discord Bot using the most popular Discord.JS library. Now with MySQL. - Song
