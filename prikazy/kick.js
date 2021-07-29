@@ -4,7 +4,7 @@ module.exports.run = async (client, message, args) => {
   if (!message.guild.me.hasPermission('KICK_MEMBERS')) return message.channel.send("**KICK**: I don't have `KICK_MEMBERS` permission.");
   if (!message.member.hasPermission('KICK_MEMBERS')) return message.channel.send("**KICK**: You don't have `KICK_MEMBERS` permission.");
   if (!message.mentions.users.first()) return message.channel.send("**KICK**: You didn't mention who you want to kick.");
-  oznacenytypek = message.mentions.users.first();
+  oznacenytypek = message.mentions.members.first();
   if (oznacenytypek.id == message.author.id) return message.reply("**KICK**: You can't kick yourself.");
   if (oznacenytypek.roles.highest.position > message.member.roles.highest.position) return message.channel.send('**KICK**: Mentioned user has higher role than you.');
   if (!message.guild.member(oznacenytypek).kickable) return message.channel.send('**KICK**: Mentioned user is not kickable.');
