@@ -1,5 +1,3 @@
-const { Emoji } = require("discord.js");
-
 let AllowedIds = ['422882850166276096', '409731934030135306', '478258433611661322', '699214855823163433', '532512473492750356', '759689278572724225', '723265524213088412'];
 let C_Emoji, EmojiResult, Allowed;
 let C_Sprava = [];
@@ -21,10 +19,10 @@ module.exports.run = async (client,message, args) => {
       if ((String(args[i]).charAt(0) && args[i].slice(args[i].length-1) == ':')) {
         EmojiResult = EditedArgs[i].substring(1, EditedArgs[i].length-1);
         EmojiResult = client.emojis.cache.find(emoji => emoji.name === EmojiResult);
-        if (EmojiResult.animated) {
-          C_Emoji = "<a:"+EmojiResult.name+":"+EmojiResult.id+">";
-        } else {
+        if (EmojiResult.animated === false) {
           C_Emoji = "<:" +EmojiResult.name+":"+EmojiResult.id+">";
+        } else {
+          C_Emoji = "<a:"+EmojiResult.name+":"+EmojiResult.id+">";
         }
         EditedArgs[i] = C_Emoji;
         C_Sprava[i] = EditedArgs[i];
