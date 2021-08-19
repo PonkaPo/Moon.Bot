@@ -75,7 +75,7 @@ client.on("message", async message => {
 
     commandName = command.help.name;
     if(CannotUseInDM.includes(commandName) && message.channel.type == "dm") return message.channel.send("Command **"+commandName+"** cannot be used in Direct Messages");
-    command.run(client, message, args, DBConnection);
+    command.run(client, message, args, DBConnection, prefix_check);
 });
 
 client.on("guildCreate", (guild) => {

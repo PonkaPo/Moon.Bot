@@ -1,14 +1,15 @@
 const Discord = require("discord.js");
-let sprava, EHMention, TestArg;
-module.exports.run = async (client, message, args) => {
+const sfunctions = require("../functions/server.js");
+let sprava, Mention;
+module.exports.run = async (client, message, args, DBConnection) => {
   if (!args.length) return message.channel.send("**Poll**: You didn't write any question.");
-  TestArg = args[0];
-  if (TestArg=="-E" || TestArg=="-H") {
-    if (!message.member.hasPermission('MENTION_EVERYONE')) return message.reply(" you don't have permission to mention everyone or here.");
-    if (TestArg == "-E") EHMention = "@everyone";
-    if (TestArg == "-H") EHMention = "@here";
-    args.shift();
-    if (!args.length) return message.channel.send("**Poll**: You didn't write any question.");
+  var check_for_poll_details = await sfunctions.check_for_poll_in_db(DBConnection, message);
+  if (check_for_poll_details[0]["poll_mention"] == "-" || check_for_poll_details[0]["poll_mention"] == "here") {
+    if (!message.member.hasPermission('MENTION_EVERYONE')) return message.channel.send("**Poll**: You don't have permission to mention everyone or here.");
+    if (check_for_poll_details[0]["poll_mention"] == "-") Mention = "@everyone";
+    if (check_for_poll_details[0]["poll_mention"] == "here") Mention = "@here";
+  } else {
+    Mention = "<@&"+check_for_poll_details[0]["poll_mention"]+">";
   }
   sprava = args.slice().join(' ');
   let AnketaEmbed = new Discord.MessageEmbed()
@@ -19,15 +20,23 @@ module.exports.run = async (client, message, args) => {
     .setDescription(sprava)
     .setTimestamp()
     .setFooter("Pinkamena.Bot");
-  message.delete();
-  message.channel.send(EHMention, {embed: AnketaEmbed, }).then(sentEmoji => {
-    sentEmoji.react("<:pinkie_yes:852973753465831474>")
-    sentEmoji.react("<:pinkie_no:852973704556183552>")
-  });
+  if(check_for_poll_details[0]["poll_channel"] == "same") {
+    message.delete();
+    message.channel.send(Mention, {embed: AnketaEmbed, }).then(sentEmoji => {
+      sentEmoji.react("<:pinkie_yes:852973753465831474>")
+      sentEmoji.react("<:pinkie_no:852973704556183552>")
+    });
+  } else {
+    client.channels.cache.get(check_for_poll_details[0]["poll_channel"]).send(Mention, {embed: AnketaEmbed, }).then(sentEmoji => {
+      sentEmoji.react("<:pinkie_yes:852973753465831474>");
+      sentEmoji.react("<:pinkie_no:852973704556183552>");
+      message.react("<:pinkie_yes:852973753465831474>");
+    });
+  }
 };
 module.exports.help = {
   name: 'poll',
   aliases: ['po','anketa'],
   description: 'Poll',
-  usage: '=poll (-E/-H) <otázka>',
+  usage: 'poll <otázka>',
 };

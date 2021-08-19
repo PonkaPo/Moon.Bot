@@ -21,10 +21,10 @@ module.exports.gen_exp = (DBConnection, message) => {
                     case 'off':
                         return;
                     case 'same':
-                        message.channel.send(NewLevelEmbed);
+                        message.channel.send("<@"+message.author.id+">", {embed: NewLevelEmbed});
                         return;
                     default:
-                        message.client.channels.cache.get(channel[0]["levels_channel"]).send(NewLevelEmbed);
+                        message.client.channels.cache.get(channel[0]["levels_channel"]).send("<@"+message.author.id+">", {embed: NewLevelEmbed});
                         return;
                 }
             });

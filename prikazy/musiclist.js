@@ -30,10 +30,13 @@ module.exports.run = async (client,message, args) => {
       MusicListArtist = "Rabies Bun";
       MusicListSongs = "1. `mtc` - MTC\n2. `caramelldansen` - Caramelldansen\n3. `with_you_friends_remix` - With You, Friends (Remix)\n4. `take_off_and_gala` - Take Off and Gala\n5. `everyday` - Everyday Im Shufflin (Rainbow Dash Shorts)\n6. `nyancat` - Nyan cat (Twilight Sparkle Edition)\n7. `mario` - Overworld Theme (Pinkie Pie Edition)\n8. `flutterwonder` - Flutterwonder'\n9. `axel_f` - Axel F (Remix)\n10. `nrg` - NRG (Remix)"
       break;
-    case 'list':
+      case 'daks':
+        MusicListArtist = "daks";
+        MusicListSongs = "1. `mtc` - MTC\n2. `caramelldansen` - Caramelldansen\n3. `with_you_friends_remix` - With You, Friends (Remix)\n4. `take_off_and_gala` - Take Off and Gala\n5. `everyday` - Everyday Im Shufflin (Rainbow Dash Shorts)\n6. `nyancat` - Nyan cat (Twilight Sparkle Edition)\n7. `mario` - Overworld Theme (Pinkie Pie Edition)\n8. `flutterwonder` - Flutterwonder'\n9. `axel_f` - Axel F (Remix)\n10. `nrg` - NRG (Remix)"
+        break;
     default:
       MusicListArtist = "Artists in the list:";
-      MusicListSongs = "`rabiesbun` - Rabies Bun\n`tridashie` - Tridashie\n`tlt` - The Living Tombstone\n`aw` - Alan Walker\n`sia` - Sia\n`porter` - Porter Robinson\n`uncategorized` - Uncategorized"
+      MusicListSongs = "`daks` - daks\n`rabiesbun` - Rabies Bun\n`tridashie` - Tridashie\n`tlt` - The Living Tombstone\n`aw` - Alan Walker\n`sia` - Sia\n`porter` - Porter Robinson\n`boltz_quick` - Boltz Quick\n`uncategorized` - Uncategorized"
       break;
     }  
     const MLembed = new Discord.MessageEmbed()

@@ -6,7 +6,7 @@ module.exports.run = async (client, message, args, DBConnection) => {
         let SettingsInfo = new Discord.MessageEmbed()
             .setTitle("Bot Settings")
             .setColor("#F9A3BB")
-            .setDescription("`prefix` - Add another custom prefix for your guild (max 2 characters).\n`mute_role` - change which role to use to mute. (WIP)\n`levels_channel` - change channel for sending messages about new level for chat activity (WIP).\n\nMore settings will be available later.")
+            .setDescription("`prefix` - Add another custom prefix for your guild (max 2 characters).\n`mute_role` - change which role to use to mute. (WIP)\n`levels` - change settings levels for chat activity.\n`poll` - change settings for polls.\n\nMore settings will be available later.")
         return message.channel.send(SettingsInfo);
     }
     switch (args[0]) {
@@ -52,13 +52,106 @@ module.exports.run = async (client, message, args, DBConnection) => {
                 message.channel.send(NoRoleInDBEmbed);
                 return;
             }
-        case 'level':
+        case 'poll':
             if(args.length < 2) {
-                let SettingsInfo = new Discord.MessageEmbed()
-                    .setTitle("Bot Settings")
+                let PollsInfo = new Discord.MessageEmbed()
+                    .setTitle("Bot Settings => Poll")
+                    .setColor("#F9A3BB")
+                    .setDescription("`channel` - Set up channel for polls.\n`mention` - what role will be used for mentioning when new poll is asked.\n\nMore settings will be available later.");
+                return message.channel.send(PollsInfo);
+            }
+            switch (args[1]) {
+                case 'mention':
+                    if(args.length < 3) {
+                    let PollMentionNoOtherArg = new Discord.MessageEmbed()
+                        .setTitle("Settings => Level Channel")
+                        .setColor("#F9A3BB")
+                        .setDescription("You can choose from 2 settings (and check if the bot have permission to mention roles, here or everyone):\n1. Everyone (use: `settings poll mention everyone`)\n2. Here (use: `settings poll mention here`)\n3. Role mention (use: `settings poll mention <role>`)");
+                    message.channel.send(PollMentionNoOtherArg);
+                    } else {
+                        switch (args[2]) {
+                            case 'everyone':
+                                DBConnection.query("UPDATE `discord`.`servers` SET `poll_mention` = '-' WHERE `server_id` = '"+message.guild.id+"'");
+                                let PollEvery1Embed = new Discord.MessageEmbed()
+                                    .setTitle("Settings => Poll Channel")
+                                    .setColor("#F9A3BB")
+                                    .setDescription("Bot will automatically use `everyone` mention to every new asked poll.");
+                                message.channel.send(PollEvery1Embed);
+                                break;
+                            case 'here':
+                                DBConnection.query("UPDATE `discord`.`servers` SET `poll_mention` = 'here' WHERE `server_id` = '"+message.guild.id+"'");
+                                let PollHereEmbed = new Discord.MessageEmbed()
+                                    .setTitle("Settings => Poll Channel")
+                                    .setColor("#F9A3BB")
+                                    .setDescription("Bot will automatically use `here` mention to every new asked poll.");
+                                message.channel.send(PollHereEmbed);
+                                break;
+                            default:
+                                if(!message.mentions.roles.first()) {
+                                let NoMentioned_poll = new Discord.MessageEmbed()
+                                    .setTitle("Settings => Poll Mention")
+                                    .setColor("#F9A3BB")
+                                    .setDescription("You didn't mentioned role.");
+                                message.channel.send(NoMentioned_poll);
+                                } else {
+                                    DBConnection.query("UPDATE `discord`.`servers` SET `poll_mention` = '"+message.mentions.roles.first().id+"' WHERE `server_id` = '"+message.guild.id+"'");
+                                    let SuccessNewPollMention = new Discord.MessageEmbed()
+                                        .setTitle("Settings => Poll Mention")
+                                        .setColor("#F9A3BB")
+                                        .setDescription("Bot will automatically use <@&"+message.mentions.roles.first().id+"> role to every new asked poll.");
+                                    message.channel.send(SuccessNewPollMention);
+                                    break;
+                                }
+                        }
+                    }
+                    break;
+                case 'channel':
+                    if(args.length < 3) {
+                    let PollChannelNoOtherArg = new Discord.MessageEmbed()
+                        .setTitle("Settings => Poll Channel")
+                        .setColor("#F9A3BB")
+                        .setDescription("You can choose from 2 settings:\n1. Channel for polls (use: `settings poll channel <channel>`)\n2. Same channel as message (use: `settings poll channel same`)");
+                    message.channel.send(PollChannelNoOtherArg);
+                    } else {
+                        switch (args[2]) {
+                            case 'same':
+                                DBConnection.query("UPDATE `discord`.`servers` SET `poll_channel` = 'same' WHERE `server_id` = '"+message.guild.id+"'");
+                                let PollsSameEmbed = new Discord.MessageEmbed()
+                                    .setTitle("Settings => Poll Channel")
+                                    .setColor("#F9A3BB")
+                                    .setDescription("New poll message will be send to actual channel (Where the command is used).");
+                                message.channel.send(PollsSameEmbed);
+                                break;
+                            default:
+                                if(!message.mentions.channels.first()) {
+                                let NoMentionedChannel_poll = new Discord.MessageEmbed()
+                                    .setTitle("Settings => Poll Channel")
+                                    .setColor("#F9A3BB")
+                                    .setDescription("You didn't mentioned channel.");
+                                message.channel.send(NoMentionedChannel_poll);
+                                } else {
+                                    DBConnection.query("UPDATE `discord`.`servers` SET `poll_channel` = '"+message.mentions.channels.first().id+"' WHERE `server_id` = '"+message.guild.id+"'");
+                                    let SuccessNewPollChannel = new Discord.MessageEmbed()
+                                        .setTitle("Settings => Poll Channel")
+                                        .setColor("#F9A3BB")
+                                        .setDescription("New selected channel for polls: <#"+message.mentions.channels.first().id+">");
+                                    message.channel.send(SuccessNewPollChannel);
+                                    break;
+                                }
+                        }
+
+                    }
+                default:
+                    break;
+            }
+            break;
+        case 'levels':
+            if(args.length < 2) {
+                let LevelsInfo = new Discord.MessageEmbed()
+                    .setTitle("Bot Settings => Levels")
                     .setColor("#F9A3BB")
                     .setDescription("`channel` - Set up channel for new levels for chat activity.\n`reset` - Will reset the levels stats for all members in the Guild.\n`off` - This will permanently turn off levels for this Guild.\n`on` - Enable levels for this Guild.\n\nMore settings will be available later.")
-                return message.channel.send(SettingsInfo);
+                return message.channel.send(LevelsInfo);
             }
             switch (args[1]) {
                 case 'reset':
@@ -71,19 +164,19 @@ module.exports.run = async (client, message, args, DBConnection) => {
                     DBConnection.query("UPDATE `discord`.`servers` SET `enabled_levels` = 'no' WHERE `server_id` = '"+message.guild.id+"'");
                     message.channel.send("**Levels** are completely turned off for this Guild.");
                     return;
-                case 'off':
+                case 'on':
                     DBConnection.query("UPDATE `discord`.`servers` SET `enabled_levels` = 'yes' WHERE `server_id` = '"+message.guild.id+"'");
                     message.channel.send("**Levels** are turned on for this Guild.");
                     return;
                 case 'channel':
-                    if(args.length < 2) {
+                    if(args.length < 3) {
                     let LevelsChannelNoOtherArg = new Discord.MessageEmbed()
                         .setTitle("Settings => Level Channel")
                         .setColor("#F9A3BB")
-                        .setDescription("You can choose from 3 settings:\n1. Channel for new levels (use: `settings levels_channel <channel>`)\n2. Same channel as message (use: `settings levels_channel same`)\n3. Turn off new levels messages permanently (will not stop using Level Chat system => use: `settings levels_channel off`)");
+                        .setDescription("You can choose from 3 settings:\n1. Channel for new levels (use: `settings levels channel <channel>`)\n2. Same channel as message (use: `settings levels channel same`)\n3. Turn off new levels messages permanently (will not stop using Level Chat system => use: `settings levels channel off`)");
                     message.channel.send(LevelsChannelNoOtherArg);
                     } else {
-                        switch (args[1]) {
+                        switch (args[2]) {
                         case 'off':
                             DBConnection.query("UPDATE `discord`.`servers` SET `levels_channel` = 'off' WHERE `server_id` = '"+message.guild.id+"'");
                             let LevelsOffEmbed = new Discord.MessageEmbed()

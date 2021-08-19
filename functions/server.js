@@ -72,7 +72,6 @@ module.exports.check_level_channel = async(DBConnection, message) => {
     });
 };
 
-
 module.exports.delete_levels_table = (guild, DBConnection) => {
     DBConnection.query("DROP TABLE `discord_levels`.`"+guild.id+"`");
 };
@@ -187,5 +186,38 @@ module.exports.check_if_song_exists = async(DBConnection, message, args) => {
 module.exports.write_song_data = async(DBConnection, message, args, ShortArtistName1, ShortSongName1, SongName1, ArtistName1, ReleasedDate1, SongLink1) => {
     return new Promise((resolve, reject) => {
         DBConnection.query("INSERT INTO `music`.`"+ShortArtistName1.content+"` VALUES ('"+ShortSongName1.content+"', '"+SongName1.content+"', '"+ArtistName1.content+"', '"+ReleasedDate1.content+"', '"+SongLink1.content+"')");
+    });
+};
+
+//What is it - Game
+module.exports.check_game_data_wii = async(DBConnection, message) => {
+    return new Promise((resolve, reject) => {
+        DBConnection.query("SELECT * FROM `discord`.`whatisit` WHERE `guild_id` = '"+message.guild.id+"'", function (error, wii_stats) {
+            if(error) reject(error);
+            resolve(wii_stats);
+        });
+    });
+};
+
+module.exports.send_wii_data = async(DBConnection, message, key_msg1, hint_msg1) => {
+    return new Promise((resolve, reject) => {
+        DBConnection.query("INSERT INTO `discord`.`whatisit` (guild_id, pass, hint, first_guess, wrote) VALUES('"+message.guild.id+"', '"+key_msg1.content+"', '"+hint_msg1.content+"', '-', '"+message.author.id+"') ON DUPLICATE KEY UPDATE `pass` = '"+key_msg1.content+"', `hint` = '"+hint_msg1.content+"', `first_guess` = '-', `wrote` = '"+message.author.id+"'", function (error, send_stats) {
+            if(error) reject(error);
+            resolve(send_stats);
+        });
+    });
+};
+
+//poll
+module.exports.check_for_poll_in_db = async(DBConnection, message) => {
+    return new Promise((resolve, reject) => {
+        DBConnection.query("SELECT poll_channel, poll_mention FROM `discord`.`servers` WHERE `server_id` = '"+message.guild.id+"'", function (error, poll_result) {
+            if(error) reject(error);
+            if(poll_result === 0) {
+                resolve(poll_result);
+            } else {
+                resolve(poll_result);
+            }
+        });
     });
 };
