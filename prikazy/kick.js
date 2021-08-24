@@ -24,10 +24,9 @@ module.exports.run = async (client, message, args) => {
   } catch {
     return message.channel.send("User "+message.guild.member(oznacenytypek).user.username+" couldn't been kicked.");
   }
-}
+};
 module.exports.help = {
   name: 'kick',
-  aliases: ['k'],
   description: 'Kickne člena zo servera.',
   usage: '=kick <mention> (dôvod)',
 };

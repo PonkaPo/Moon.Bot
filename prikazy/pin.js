@@ -20,6 +20,7 @@ module.exports.run = async (client,message, args) => {
 }
 module.exports.help = {
   name: 'pin',
+  aliases: ['p'],
   description: 'Pinne poslednú/podľa ID správu.',
   usage: '=pin'
 };

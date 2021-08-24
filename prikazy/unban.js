@@ -13,7 +13,7 @@ module.exports.run = async (client, message, args) => {
 };
 module.exports.help = {
   name: 'unban',
-  aliases: ['unb'],
+  aliases: ['unb', 'ub'],
   description: 'Zabanuje člena zo servera.',
   usage: '=unban <mention> (dôvod)'
 };

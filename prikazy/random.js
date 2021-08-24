@@ -25,7 +25,7 @@ module.exports.run = async (client, message, args) => {
 };
 module.exports.help = {
 	name: 'random',
-	aliases: ['rng'],
+	aliases: ['rng', 'generator'],
 	description: 'Vygeneruje náhodné číslo v tvojom určenom rozsahu.',
 	usage: '=random <menšie číslo> <väčšie číslo>'
 };

@@ -2,10 +2,7 @@ package-lock.json
 package.json
 node_modules/
 MLP/
-memes/
 citaty/
-rr/
-music/library_db_new.json
-ignore_these_files/
+music/
 config/
 .gitconfig

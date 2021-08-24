@@ -19,7 +19,7 @@ module.exports.run = async (client, message, args) => {
 
 module.exports.help = {
 	name: '8ball',
-	aliases: ['8b'],
+	aliases: ['8b', '8'],
 	description: 'Odpovie na tvoju otázku v inom jazyku :srandyzabavy:',
 	usage: '=8ball <otázka>',
 };

@@ -28,8 +28,9 @@ module.exports.run = async (client,message,args) => {
 		.setFooter(`ID: ${userInfo.id}`)
 		.setThumbnail(userInfo.user.displayAvatarURL())
 		.setTimestamp()
-		.addField('**Pripojil sa** ', userInfo.joinedAt.toLocaleString())
-		.addField('**Vytvorený**', userInfo.user.createdAt.toLocaleString())
+		.addField('**Joined** ', userInfo.joinedAt.toLocaleString())
+		.addField('**Created**', userInfo.user.createdAt.toLocaleString())
+		.addField('**Level**', userInfo.user.createdAt.toLocaleString())
 		.addField(`\n**Role [${userInfo.roles.cache.filter(r => r.id !== message.guild.id).map(roles => `\`${roles.name}\``).length}]**`,`${userInfo.roles.cache.filter(r => r.id !== message.guild.id).map(roles => `<@&${roles.id }>`).join(" **|** ") || "No Roles"}`)
 	message.channel.send(userinfoembed);
 }

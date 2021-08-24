@@ -45,6 +45,15 @@ module.exports.check_if_levels_are_enabled = async(DBConnection, message) => {
     });
 };
 
+module.exports.check_stats_for_lb = async(DBConnection, message) => {
+    return new Promise((resolve, reject) => {
+        DBConnection.query("SELECT user_id, xp_level, xp_remain FROM `discord_levels`.`"+message.guild.id+"` ORDER BY xp_level DESC, xp_remain DESC LIMIT 10", function (error, lb_stats) {
+            if(error) reject(error);
+            resolve(lb_stats);
+        });
+    });
+};
+
 module.exports.check_lvl_user_stats = async(DBConnection, message) => {
     return new Promise((resolve, reject) => {
         DBConnection.query("SELECT * FROM `discord_levels`.`"+message.guild.id+"` WHERE `user_id` = '"+message.author.id+"'", function (error, user_stats) {

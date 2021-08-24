@@ -21,7 +21,7 @@ module.exports.run = async (client, message, args, DBConnection) => {
             .setColor("#F9A3BB")
             .setDescription("Your stats for chat activity")
             .addField("Level:","**"+lvl[0]["xp_level"]+"**")
-            .addField("Needed XP:","**"+(lvl[0]["xp_exp"]-lvl[0]["xp_remain"])+"**");
+            .addField("XP:","**"+lvl[0]["xp_remain"]+"**/**"+(lvl[0]["xp_exp"])+"**");
         message.channel.send(LVLEmbed);
     })
     .catch(error => {
@@ -35,6 +35,7 @@ module.exports.run = async (client, message, args, DBConnection) => {
 
 module.exports.help = {
 	name: 'level',
+    aliases: ["lvl"],
 	description: 'Shows level activity in the guild.',
 	usage: '=level (mention)'
 };

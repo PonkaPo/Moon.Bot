@@ -28,7 +28,6 @@ module.exports.run = async (client, message, args) => {
 }
 module.exports.help = {
   name: 'ban',
-  aliases: ['b'],
   description: 'Zabanuje člena zo servera.',
   usage: '=ban <mention> (reason)',
 };
