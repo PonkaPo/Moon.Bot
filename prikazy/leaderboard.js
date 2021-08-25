@@ -6,7 +6,7 @@ module.exports.run = async (client, message, args, DBConnection) => {
     const leaderboard_stats = await sfunctions.check_stats_for_lb(DBConnection, message);
     const LBEmbed = new Discord.MessageEmbed().setTitle("Leaderboard").setColor("#F9A3BB").setDescription("Top "+leaderboard_stats.length+" most active members in chat:");
     for(i = 0; i < leaderboard_stats.length; i++) {
-        LBEmbed.addField("**"+j+"**.", "<@"+leaderboard_stats[i]["user_id"]+"> => "+leaderboard_stats[i]["xp_level"]);
+        LBEmbed.addField("**"+j+"**.", "<@"+leaderboard_stats[i]["user_id"]+"> => "+leaderboard_stats[i]["xp_level"]+" (XP: "+leaderboard_stats[i]["xp_remain"]+"/"+leaderboard_stats[i]["xp_exp"]+")");
         j++;
     }
     i = 0;

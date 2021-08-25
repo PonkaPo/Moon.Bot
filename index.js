@@ -32,17 +32,18 @@ fs.readdir("./prikazy/", (err, files) => {
         }
     });
 });
-    
+
 DBConnection.connect((err) => {
     if(err) {
-        return console.error('error connecting: ' + err.stack);
+        console.error('MySQL => Error connecting: ' + err.stack);
+        process.exit(0);
     } else {
-        console.log("MySQL: Connected!");
+        console.log("MySQL => Connected!");
     }
 });
 
 client.on("ready", () => {
-    client.user.setActivity(config.client.afterPrefix);
+    client.user.setActivity("By Pinkamena Diane Song");
     client.channels.cache.get("833625728310444042").send("**"+client.user.username+"** --> Online & Up\n**MySQL**: Connected");
     console.log(client.user.username+" -> Online");
 });

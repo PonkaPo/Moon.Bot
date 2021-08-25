@@ -25,29 +25,41 @@ module.exports.run = async (client, message, args, DBConnection) => {
 		addsong_msg = await message.channel.send("**AddSong** Short Artist Name:");
 		var ShortArtistName = await message.channel.awaitMessages(m => m.author.id === message.author.id, { max: 1 });
 		var ShortArtistName1 = await ShortArtistName.first();
-		if(ShortArtistName1.content.indexOf(" ") !== -1) return message.channel.send("**AddSong** Short Artist Name cannot contain `space`.");
 		ShortArtistName1.delete();
+		if(ShortArtistName1.content == "cancel") return addsong_msg.edit("**RequestSong** Canceled!");
+		if(ShortArtistName1.content.indexOf(" ") !== -1) return message.channel.send("**AddSong** Short Artist Name cannot contain `space`.");
+
 		addsong_msg.edit("**AddSong** Short Song Name:");
 		var ShortSongName = await message.channel.awaitMessages(m => m.author.id === message.author.id, { max: 1 });
 		var ShortSongName1 = await ShortSongName.first();
-		if(ShortArtistName1.content.indexOf(" ") !== -1) return message.channel.send("**AddSong** Short Song Name cannot contain `space`.");
 		ShortSongName1.delete();
+		if(ShortSongName1.content == "cancel") return addsong_msg.edit("**RequestSong** Canceled!");
+		if(ShortSongName1.content.indexOf(" ") !== -1) return message.channel.send("**AddSong** Short Song Name cannot contain `space`.");
+
 		addsong_msg.send("**AddSong** Full Song Name:");
 		var SongName = await message.channel.awaitMessages(m => m.author.id === message.author.id, { max: 1 });
 		var SongName1 = await SongName.first();
-		SongName1.detele();
+		SongName1.delete();
+		if(ShortArtistName1.content == "cancel") return addsong_msg.edit("**RequestSong** Canceled!");
+
 		addsong_msg.send("**AddSong** Artist name:");
 		var ArtistName = await message.channel.awaitMessages(m => m.author.id === message.author.id, { max: 1 });
 		var ArtistName1 = await ArtistName.first();
-		ArtistName1.detele();
+		ArtistName1.delete();
+		if(ShortArtistName1.content == "cancel") return addsong_msg.edit("**RequestSong** Canceled!");
+
 		addsong_msg.send("**AddSong** Release date:");
 		var ReleasedDate = await message.channel.awaitMessages(m => m.author.id === message.author.id, { max: 1 });
 		var ReleasedDate1 = await ReleasedDate.first();
-		ReleasedDate1.detele();
+		ReleasedDate1.delete();
+		if(ShortArtistName1.content == "cancel") return addsong_msg.edit("**RequestSong** Canceled!");
+
 		addsong_msg.send("**AddSong** Link:");
 		var SongLink = await message.channel.awaitMessages(m => m.author.id === message.author.id, { max: 1 });
 		var SongLink1 = await SongLink.first();
-		SongLink1.detele();
+		SongLink1.delete();
+		if(ShortArtistName1.content == "cancel") return addsong_msg.edit("**RequestSong** Canceled!");
+
 		const AddSongEmbed = new Discord.MessageEmbed()
 			.setTitle("AddSong")
 			.setDescription("Short Artist Name: `"+ShortArtistName1.content+"`\nShort Name: `"+ShortSongName1.content+"`\nFull Song Name: `"+SongName1.content+"`\nArtist: `"+ArtistName1.content+"`\nReleased Date: `"+ReleasedDate1.content+"`\nLink: `"+SongLink1.content+"`");

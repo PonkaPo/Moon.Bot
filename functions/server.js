@@ -47,7 +47,7 @@ module.exports.check_if_levels_are_enabled = async(DBConnection, message) => {
 
 module.exports.check_stats_for_lb = async(DBConnection, message) => {
     return new Promise((resolve, reject) => {
-        DBConnection.query("SELECT user_id, xp_level, xp_remain FROM `discord_levels`.`"+message.guild.id+"` ORDER BY xp_level DESC, xp_remain DESC LIMIT 10", function (error, lb_stats) {
+        DBConnection.query("SELECT user_id, xp_level, xp_remain, xp_exp FROM `discord_levels`.`"+message.guild.id+"` ORDER BY xp_level DESC, xp_remain DESC LIMIT 10", function (error, lb_stats) {
             if(error) reject(error);
             resolve(lb_stats);
         });
@@ -162,7 +162,7 @@ module.exports.get_music_link = async(DBConnection, message, args) => {
 
 module.exports.check_if_artist_exists = async(DBConnection, message, args) => {
     return new Promise((resolve, reject) => {
-        DBConnection.query("SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = N'"+args[0]+"'", function (error, artist_result) {
+        DBConnection.query("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'music' AND table_name = '"+args[0]+"S'", function (error, artist_result) {
             if(error) reject(error);
             if(artist_result === 0) {
                 resolve(artist_result);
@@ -195,6 +195,24 @@ module.exports.check_if_song_exists = async(DBConnection, message, args) => {
 module.exports.write_song_data = async(DBConnection, message, args, ShortArtistName1, ShortSongName1, SongName1, ArtistName1, ReleasedDate1, SongLink1) => {
     return new Promise((resolve, reject) => {
         DBConnection.query("INSERT INTO `music`.`"+ShortArtistName1.content+"` VALUES ('"+ShortSongName1.content+"', '"+SongName1.content+"', '"+ArtistName1.content+"', '"+ReleasedDate1.content+"', '"+SongLink1.content+"')");
+    });
+};
+
+module.exports.artists_from_db = async(DBConnection) => {
+    return new Promise((resolve, reject) => {
+        DBConnection.query("SHOW TABLES FROM `music`", function (error, artists_list_from_db) {
+            if(error) reject(error);
+            resolve(artists_list_from_db);
+        });
+    });
+};
+
+module.exports.get_music = async(DBConnection, args) => {
+    return new Promise((resolve, reject) => {
+        DBConnection.query("SELECT `name`, `song` FROM `music`.`"+args[0]+"`", function (error, music_result_from_db) {
+            if(error) reject(error);
+            resolve(music_result_from_db);
+        });
     });
 };
 
