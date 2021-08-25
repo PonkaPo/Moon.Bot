@@ -1,3 +1,34 @@
 # Pinkamena.Bot
 
-Little bit advanced Discord Bot using the most popular Discord.JS library. Now with MySQL. - Song
+Simple & Advanced Discord bot.
+Actually the bot is capable of more things to do. With simple Chat Activity with levels reward to simple moderating.
+**One** original game _What is it_ is included.
+Couple of random commands to make it more useful.
+
+## Running own instance of the bot
+First thing to do is by creating `config/config.json` after that follow next steps what to put inside the JSON file.
+The bot require MySQL Server to get this bot up.
+This can be done by doing:
+```json
+"mysql": {
+    "host": "Your IP Address of the MySQL Server",
+    "user": "Your username for the server",
+    "password": "Your password for the server"
+}
+```
+But that's not all what the bot needs to run. Now you need to put in the config more details in this style:
+```json
+"client": {
+    "token": "Your Discord Bot Token",
+    "prefix": "Any charactere to use as prefix to react for messages"
+}
+```
+After you did these two things, the bot should run without any problem.
+
+## How customizable is the bot?
+Well, the bot is using MySQL storage to save settings for every guild. To change this, there is database called `discord` & `discord_levels` to make basic & levels feature working correctly. The levels can be easily for example turned off/on, change actual channel/role to mention. Or just send poll to specific channel. Even set custom prefix can bet set for each guild. And if you forget the prefix it can be obtained by mentioning the bot.
+
+## To-Do
+- [ ] Roles rewards for getting specific level in chat
+- [ ] Temporary mute & ban
+- [ ] Economy system
