@@ -1,40 +1,56 @@
-const Discord = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 const AllowedIds = ["409731934030135306"];
 const sfunctions = require("../functions/server.js");
 
 module.exports.run = async (client, message, args, DBConnection) => {
+
 	if(!AllowedIds.includes(message.author.id)) return message.channel.send("**AddSong**: You can't use this command.");
+
 	if(args.length !== 0) {
-		var ArtistShortName1 = args[0]
+
+		var ArtistShortName1 = args[0];
 		if(ArtistShortName1.indexOf(" ") !== -1) return message.channel.send("**AddSong** Artist cannot contain `spaces`.");
 		var artistResult = await sfunctions.check_if_artist_exists(DBConnection, message, ArtistShortName1);
+
 		if(artistResult == 0) {
+
 			message.channel.send("**Musiclink**: Provided artist isn't exists in the database. (Type `yes` if you want to create artist in database with name: "+ArtistShortName1+")");
 			var CheckForYes = await message.channel.awaitMessages(m => m.author.id === message.author.id, { max: 1 });
 			var CheckForYes1 = await CheckForYes.first();
+
 			if((CheckForYes1.content.indexOf("yes") && CheckForYes1.content.indexOf(" ")) !== 0) {
+
 				CheckForYes1.react("<:pinkie_no:852973704556183552>");
+
 			} else {
+
 				CheckForYes1.detele();
 				await sfunctions.create_music_table(DBConnection, message, ArtistShortName1);
 				return message.channel.send("**AddSong**: Creating Artist table for: "+ArtistShortName1+" was successfull.");
+
 			}
 		
 		}
+
 	} else {
+
 		addsong_msg = await message.channel.send("**AddSong** Short Artist Name:");
 		var ShortArtistName = await message.channel.awaitMessages(m => m.author.id === message.author.id, { max: 1 });
 		var ShortArtistName1 = await ShortArtistName.first();
 		ShortArtistName1.delete();
 		if(ShortArtistName1.content == "cancel") return addsong_msg.edit("**RequestSong** Canceled!");
-		if(ShortArtistName1.content.indexOf(" ") !== -1) return message.channel.send("**AddSong** Short Artist Name cannot contain `space`.");
+		if(ShortArtistName1.content.indexOf(" ") !== -1) return message.channel.send({
+			content: "**AddSong** Short Artist Name cannot contain `space`."
+		});
 
 		addsong_msg.edit("**AddSong** Short Song Name:");
 		var ShortSongName = await message.channel.awaitMessages(m => m.author.id === message.author.id, { max: 1 });
 		var ShortSongName1 = await ShortSongName.first();
 		ShortSongName1.delete();
 		if(ShortSongName1.content == "cancel") return addsong_msg.edit("**RequestSong** Canceled!");
-		if(ShortSongName1.content.indexOf(" ") !== -1) return message.channel.send("**AddSong** Short Song Name cannot contain `space`.");
+		if(ShortSongName1.content.indexOf(" ") !== -1) return message.channel.send({
+			content: "**AddSong** Short Song Name cannot contain `space`."
+		});
 
 		addsong_msg.send("**AddSong** Full Song Name:");
 		var SongName = await message.channel.awaitMessages(m => m.author.id === message.author.id, { max: 1 });
@@ -60,11 +76,14 @@ module.exports.run = async (client, message, args, DBConnection) => {
 		SongLink1.delete();
 		if(ShortArtistName1.content == "cancel") return addsong_msg.edit("**RequestSong** Canceled!");
 
-		const AddSongEmbed = new Discord.MessageEmbed()
+		const AddSongEmbed = new MessageEmbed()
 			.setTitle("AddSong")
 			.setDescription("Short Artist Name: `"+ShortArtistName1.content+"`\nShort Name: `"+ShortSongName1.content+"`\nFull Song Name: `"+SongName1.content+"`\nArtist: `"+ArtistName1.content+"`\nReleased Date: `"+ReleasedDate1.content+"`\nLink: `"+SongLink1.content+"`");
-		message.channel.send(AddSongEmbed);
-		await sfunctions.write_song_data(DBConnection, message, args, ShortArtistName1, ShortSongName1, SongName1, ArtistName1, ReleasedDate1, SongLink1);
+		
+		await sfunctions.write_song_data(DBConnection, ShortArtistName1, ShortSongName1, SongName1, ArtistName1, ReleasedDate1, SongLink1);
+		message.channel.send({
+			embeds: [AddSongEmbed]
+		});
 	}
 }
 

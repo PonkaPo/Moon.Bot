@@ -1,8 +1,8 @@
-const Discord = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 let OwnerID = "409731934030135306";
 let ActivitySet, StatusSet;
 let StatusArray = ["idle", "online", "dnd", "invisible"];
-let ActivitiesArray = ["PLAYING", "STREAMING", "LISTENING", "WATCHING", "CUSTOM_STATUS", "COMPETING"];
+let ActivitiesArray = ["PLAYING", "STREAMING", "LISTENING", "WATCHING", "COMPETING"];
 
 module.exports.run = async (client,message, args) => {
     message.delete();
@@ -31,11 +31,11 @@ module.exports.run = async (client,message, args) => {
         status: StatusSet 
     })
       .catch(console.error);
-    let statusembedset = new Discord.MessageEmbed()
+    let statusembedset = new MessageEmbed()
       .setColor('#F9A3BB')
       .setTitle('Status')
       .setDescription("Status: "+StatusSet+"\nType: "+ActivitySet+"\nActivity: "+statusargs)
-    message.channel.send(statusembedset).then(msg => { msg.delete({ timeout: 7000 }) });
+    message.channel.send({embeds: [statusembedset]}).then(msg => { msg.delete({ timeout: 7000 }) });
 };
 module.exports.help = {
   name: 'status',

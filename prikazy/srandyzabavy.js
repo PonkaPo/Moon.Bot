@@ -1,4 +1,4 @@
-const Discord = require("discord.js");
+const { MessageEmbed } = require("discord.js");
 var channel;
 var AllowedServers = ["827965464202051605", "741613882002505749", "833417797060263977"];
 
@@ -9,10 +9,12 @@ module.exports.run = async (client, message, args) => {
 	} else {
 		channel = client.channels.cache.get("866023143813808129");
 	}	
+	console.log(channel.messages);
 	let randomMessage = await channel.messages.fetch({limit: 100});
-	let arr = randomMessage.array();
+	let arr = new Array(randomMessage);
     let random = Math.floor(Math.random()*randomMessage.size);
-	SZEmbed = new Discord.MessageEmbed()
+	console.log(randomMessage[random]);
+	SZEmbed = new MessageEmbed()
     	.setColor("#F9A3BB")
     	.setAuthor("Srandy Zabavy")
 		.setImage(arr[random].attachments.first().url)

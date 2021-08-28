@@ -3,6 +3,7 @@ let C_Emoji, EmojiResult, Allowed;
 let C_Sprava = [];
 let EditedArgs = [];
 module.exports.run = async (client,message, args) => {
+    message.delete();
     if (!args.length || (args[0] == "-i" && args.length == 1)) return message.channel.send("**Say**: You didn't write any message");
     EditedArgs = args;
     if (args[0] == "-i") {
@@ -24,15 +25,13 @@ module.exports.run = async (client,message, args) => {
         } else {
           C_Emoji = "<a:"+EmojiResult.name+":"+EmojiResult.id+">";
         }
-        EditedArgs[i] = C_Emoji;
-        C_Sprava[i] = EditedArgs[i];
+        C_Sprava[i] =  C_Emoji;
       } else {
         C_Sprava[i] = EditedArgs[i];
       }
     }
     C_Sprava.unshift(Allowed);
     let C_Sprava_Full = C_Sprava.slice().join(" ");
-    message.delete({ timeout: 0 });
     message.channel.send(C_Sprava_Full);
     C_Sprava = [];
 };

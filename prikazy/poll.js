@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const sfunctions = require("../functions/server.js");
 let sprava, Mention;
 module.exports.run = async (client, message, args, DBConnection) => {
+  console.log(message.member.permissions.toArray());
   if (!args.length) return message.channel.send("**Poll**: You didn't write any question.");
   var check_for_poll_details = await sfunctions.check_for_poll_in_db(DBConnection, message);
   if (check_for_poll_details[0]["poll_mention"] == "-" || check_for_poll_details[0]["poll_mention"] == "here") {

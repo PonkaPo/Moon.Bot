@@ -1,15 +1,22 @@
-const Discord = require("discord.js");
+const { MessageEmbed } = require("discord.js");
+
 module.exports.run = async (client,message, args) => {
+
 	let guildicon = message.guild.iconURL({ format: 'png'});
+
 	let verifikacia = message.guild.verificationLevel;
+
     if(verifikacia === "LOW") verifikacie = "Low";
     if(verifikacia === "MEDIUM") verifikacie = "Medium";
     if(verifikacia === "HIGH") verifikacie = "High";
     if(verifikacia === "VERY_HIGH") verifikacie = "Very High";
+
     let notifikacie = message.guild.defaultMessageNotifications;
+
     if(notifikacie === "MENTIONS") notifikacie = "Only mentions";
     if(notifikacie === "ALL") notifikacie = "All messages";
-    let serverembed = new Discord.MessageEmbed()
+
+    let serverembed = new MessageEmbed()
         .setTitle(`Informácie o serveri ${message.guild.name}`)
         .setColor(`#F9A3BB`)
         .setThumbnail(guildicon)
@@ -24,7 +31,10 @@ module.exports.run = async (client,message, args) => {
 		.addField('**Notifications** ', notifikacie, true)
         .addField('**Verification** ', verifikacia, true)
         .setFooter(`${message.author.username}`, message.author.displayAvatarURL());
-    return message.channel.send(serverembed);
+
+    return message.channel.send({
+        embeds: [serverembed]
+    });
 };
 module.exports.help = {
     name: 'serverinfo',
