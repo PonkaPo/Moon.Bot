@@ -16,15 +16,16 @@ module.exports.run = async (client, message, args) => {
 	if((!deleteCount || deleteCount < 1 || deleteCount >= 100)) return;
 	deleteCount++;
 
-	const fetched = await message.channel.messages.fetch({limit: deleteCount});
+	const fetched = await message.channel.messages.fetch({
+		limit: deleteCount
+	});
 	message.channel.bulkDelete(fetched).catch(error => message.channel.send({
 		content: `There was error performing delete operating: ${error}`
 	}));
 
 	message.channel.send({
 		content: "**DELETE**: Successfully deleted "+deleteCount+" messeges."
-	})
-		.setTimeout(() => message.delete(), 5000);
+	}).setTimeout(() => message.delete(), 5000);
 }
 module.exports.help = {
 	name: 'delete',

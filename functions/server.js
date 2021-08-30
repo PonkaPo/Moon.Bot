@@ -7,7 +7,7 @@ module.exports.change_prefix_after_check = async(DBConnection, message, args) =>
     if(message.author.id !== message.guild.ownerID) return message.channel.send("**Prefix**: You cannot change the server prefix.");
     if(!args.length) return message.channel.send("**Prefix**: You have to put character to use it as a prefix.");
 
-    let newPrefixCheck = args[0];
+    let newPrefixCheck = args[1];
 
     if(!/[a-z0-9!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]+$/i.test(newPrefixCheck)) return message.channel.send("**Prefix**: Prefix can contain only Alphabet, numbers and some special characters.");
     if(newPrefixCheck.length > 2) return message.channel.send("**Prefix**: Prefix can be long only 1 or 2 character(s) long.");
@@ -212,6 +212,22 @@ module.exports.get_music_link = async(DBConnection, message, args) => {
     });
 };
 
+module.exports.collect_message = async(message, msg_filter) => {
+    return new Promise((resolve, reject) => {
+
+        message.channel.awaitMessages({
+            msg_filter,
+            max: 1
+        }).then(collected => {
+            resolve(collected.first());
+        })
+        .catch(err => {
+            reject(err);
+        });
+
+    });
+};
+
 module.exports.check_if_artist_exists = async(DBConnection, message, args) => {
     return new Promise((resolve, reject) => {
 
@@ -319,3 +335,7 @@ module.exports.check_for_poll_in_db = async(DBConnection, message) => {
         });
     });
 };
+
+module.exports.number_check = async(CheckForOnlyNumbers) => {
+    return /^[0-9]+$/.test(CheckForOnlyNumbers);
+}

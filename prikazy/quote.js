@@ -24,25 +24,19 @@ module.exports.run = async (client,message, args) => {
     }
 
   } else {
+
     if (AcceptedArgs.includes(args[0])) {
       if (args[0] == "single") {
-
         QuoteArray = fs.readdirSync(SiPath)
         SelectedPath = SiPath;
-
       }
-
       if (args[0] == "scene") {
-
         QuoteArray = fs.readdirSync(ScPath);
         SelectedPath = ScPath;
-
       }
       
     } else {
-
       return message.channel.send("**Quote**: Supported Arguments: 1. Without, 2. `single`, 3. `scene`");
-
     }
   }
 
@@ -50,7 +44,7 @@ module.exports.run = async (client,message, args) => {
 
   const QuoteAttach = new MessageAttachment(SelectedPath+SelectFromArray);
   const QuoteEmbed = new MessageEmbed()
-    .setTitle('Hope, you are now better person. :heart:')
+    .setTitle(':heart:')
     .setImage('attachment://'+SelectFromArray);
 
   message.channel.send({ 

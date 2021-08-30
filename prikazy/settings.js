@@ -22,7 +22,6 @@ module.exports.run = async (client, message, args, DBConnection) => {
     switch (args[0]) {
 
         case 'prefix':
-            args.shift();
             return sfunctions.change_prefix_after_check(DBConnection, message, args);
             
         case 'mute_role':

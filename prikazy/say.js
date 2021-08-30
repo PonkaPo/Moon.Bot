@@ -4,14 +4,18 @@ let C_Sprava = [];
 let EditedArgs = [];
 module.exports.run = async (client,message, args) => {
     message.delete();
-    if (!args.length || (args[0] == "-i" && args.length == 1)) return message.channel.send("**Say**: You didn't write any message");
+    if (!args.length || (args[0] == "-i" && args.length == 1)) return message.channel.send({
+      content: "**Say**: You didn't write any message"
+    });
     EditedArgs = args;
     if (args[0] == "-i") {
       if (message.member.hasPermission('MANAGE_MESSAGES') || AllowedIds.includes(message.author.id)) {
         EditedArgs.shift();
         Allowed = '';
       } else {
-        return message.channel.send("**Say**: You don't have permission `MANAGE_MESSAGES` or permission to use `-i` argument.");
+        return message.channel.send({
+          content: "**Say**: You don't have permission `MANAGE_MESSAGES` or permission to use `-i` argument."
+        });
       }
     } else {
       Allowed = '**'+message.author.username+'**:';
@@ -36,8 +40,10 @@ module.exports.run = async (client,message, args) => {
     C_Sprava = [];
 };
 module.exports.help = {
+
   name: 'say',
   aliases: ['s', 'sai'],
   description: 'Poviem čo len budeš chcieť.',
   usage: '=say <správa>'
+
 };

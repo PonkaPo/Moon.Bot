@@ -2,11 +2,17 @@ const Links = ['http://mc.fifqo.sk/alanwalker.html', 'https://discordgift.site/Z
 var rrSelectFromArray, channel;
 module.exports.run = async (client,message,args) => {
 	channel = client.channels.cache.get("865163822650490890");
-	let randomRR = await channel.messages.fetch({limit: 100});
+	//let randomRR = await channel.messages.fetch({limit: 100});
 	rrSelectFromArray = Links[Math.floor(Math.random()*Links.length)];
 	if (message.mentions.users.first()) {
-		if (message.mentions.users.first().bot) return message.channel.send("**RR**: You can't send rick roll to a bot.")
-           	message.client.users.cache.get(message.mentions.users.first().id).send(rrSelectFromArray+' From (**'+message.author.username+'**)').catch(err => {if (err.code == '50007') return message.channel.send('Hey <@'+message.mentions.users.first().id+'>, '+message.author.username+' sent you this: '+rrSelectFromArray)});
+		if (message.mentions.users.first().bot) return message.channel.send({
+			content: "**RR**: You can't send rick roll to a bot."
+		})
+        	message.client.users.cache.get(message.mentions.users.first().id).send({
+				content: rrSelectFromArray+" From (**"+message.author.username+"**)"
+			}).catch(err => {if (err.code == '50007') return message.channel.send({
+				content: "Hey <@"+message.mentions.users.first().id+">, "+message.author.username+" sent you this: "+rrSelectFromArray
+			})});
 	} else {
 		message.reply(rrSelectFromArray);
 	}

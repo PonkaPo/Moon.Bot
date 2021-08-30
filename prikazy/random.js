@@ -1,4 +1,5 @@
 const { MessageEmbed } = require("discord.js");
+const sfunctions = require("../functions/server.js");
 let firstArgNum, secondArgNum, changeArgNum, CheckForOnlyNumbers;
 
 module.exports.run = async (client, message, args) => {
@@ -12,7 +13,8 @@ module.exports.run = async (client, message, args) => {
 
 	for (let i=0;i<2;i++) {
 		CheckForOnlyNumbers = args[i]
-		if (!hasNumber(CheckForOnlyNumbers)) return message.channel.send({
+		var Check = sfunctions.number_check(CheckForOnlyNumbers);
+		if (Check == false) return message.channel.send({
 			content: "**RANDOM**: You can only use numbers."
 		});
 	}
@@ -47,7 +49,3 @@ module.exports.help = {
 	usage: '=random <menšie číslo> <väčšie číslo>'
 	
 };
-
-function hasNumber(CheckForOnlyNumbers) {
-  return /^[0-9]+$/.test(CheckForOnlyNumbers);
-}

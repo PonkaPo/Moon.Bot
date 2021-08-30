@@ -1,42 +1,54 @@
 const { MessageEmbed } = require("discord.js");
 const sfunctions = require("../functions/server.js");
+let UpdateWII = new MessageEmbed().setTitle("Update => What Is It").setColor('#F9A3BB').setFooter("Use `cancel` to exit.");
 
 module.exports.run = async (client,message,args,DBConnection) => {
-  if(!message.member.hasPermission("MANAGE_GUILD") || !message.member.hasPermission("MANAGE_MESSAGES") || !message.member.hasPermission("ADMINISTRATOR")) return message.channel.send({
-    content: "**UpdateWhatIsIt**: Sorry, but you can't change this in this Guild <:Redheart:846414934644228127>"
-  });
+  
+  if(!message.member.hasPermission("MANAGE_GUILD") || !message.member.hasPermission("MANAGE_MESSAGES") || !message.member.hasPermission("ADMINISTRATOR")) {
+    UpdateWII.setDescription("Sorry, but you can't change this in this Guild <:Redheart:846414934644228127>");
+    return message.channel.send({
+      embeds: [UpdateWII]
+    });
+  }
 
-  msg = await message.channel.send({
-    content: "**UpdateWhatIsIt**: Write `Key` what they want to guess: (1 word, max 50 characters long)"
-  });
-  var key_msg = await message.channel.awaitMessages(m => m.author.id === message.author.id, { max: 1 });
-  var key_msg1 = await key_msg.first();
-  key_msg1.delete();
-  if(key_msg1.content.indexOf(" ") !== -1) return message.channel.send({
-    content: "**UpdateWhatIsIt**: Key cannot contain `space`."
-  });
-  if(key_msg1.content.length > 50) return message.channel.send({
-    content: "**UpdateWhatIsIt**: Key cannot be longer than 50 characters long."
-  });
+  const msgfilter = m => m.author.id === message.author.id && m.author.bot !== true;
 
-  msg.edit("**UpdateWhatIsIt**: Write `Hint` which will help others to guess the key: (max 1000 characters long)");
-  var hint_msg = await message.channel.awaitMessages(m => m.author.id === message.author.id, { max: 1 });
-  var hint_msg1 = await hint_msg.first();
-  hint_msg1.delete();
-  if(hint_msg1.content.length > 1000) return message.channel.send({
-    content: "**UpdateWhatIsIt**: Hint cannot be longer than 1000 characters long."
+  UpdateWII.setDescription("Key: - (thing that others will need to guess - (1 word, max 50 characters long)\nHint: -");
+  let wii_msg = await message.channel.send({
+    embeds: [UpdateWII]
   });
+  var key_msg = await sfunctions.collect_message(message, msgfilter);
+  key_msg.delete();
+  if(key_msg.content.indexOf(" ") !== -1) {
+    UpdateWII.setDescription("Key cannot contain `space`.");
+    return wii_msg.edit({
+      embeds: [UpdateWII]
+    });
+  }
+  if(key_msg.content.length > 50) {
+    UpdateWII.setDescription("Key cannot be longer than `50 characters`.");
+    return message.channel.send({      
+      embeds: [UpdateWII]
+    });
+  }
+  UpdateWII.setDescription("Key: `"+key_msg.content+"`\nHint: - (Hint is required to help others to guess what the correct answer is - max `1000` characters)");
+  wii_msg.edit({
+    embeds: [UpdateWII]
+  });
+  var hint_msg = await sfunctions.collect_message(message, msgfilter);
+  if(hint_msg.content.length > 1000) {
+    UpdateWII.setDescription("Hint cannot be longer than `1000 characters`.");
+    return message.channel.send({
+      embeds: [UpdateWII]
+    });
+  }
 
   sfunctions.send_wii_data(DBConnection,message,key_msg1,hint_msg1);
-  
-  const whatisit_update = new MessageEmbed()
-    .setColor('#F9A3BB')
-    .setTitle('Update: What is it')
-    .setDescription("Key: **"+key_msg1.content+"**\nHint: **"+hint_msg1.content+'**\nNumber of letters: **'+key_msg1.content.length+"**\nWrote: <@"+message.author.id+">");
-    
-  return msg.edit("Recapitulation:", {embed: whatisit_update}).then(msg => {
-    setTimeout(() => msg.delete(), 5000);
-  });
+
+  UpdateWII.setDescription("Key: `"+key_msg.content+"`\nHint: `"+hint_msg.content+"`");  
+  return wii_msg.edit({
+    embeds: [UpdateWII]
+  }).setTimeout(() => message.delete(), 5000);
 };
 
 module.exports.help = {

@@ -6,34 +6,40 @@ module.exports.run = async (client,message,args) => {
 
   args.shift();
 
-  if (message.mentions.members.first().id == message.client.user.id) return message.channel.send("**Boop**: You can't attack me.");
+  let mentioned = message.mentions.members.first();
+
+  if (mentioned.id == message.client.user.id) return message.channel.send({
+    content:"**Boop**: You can't boop me."
+  });
   
-  if (message.mentions.members.first().roles.highest.position > message.member.roles.highest.position) return message.channel.send("**Boop**: You can't boop "+message.mentions.members.first().username+". You leave the user the **ghostping**.");
+  if (mentioned.roles.highest.position > message.member.roles.highest.position) return message.channel.send({
+    content: "**Boop**: You can't boop "+mentioned.username+". You leave the user the **ghostping**."
+  });
   
-  if (message.mentions.members.first().id == message.author.id) return message.channel.send({
+  if (mentioned.id == message.author.id) return message.channel.send({
     content: "**Boop**: You can't attack on yourself."
   });
 
-  if (message.mentions.members.first().bot == true) {
+  if (mentioned.bot == true) {
 
-    SendBoop = "<:BoopSomeone:833733370420265021> | **"+message.author.username+"** booped bot **"+message.mentions.members.first().user.username+"**" ;
+    SendBoop = "<:BoopSomeone:833733370420265021> | **"+message.author.username+"** booped bot **"+mentioned.user.username+"**" ;
 
   } else {
 
-    SendBoop = "<:BoopSomeone:833733370420265021> | **"+message.author.username+"** booped **"+message.mentions.members.first().user.username+"**";
+    SendBoop = "<:BoopSomeone:833733370420265021> | **"+message.author.username+"** booped **"+mentioned.user.username+"**";
 
   }
   
   if (!args.length) {
 
     message.channel.send({
-      embeds: [SendBoop]
+      content: SendBoop
     });
 
   } else {
 
     message.channel.send({
-      embeds: SendBoop+", "+args.slice().join(' ')
+      content: SendBoop+", "+args.slice().join(' ')
     });
 
   }

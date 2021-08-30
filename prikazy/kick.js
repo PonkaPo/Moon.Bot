@@ -25,14 +25,10 @@ module.exports.run = async (client, message, args) => {
   });
 
   if (!args.length) {
-
     reasonKick = 'Reason was not provided.'
-
   } else {
-
     args.shift();
     reasonKick = args.slice().join(" ");
-
   }
 
   try {

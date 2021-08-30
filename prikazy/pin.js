@@ -1,6 +1,9 @@
 let CheckForNumbers;
 module.exports.run = async (client,message, args) => {
 
+  if (!message.guild.me.hasPermission('MANAGE_MESSAGES')) return message.channel.send({
+    content: '**PIN**: I do not have a `MANAGE_MESSAGES` permission to ban someone.'
+  });
   if (!message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send({
     content: "**PIN**: You don't have access to this command."
   });
@@ -25,11 +28,9 @@ module.exports.run = async (client,message, args) => {
       content: "**PIN**: ID can contains only numbers."
     });
     message.channel.messages.fetch(args[0])
-
       .then(msg => {
         msg.pin()
       })
-
       .catch(error => {
         if (error.code == '10008') return message.channel.send({
           content: "**PIN**: This message is not located in this channel."

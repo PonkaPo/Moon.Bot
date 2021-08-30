@@ -4,13 +4,15 @@ module.exports.run = async (client,message,args) => {
     content: "*Hug**: You didn't wrote who you want to hug."
   });
 
-  if (message.mentions.members.first().id == message.author.id) return message.channel.send({
+  let mentioned_user = message.mentions.members.first();
+  
+  if (mentioned_user.id == message.author.id) return message.channel.send({
     content: "**Hug**: You can't hug yourself 🙁."
   });
-  if (message.mentions.members.first().bot == true) {
-    SendThis = "<:lyra_bonbon_hug:842048414871060530> | **"+message.author.username+"** hugged bot **"+ message.mentions.users.first().username+"**";
+  if (mentioned_user.bot == true) {
+    SendThis = "<:lyra_bonbon_hug:842048414871060530> | **"+message.author.username+"** hugged bot **"+ mentioned_user.username+"**";
   } else {
-    SendThis = "<:lyra_bonbon_hug:842048414871060530> | **"+message.author.username+"** hugged user **"+ message.mentions.users.first().username+"**";
+    SendThis = "<:lyra_bonbon_hug:842048414871060530> | **"+message.author.username+"** hugged **"+ mentioned_user.username+"**";
   }
   
   message.delete();

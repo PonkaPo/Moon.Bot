@@ -3,8 +3,12 @@ let SuccUnBan;
 
 module.exports.run = async (client, message, args) => {
 
-  if (!message.member.hasPermission('BAN_MEMBERS')) return message.channel.send("**UNBAN**: You don't have `BAN_MEMBERS` permission");
-  if (!args[0]) return message.channel.send("**UNBAN**: You didn't provide ID of the banned user.");
+  if (!message.member.hasPermission('BAN_MEMBERS')) return message.channel.send({
+    content: "**UNBAN**: You don't have `BAN_MEMBERS` permission"
+  });
+  if (!args[0]) return message.channel.send({
+    content: "**UNBAN**: You didn't provide ID of the banned user."
+  });
   if (args[0] == message.author.id) return message.channel.send("**UNBAN**: You can't unban yourself ...");
 
   SuccUnBan = new MessageEmbed()

@@ -5,24 +5,16 @@ var SelectedMember, SelectedName;
 module.exports.run = async (client, message, args, DBConnection) => {
 
     if(args.length == 0) {
-
         SelectedMember = message.author;
         SelectedName = message.author.username;
-
     } else {
-
         if(message.mentions.members.first()) {
-
             SelectedMember = message.mentions.members.first();
             SelectedName = message.mentions.members.first().user.username;
-
         } else {
-
             SelectedMember = message.author.id;
             SelectedName = message.author.username;
-
         }
-
     }
 
     sfunctions.check_lvl_user_stats_forP(DBConnection, message, SelectedMember)
@@ -38,7 +30,6 @@ module.exports.run = async (client, message, args, DBConnection) => {
                 embeds: [LVLEmbed]
             });
         })
-
         .catch(error => {
 
             let noDataEmbed = new MessageEmbed()

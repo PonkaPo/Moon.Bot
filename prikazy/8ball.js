@@ -14,13 +14,9 @@ module.exports.run = async (client, message, args) => {
 	let ballembed = new MessageEmbed()
     	.setColor("#F9A3BB")
     	.setAuthor("🎱 8-ball")
-		.addFields(
-			{ name: '**Your question ❓**', value: questionvar},
-			{ name: '**8-ball answers 🔮**', value: selectrandomanswer}
-		)
+		.setDescription('**Your question ❓**\n'+questionvar)
+		.addField('**8-ball answers 🔮**', selectrandomanswer)
 		.setFooter(message.author.username);
-
-	console.log(selectrandomanswer);
 
     message.channel.send({
 		embeds: [ballembed] 

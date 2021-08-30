@@ -8,8 +8,8 @@ module.exports.run = async (client,message) => {
 
     message.channel.send({
       content: '**Pinkamena.Bot** -> Restarting...'
-    }).then(m => {
-        client.destroy()
+    }).then(() => {
+        client.destroy();
         client.login(config.token);
     });
 };

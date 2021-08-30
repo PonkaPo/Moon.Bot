@@ -6,8 +6,12 @@ let ActivitiesArray = ["PLAYING", "STREAMING", "LISTENING", "WATCHING", "COMPETI
 
 module.exports.run = async (client,message, args) => {
     message.delete();
-    if (message.author.id != OwnerID) return message.channel.send("**Status**: You can't use this command <:Redheart:846414934644228127>");
-    if (!args.length) return message.channel.send("**Status**: You didn't write any text to put in status.").then(msg => { msg.delete({ timeout: 7000 }) });
+    if (message.author.id != OwnerID) return message.channel.send({
+      content: "**Status**: You can't use this command <:Redheart:846414934644228127>"
+    });
+    if (!args.length) return message.channel.send({
+      content: "**Status**: You didn't write any text to put in status."
+    }).setTimeout(() => message.delete(), 5000);
     if (StatusArray.includes(args[0])) {
       StatusSet = args[0];
       args.shift();
@@ -35,7 +39,9 @@ module.exports.run = async (client,message, args) => {
       .setColor('#F9A3BB')
       .setTitle('Status')
       .setDescription("Status: "+StatusSet+"\nType: "+ActivitySet+"\nActivity: "+statusargs)
-    message.channel.send({embeds: [statusembedset]}).then(msg => { msg.delete({ timeout: 7000 }) });
+    message.channel.send({
+      embeds: [statusembedset]
+    }).setTimeout(() => message.delete(), 7000);
 };
 module.exports.help = {
   name: 'status',

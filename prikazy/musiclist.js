@@ -45,7 +45,7 @@ module.exports.run = async (client,message, args, DBConnection) => {
       let get_music_result = await sfunctions.get_music(DBConnection, args);
 
       MLEmbed.setTitle(args[0]+"'s songs:");
-
+      console.log(get_music_result);
       if(get_music_result == 0) {
         MLEmbed.setDescription("This Artist doesn't have any songs.");
         return message.channel.send({
