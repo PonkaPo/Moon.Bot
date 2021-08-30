@@ -1,3 +1,4 @@
+const { Permissions } = require("discord.js");
 let AllowedIds = ['422882850166276096', '409731934030135306', '478258433611661322', '699214855823163433', '532512473492750356', '759689278572724225', '723265524213088412'];
 let C_Emoji, EmojiResult, Allowed;
 let C_Sprava = [];
@@ -9,7 +10,7 @@ module.exports.run = async (client,message, args) => {
     });
     EditedArgs = args;
     if (args[0] == "-i") {
-      if (message.member.hasPermission('MANAGE_MESSAGES') || AllowedIds.includes(message.author.id)) {
+      if (message.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES) || AllowedIds.includes(message.author.id)) {
         EditedArgs.shift();
         Allowed = '';
       } else {

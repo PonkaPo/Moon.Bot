@@ -1,11 +1,12 @@
+const { Permissions } = require("discord.js");
 let deleteCount;
 module.exports.run = async (client, message, args) => {
 
-	if (!message.guild.me.hasPermission('MANAGE_MESSAGES')) return message.channel.send({
+	if (!message.guild.me.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)) return message.channel.send({
 		content: '**DELETE**: I do not have `MANAGE_MESSAGES` permission to perform this action.'
 	});
 
-	if (!message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send({
+	if (!message.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)) return message.channel.send({
 		content: '**DELETE**: You do not have `MANAGE_MESSAGES` permission to perform this action, '+message.author.username
 	});
 	if (!args) return message.channel.send({

@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, Permissions } = require("discord.js");
 const sfunctions = require("../functions/server.js");
 let sprava, Mention;
 module.exports.run = async (client, message, args, DBConnection) => {
@@ -10,7 +10,7 @@ module.exports.run = async (client, message, args, DBConnection) => {
 
   var check_for_poll_details = await sfunctions.check_for_poll_in_db(DBConnection, message);
   if (check_for_poll_details[0]["poll_mention"] == "-" || check_for_poll_details[0]["poll_mention"] == "here") {
-    if (!message.member.hasPermission('MENTION_EVERYONE')) return message.channel.send({
+    if (!message.member.permissions.has(Permissions.FLAGS.MENTION_EVERYONE)) return message.channel.send({
       content: "**Poll**: You don't have permission to mention everyone or here."
     });
     if (check_for_poll_details[0]["poll_mention"] == "-") Mention = "@everyone";

@@ -1,10 +1,11 @@
+const { Permissions } = require("discord.js");
 let CheckForNumbers;
 module.exports.run = async (client,message, args) => {
 
-  if (!message.guild.me.hasPermission('MANAGE_MESSAGES')) return message.channel.send({
+  if (!message.guild.me.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)) return message.channel.send({
     content: '**PIN**: I do not have a `MANAGE_MESSAGES` permission to ban someone.'
   });
-  if (!message.member.hasPermission('MANAGE_MESSAGES')) return message.channel.send({
+  if (!message.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES)) return message.channel.send({
     content: "**PIN**: You don't have access to this command."
   });
 

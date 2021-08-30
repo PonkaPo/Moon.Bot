@@ -1,12 +1,12 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, Permissions } = require("discord.js");
 let dovod, SuccBan, oznacenytypek;
 
 module.exports.run = async (client, message, args) => {
 
-  if (!message.guild.me.hasPermission('BAN_MEMBERS')) return message.channel.send({
+  if (!message.guild.me.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return message.channel.send({
     content: '**BAN**: I do not have a `BAN_MEMBERS` permission to ban someone.'
   });
-  if (!message.member.hasPermission('BAN_MEMBERS')) return message.channel.send({
+  if (!message.member.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return message.channel.send({
     content: '**BAN**: You do not have a permission `BAN_MEMBERS` to ban someone'
   });
   if (!message.mentions.members.first()) return message.channel.send({

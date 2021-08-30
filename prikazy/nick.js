@@ -1,7 +1,8 @@
+const { Permissions } = require("discord.js");
 let NickChange, mentioneduser;
 module.exports.run = async (client,message,args) => {
 
-  if (!message.guild.me.hasPermission('MANAGE_NICKNAMES')) return message.channel.send({
+  if (!message.guild.me.permissions.has(Permissions.FLAGS.MANAGE_NICKNAMES)) return message.channel.send({
     content: "**NICK**: I missing `MANAGE_NICKNAMES` permission."
   });
 
@@ -37,7 +38,7 @@ module.exports.run = async (client,message,args) => {
 
   }
 
-  if (!message.member.hasPermission('CHANGE_NICKNAME')) return message.channel.send({
+  if (!message.member.permissions.has(Permissions.FLAGS.CHANGE_NICKNAME)) return message.channel.send({
     content: "**NICK**: You missing `CHANGE_NICKNAME` permission."
   });
 
@@ -49,7 +50,7 @@ module.exports.run = async (client,message,args) => {
   });
   if (mentioneduser.id !== message.author.id) {
 
-    if (!message.member.hasPermission('MANAGE_NICKNAMES')) return message.channel.send({
+    if (!message.member.permissions.has(Permissions.FLAGS.MANAGE_NICKNAMES)) return message.channel.send({
       content: "**NICK**: You missing `MANAGE_NICKNAMES` permission."
     });
     NickChange = '-> '+nickReason+'\nChanged by: '+message.author.username;

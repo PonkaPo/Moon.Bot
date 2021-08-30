@@ -1,12 +1,12 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, Permissions } = require("discord.js");
 let oznacenytypek;
 
 module.exports.run = async (client, message, args) => {
 
-  if (!message.guild.me.hasPermission('KICK_MEMBERS')) return message.channel.send({
+  if (!message.guild.me.permissions.has(Permissions.FLAGS.KICK_MEMBERS)) return message.channel.send({
     content: "**KICK**: I don't have `KICK_MEMBERS` permission."
   });
-  if (!message.member.hasPermission('KICK_MEMBERS')) return message.channel.send({
+  if (!message.member.permissions.has(Permissions.FLAGS.KICK_MEMBERS)) return message.channel.send({
     content: "**KICK**: You don't have `KICK_MEMBERS` permission."
   });
   if (!message.mentions.users.first()) return message.channel.send({

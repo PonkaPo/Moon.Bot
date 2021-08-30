@@ -1,9 +1,9 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, Permissions } = require("discord.js");
 let SuccUnBan;
 
 module.exports.run = async (client, message, args) => {
 
-  if (!message.member.hasPermission('BAN_MEMBERS')) return message.channel.send({
+  if (!message.member.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return message.channel.send({
     content: "**UNBAN**: You don't have `BAN_MEMBERS` permission"
   });
   if (!args[0]) return message.channel.send({

@@ -1,10 +1,10 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, Permissions } = require("discord.js");
 const sfunctions = require("../functions/server.js");
 let UpdateWII = new MessageEmbed().setTitle("Update => What Is It").setColor('#F9A3BB').setFooter("Use `cancel` to exit.");
 
 module.exports.run = async (client,message,args,DBConnection) => {
   
-  if(!message.member.hasPermission("MANAGE_GUILD") || !message.member.hasPermission("MANAGE_MESSAGES") || !message.member.hasPermission("ADMINISTRATOR")) {
+  if(!message.member.permissions.has(Permissions.FLAGS.MANAGE_GUILD) || !message.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES) || !message.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) {
     UpdateWII.setDescription("Sorry, but you can't change this in this Guild <:Redheart:846414934644228127>");
     return message.channel.send({
       embeds: [UpdateWII]

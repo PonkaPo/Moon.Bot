@@ -45,9 +45,11 @@ module.exports.run = async (client, message) => {
 		embeds: [RequestSong]
 	});
 	var SLink = await message.sfunctions.collect_message(message, msgfilter);
-	var SLink = await SLink.first();
 	SLink.delete();
-	if(SLink.content == "cancel") return rs_msg.edit("**RequestSong** Canceled!");
+	if(SLink.content == "cancel") return rs_msg.edit({
+		content: "**RequestSong** Canceled!",
+		embeds: []
+	});
 
 	RequestSong.setDescription("Artist Name: `"+ArtistName.content+"`\nFull Song Name: `"+SName.content+"`\nReleased Date: `"+ReleaseDate.content+"`\nLink: `"+SLink.content+"`");
 	client.channels.cache.get("879981137051668560").send({

@@ -1,9 +1,9 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, Permissions } = require("discord.js");
 const sfunctions = require("../functions/server.js");
 module.exports.run = async (client, message, args, DBConnection) => {
 
-    if(!message.member.hasPermission("MANAGE_GUILD") && !message.member.hasPermission("MANAGE_ROLES")) return message.channel.send({
-        content: "**SETTINGS**: You don't have a permission to change Bot settings."
+    if(!message.member.permissions.has(Permissions.FLAGS.MANAGE_MESSAGES) && !message.member.permissions.has(Permissions.FLAGS.MANAGE_ROLES)) return message.channel.send({
+        content: "**SETTINGS**: You don't have a permission to change Bot settings (You missing `MANAGE_MESSAGES` or `MANAGE_ROLES` permission)."
     });
 
     if(args.length === 0) {
