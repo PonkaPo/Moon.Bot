@@ -1,5 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const sfunctions = require("../functions/server.js");
+const role_functions = require("./roles.js");
 var Difference_between_Generated_and_actual_exp, NewXP_LVL, Generated_XP_with_remain;
 module.exports.gen_exp = (DBConnection, message) => {
 
@@ -16,6 +17,15 @@ module.exports.gen_exp = (DBConnection, message) => {
 
             NewXP_LVL = lvl[0]["xp_level"] + 1;
             let AfterXPNewLVL = 100+(parseInt(NewXP_LVL)*25);
+
+            //role_functions.check_if_level_reward_exists(DBConnection, NewXP_LVL, message).then(results_from_q => {
+                //console.log(results_from_q);
+                
+                //if(level == 0) return;
+                //if(NewXP_LVL == level[0]["level"]) {
+
+                //}
+            //});
 
             DBConnection.query("UPDATE `discord_levels`.`"+message.guild.id+"` SET `xp_level` = '"+NewXP_LVL+"', `xp_remain` = '"+Math.abs(parseInt(Difference_between_Generated_and_actual_exp))+"', `xp_exp` = '"+AfterXPNewLVL+"' WHERE `user_id` = '"+message.author.id+"'");
             

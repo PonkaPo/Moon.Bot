@@ -19,7 +19,7 @@ module.exports.run = async (client, message, args) => {
   });
   if (oznacenytypek.roles.highest.position > message.member.roles.highest.position) return message.channel.send({
     content: '**BAN**: Mentioned member has higher role than you, '+message.author.username
-  });  
+  });
   if (!message.guild.member(oznacenytypek).bannable) return message.channel.send({
     content: '**BAN**: Mentioned member ('+message.mentions.users.first().username+') cannot be banned.'
   });

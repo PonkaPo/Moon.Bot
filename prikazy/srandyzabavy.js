@@ -10,17 +10,21 @@ module.exports.run = async (client, message, args) => {
 	} else {
 		channel = client.channels.cache.get("866023143813808129");
 	}
-	console.log(channel.messages);
-	let randomMessage = await channel.messages.fetch({limit: 100});
-	let arr = new Array(randomMessage);
-    let random = Math.floor(Math.random()*randomMessage.size);
-	console.log(randomMessage[random]);
-	SZEmbed = new MessageEmbed()
+	let fetchedMessages = await channel.messages.fetch({
+		limit: 100
+	});
+	let fetchedArray = Array.from(fetchedMessages);
+    let random_msg = Math.floor(Math.random()*fetchedMessages.size);
+	fetchedMessages.filter(msg => msg.username === 'Bob');
+	console.log(fetchedArray[random_msg]);
+	/*SZEmbed = new MessageEmbed()
     	.setColor("#F9A3BB")
     	.setAuthor("Srandy Zabavy")
-		.setImage(arr[random].attachments.first().url)
+		.setImage(fetchedArray[random_msg].attachments.first().url)
 		.setFooter(message.author.username);
-    message.channel.send(SZEmbed);
+    message.channel.send({
+		embeds: [SZEmbed]
+	});*/
 }
 module.exports.help = {
 	name: 'srandyzabavy',

@@ -63,7 +63,7 @@ client.on('messageCreate', async message => {
     let command = client.commands.get(commandName);
     command_log(client, message, commandName);
 
-    if(!command) command = client.commands.get(client.aliases.get(commandName))
+    if(!command) command = client.commands.get(client.aliases.get(commandName));
     if(!command) return;
 
     commandName = command.help.name;

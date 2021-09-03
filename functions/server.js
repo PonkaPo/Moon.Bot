@@ -1,4 +1,4 @@
-const { MessageEmbed } = require("discord.js");
+const { MessageEmbed, Permissions } = require("discord.js");
 const config = require("../config/config.json");
 
 //prefix
@@ -68,7 +68,6 @@ module.exports.check_stats_for_lb = async(DBConnection, message) => {
         DBConnection.query("SELECT user_id, xp_level, xp_remain, xp_exp FROM `discord_levels`.`"+message.guild.id+"` ORDER BY xp_level DESC, xp_remain DESC LIMIT 10", function (error, lb_stats) {
             if(error) reject(error);
             resolve(lb_stats);
-
         });
     });
 };
@@ -184,8 +183,10 @@ module.exports.guildleave = (guild, DBConnection, client) => {
 module.exports.guildjoin = (guild, DBConnection, client, message) => {
 
     DBConnection.query("CREATE TABLE `discord_levels`.`"+guild.id+"` (user_id CHAR(50) PRIMARY KEY, xp_level INT(10) NOT NULL, xp_remain INT(10) NOT NULL, xp_exp INT(30) NOT NULL, last_xp BIGINT(20) NOT NULL)");
+    DBConnection.query("CREATE TABLE `discord_levels`.`"+guild.id+"` (user_id CHAR(50) PRIMARY KEY, xp_level INT(10) NOT NULL, xp_remain INT(10) NOT NULL, xp_exp INT(30) NOT NULL, last_xp BIGINT(20) NOT NULL)");
     DBConnection.query("UPDATE `discord_levels`.`"+guild.id+"` SET `xp_exp` = '100', `last_xp` = `"+Date.now()+"` WHERE `user_id` = '"+message.author.id+"'");
     DBConnection.query("UPDATE `discord`.`servers` SET `server_prefix` = '=', `levels_channel` = `same` WHERE `user_id` = '"+guild.id+"'");
+    DBConnection.query("CREATE DATABASE `discord_warns_"+guild.id+"`");
     client.channels.cache.get("833625728310444042").send("Added Guild with ID: "+guild.id+" to Database.");
 
 };
@@ -207,22 +208,6 @@ module.exports.get_music_link = async(DBConnection, message, args) => {
                 resolve(music_result_parsed);
 
             }
-        });
-
-    });
-};
-
-module.exports.collect_message = async(message, msg_filter) => {
-    return new Promise((resolve, reject) => {
-
-        message.channel.awaitMessages({
-            msg_filter,
-            max: 1
-        }).then(collected => {
-            resolve(collected.first());
-        })
-        .catch(err => {
-            reject(err);
         });
 
     });
@@ -259,16 +244,7 @@ module.exports.check_if_song_exists = async(DBConnection, message, args) => {
     return new Promise((resolve, reject) => {
 
         DBConnection.query("SELECT * FROM `music`.`"+args[0]+"` WHERE `name` = '"+args[1]+"'", function (error, song_result) {
-            
-            if(song_result === 0) {
-
-                resolve(song_result);
-
-            } else {
-
-                resolve(song_result);
-
-            }
+            resolve(song_result);
         });
 
     });
@@ -318,24 +294,119 @@ module.exports.check_game_data_wii = async(DBConnection, message) => {
 };
 
 module.exports.send_wii_data = async(DBConnection, message, key_msg1, hint_msg1) => {
-    return new Promise((resolve, reject) => {
-
-        DBConnection.query("INSERT INTO `discord`.`whatisit` (guild_id, pass, hint, first_guess, wrote) VALUES('"+message.guild.id+"', '"+key_msg1.content+"', '"+hint_msg1.content+"', '-', '"+message.author.id+"') ON DUPLICATE KEY UPDATE `pass` = '"+key_msg1.content+"', `hint` = '"+hint_msg1.content+"', `first_guess` = '-', `wrote` = '"+message.author.id+"'");
-
-    });
+    DBConnection.query("INSERT INTO `discord`.`whatisit` (guild_id, pass, hint, first_guess, wrote) VALUES('"+message.guild.id+"', '"+key_msg1.content+"', '"+hint_msg1.content+"', '-', '"+message.author.id+"') ON DUPLICATE KEY UPDATE `pass` = '"+key_msg1.content+"', `hint` = '"+hint_msg1.content+"', `first_guess` = '-', `wrote` = '"+message.author.id+"'");
 };
 
 //poll
 module.exports.check_for_poll_in_db = async(DBConnection, message) => {
     return new Promise((resolve, reject) => {
         DBConnection.query("SELECT poll_channel, poll_mention FROM `discord`.`servers` WHERE `server_id` = '"+message.guild.id+"'", function (error, poll_result) {
-
             resolve(poll_result);
-
         });
+    });
+};
+
+//random
+module.exports.collect_message = async(message, msg_filter) => {
+    return new Promise((resolve, reject) => {
+
+        message.channel.awaitMessages({
+            msg_filter,
+            max: 1
+        }).then(collected => {
+            resolve(collected.first());
+        })
+        .catch(err => {
+            reject(err);
+        });
+
     });
 };
 
 module.exports.number_check = async(CheckForOnlyNumbers) => {
     return /^[0-9]+$/.test(CheckForOnlyNumbers);
+}
+
+module.exports.check_for_role_mng_perm = async(message) => {
+    if(!message.guild.me.permissions.has(Permissions.FLAGS.MANAGE_ROLES)) {
+        return false;
+    } else {
+        return true;
+    }
+}
+
+
+//warns
+module.exports.check_for_warns_db = async(DBConnection, guild, string, check_no) => {
+    return new Promise((resolve,reject) => {
+        DBConnection.query("SELECT `enabled_warns` FROM `discord`.`servers` WHERE `server_id` = '"+guild.id+"'", function (error, result) {
+            if(error) reject(error);
+            if (result[0]["enabled_warns"] == "no") {
+                if(check_no == 1) {
+                    resolve(result);
+                } else {
+                    change_warns_in_db(guild,string,DBConnection);
+                    create_guild_db_for_warns(DBConnection, guild);
+                    resolve(result);
+                }
+            } else {
+                change_warns_in_db(guild,string,DBConnection);
+                resolve(result);
+            }
+        });
+    });
+}
+
+async function change_warns_in_db(guild, string, DBConnection) {
+    DBConnection.query("UPDATE `discord`.`servers` SET `enabled_warns` = '"+string+"' WHERE `server_id` = '"+guild.id+"'");
+};
+
+async function create_guild_db_for_warns(DBConnection,guild) {
+    DBConnection.query("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'discord_warns_"+guild.id+"'", function (error, create_result) {
+        if (error) return console.log(error);
+        if(create_result[0]["COUNT(*)"] == 0) {
+            DBConnection.query("CREATE DATABASE `discord_warns_"+guild.id+"`");
+        } else return;
+    });
+};
+
+module.exports.check_if_user_exists_in_db = async(DBConnection, mention, guild) => {
+
+    DBConnection.query("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'discord_warns_"+guild+"' AND table_name = '"+mention+"'", function (error, mention_result) {
+        if(error) console.log(error);
+        if(mention_result[0]["COUNT(*)"] == 0) {
+            create_member_table_in_db(DBConnection, mention, guild);
+        } else return;
+    });
+
+};
+
+async function create_member_table_in_db(DBConnection,mention,guild) {
+    DBConnection.query("CREATE TABLE `discord_warns_"+guild+"`.`"+mention+"`(`uID` CHAR(8) PRIMARY KEY, `By` CHAR(50) NOT NULL, `reason` VARCHAR(200) NOT NULL)");
+};
+
+module.exports.write_warn_data = async(DBConnection, authorID, uID, reason, mentioned, guildID) => {
+    DBConnection.query("INSERT INTO `discord_warns_"+guildID+"`.`"+mentioned+"`(`uID`, `By`, `reason`) VALUES ('"+uID+"', '"+authorID+"', '"+reason+"')");
+};
+
+module.exports.fetch_warns = async(DBConnection, mentioned, guild) => {
+    return new Promise((resolve,reject) => {
+        DBConnection.query("SELECT * FROM `discord_warns_"+guild+"`.`"+mentioned+"` LIMIT 10", function (error, fetch_result) {
+            if(error) console.log(error);
+            resolve(fetch_result);
+        });
+    });
+};
+
+module.exports.check_for_uID = async(DBConnection, mention, guild) => {
+
+    DBConnection.query("SELECT * FROM `discord_warns_"+guild+"`.`"+mention+"` WHERE ˛`uID` = '"+uID+"'", function (error, result_search) {
+        if(error) console.log(error);
+        resolve(result_search);
+    });
+
+};
+
+module.exports.delete_warn_data = async(DBConnection, mention, guild, uID) => {
+    DBConnection.query("DELETE FROM `discord_warns_"+guild+"`.`"+mention+"` WHERE `uID` = '"+uID+"'");
 }

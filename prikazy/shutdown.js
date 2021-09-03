@@ -6,7 +6,7 @@ module.exports.run = async (client,message, args, DBConnection) => {
     message.channel.send({
       content: '**Pinkamena.Bot** -> Shutting Down...'
     }).then(m => {
-      DBConnection.release();
+      DBConnection.end();
       console.log("MYSQL -> Disconnected!");
       client.destroy();
       process.exit(0);
