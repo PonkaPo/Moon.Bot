@@ -1,4 +1,4 @@
-# Pinkamena.Bot
+# Moon.Bot
 
 Simple & Advanced Discord bot.
 Actually the bot is capable of more things to do. With simple Chat Activity with levels reward to simple moderating.
