@@ -1,86 +1,91 @@
-const { Client, Intents, Collection, MessageEmbed } = require("discord.js");
+const { Client, Intents, Collection, Permissions } = require("discord.js");
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
-const config = require("./config/config.json");
 const mysql = require('mysql');
 const fs = require("fs");
 
-client.commands = new Collection();
-client.aliases = new Collection();
-client.description = new Collection();
-client.usage = new Collection();
-
-const CannotUseInDM = ["ban", "boop", "delete", "hug", "info", "kick", "nick", "pin", "poll", "rr", "serverinfo", "unban"];
-const DBConnection = mysql.createPool(config.mysql, {multipleStatements: true});
-const serverfunctions = require("./functions/server.js");
+const config = require("./config/config.json");
+const levels = require("./functions/levels.js");
 const experience = require("./functions/experience.js");
+const edited = require("./functions/edited.js");
+const image = require("./commands/image.js");
 
-fs.readdir("./prikazy/", (err, files) => {
-    if(err) console.error(err);
+const say = require("./msg_cmds/say.js");
+const easteregg = require("./msg_cmds/easteregg.js");
 
-    let jsfile = files.filter(f => f.endsWith('.js'));
-    if(jsfile.length <= 0) return console.log("Nenašol som žiaden príkazy.");
+let args = []; //Array to store arguments from messageCreate
+let msg_edits_array = []; //Array to store edit messages
+let store_image_tags_sites = []; //Array to store things for images
+let store_images_for_button = {}; //Array to save images properties to work button correctly
 
-    jsfile.forEach((f) => {
-        let prikaz = require(`./prikazy/${f}`);
-        console.log(`Loaded: ${f}`);
-        
-        client.commands.set(prikaz.help.name, prikaz);
-        if(prikaz.help.aliases) {
-            prikaz.help.aliases.forEach(alias => {
-                client.aliases.set(alias, prikaz.help.name);
-            });
-        }
-    });
-});
+client.commands = new Collection();
+const slashcommands = fs.readdirSync("./commands").filter(f => f.endsWith('.js'));
+
+for (const file of slashcommands) {
+    let prikaz = require(`./commands/${file}`);
+    console.log(`Slash Command: ${file} Loaded!`);
+    client.commands.set(prikaz.data.name, prikaz);
+}
+
+const DB = mysql.createPool(config.mysql, {multipleStatements: true});
 
 client.once("ready", () => {
-    client.user.setActivity("By Pinkamena Diane Song");
-    client.channels.cache.get("833625728310444042").send("**"+client.user.username+"** --> Online & Up\n**MySQL**: Connected");
-    console.log(client.user.username+" -> Online");
+    client.user.setActivity("with everypony!");
+    client.channels.cache.get("741711007465865339").send("**"+client.user.username+"** --> Online & Up\n**MySQL**: Connected");
+});
+
+client.on('interactionCreate', async interaction => {
+    if(!interaction.isCommand() && !interaction.isButton()) return;
+    if(interaction.isButton()) {
+        if(interaction.customId == "again") {
+            return image.send_as_button(interaction, store_images_for_button, store_image_tags_sites);
+        }
+    }
+
+    const command = client.commands.get(interaction.commandName);
+    if (!command) return;
+    try {
+		await command.execute(interaction, DB, store_image_tags_sites, store_images_for_button, msg_edits_array);
+	} catch (error) {
+		console.error(error);
+		return interaction.reply({ 
+            content: interaction.commandName+' > Error has occurred: '+error.message, ephemeral: true 
+        });
+	}
 });
 
 client.on('messageCreate', async message => {
 	if (message.author.bot) return;
-
-    const check_if_levels_are_enabled = await serverfunctions.check_if_levels_are_enabled(DBConnection, message);
+    const check_if_levels_are_enabled = await levels.check_if_levels_are_enabled(DB, message.guild.id);
     if(check_if_levels_are_enabled[0]["enabled_levels"] == "yes") {
-        experience.gen_exp(DBConnection, message);
+        
+        experience.gen_exp(DB, message);
     }
-    const prefix_check = await serverfunctions.get_prefix_from_db(DBConnection, message);
-    
-    if(/<@!746409149507567632> prefix|<@746409149507567632> prefix/.test(message.content)) {
-        let PrefixReply = new MessageEmbed()
-            .setColor("#F9A3BB")
-            .setTitle('Prefix')
-            .setDescription("**"+message.guild.name+"** --> `"+prefix_check+"`");
-        return message.channel.send({ embeds: [PrefixReply]});
+    args = message.content.trim().split(" ");
+    if(!message.content.startsWith("=") && !config.easteregg_words.includes(args[0])) return;
+    if(config.easteregg_words.includes(args[0])) {
+        await easteregg.easteregg_send_msg(message, args[0]);
     }
-
-    if(!message.content.startsWith(prefix_check) && !message.content.startsWith(config.client.prefix)) return;
+    if(args[0] == "=say") say.say(message, args);
+    args.shift();
     
-    var args = message.content.slice(prefix_check.length).trim().split(" ");
-    let commandName = args.shift().toLowerCase();
-    let command = client.commands.get(commandName);
-    command_log(client, message, commandName);
-
-    if(!command) command = client.commands.get(client.aliases.get(commandName));
-    if(!command) return;
-
-    commandName = command.help.name;
-    if(CannotUseInDM.includes(commandName) && message.channel.type == "dm") return message.channel.send("Command **"+commandName+"** cannot be used in Direct Messages");
-    command.run(client, message, args, DBConnection, prefix_check);
 });
 
+client.login(config.client.token);
+
 client.on("guildCreate", (guild) => {
-    serverfunctions.guildjoin(guild, DBConnection, client, message);
+    DB.query("CREATE TABLE `discord_levels`.`"+guild.id+"` (user_id CHAR(50) PRIMARY KEY, xp_level INT(10) NOT NULL, xp_remain INT(10) NOT NULL, xp_exp INT(30) NOT NULL, last_xp BIGINT(20) NOT NULL)");
+    DB.query("UPDATE `discord_levels`.`"+guild.id+"` SET `xp_exp` = '100', `last_xp` = `"+Date.now()+"` WHERE `user_id` = '"+guild.id+"'");
+    DB.query("INSERT INTO `discord`.`servers` (server_id, mute_roleid, levels_channel, enabled_levels, poll_channel, poll_mention, roles_reward_check, enabled_warns) VALUES('"+guild.id+"', '-', 'same', 'yes', 'same', '-', 'no', 'no')");
+    DB.query("CREATE DATABASE `discord_warns_"+guild.id+"`");
+    client.channels.cache.get("741711007465865339").send("Added Guild with ID: "+guild.id+" to Database.");
 });
 
 client.on("guildDelete", (guild) => {
-    serverfunctions.guildleave(guild, DBConnection, client);
+    DB.query("DROP TABLE `discord_levels`.`"+guild.id+"`");
+    DB.query("DROP * FROM `discord`.`servers` WHERE `server_id` = "+guild.id)
+    client.channels.cache.get("741711007465865339").send("Removed Guild with ID: "+guild.id+" from Database.");
 });
 
-function command_log(client, message, commandName) {
-    client.channels.cache.get("833625728310444042").send("Server Name: "+message.guild.name+"\nServer ID: "+message.guild.id+"\nCommand: "+commandName);
-}
-
-client.login(config.client.token);
+client.on('messageUpdate', async(oldMessage, newMessage) => {
+    await edited.save_edited(oldMessage, newMessage, msg_edits_array);
+});

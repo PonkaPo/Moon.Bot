@@ -1,0 +1,23 @@
+{
+    "client": {
+      "token": "-- There's go token of your bot",
+      "clientId": "-- Bot id goes here",
+      "guildId": "-- ID of guild where the bot is like developed or tested"
+    },
+    "mysql": {
+      "host": "-- IP/domain of your MariaDB/SQL Server",
+      "user": "-- Username of your server",
+      "password": "-- Password of your server"
+    },
+    "e621": {
+      "login": "-- Your login name for e621",
+      "api_key": "-- Your API key for e621"
+    },
+    "derpi": {
+      "api_key": "-- Your api key for derpibooru"
+    },
+    "gelbooru": {
+      "user_id": "-- Your user id for gelbooru",
+      "api_key": "-- Your API key for gelbooru"
+    }
+  }
