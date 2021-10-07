@@ -25,6 +25,9 @@ But that's not all what the bot needs to run. Now you need to put in the config 
 ```
 After you did these two things, the bot should run without any problem.
 
+## Images (Image Command)
+In any case you don't need this command, simply you don't put it inside the commands folder and that's all, then you won't ran into any issues with the command if there are no API keys written in the config. If you don't need only one site, just simply comment/remove it from the code itself.
+
 ## How customizable is the bot?
 Well, the bot is using MySQL storage to save settings for every guild. To change this, there is database called `discord` & `discord_levels` to make basic & levels feature working correctly. The levels can be easily for example turned off/on, change actual channel/role to mention. Or just send poll to specific channel. Even set custom prefix can bet set for each guild. And if you forget the prefix it can be obtained by mentioning the bot.
 
