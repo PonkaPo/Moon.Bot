@@ -50,7 +50,7 @@ module.exports = {
         switch(interaction.options.getSubcommand()) {
             case 'channel':
                 LevelsInfo.setTitle("Levels => Channel");
-                if(interaction.options.getChannel("channel") !== null) {
+                if(interaction.options.getChannel("channel") == null) {
                     let s_o_channel = interaction.options.getString("non-channel");
                     DB.query("UPDATE `discord`.`servers` SET `levels_channel` = '"+s_o_channel+"' WHERE `server_id` = '"+interaction.guild.id+"'");
                     LevelsInfo.setDescription("Selected channel: "+s_o_channel);
@@ -58,8 +58,7 @@ module.exports = {
                         embeds: [LevelsInfo]
                     });
                 } else {
-                    console.log(interaction.options.getString("non-channel"));
-                    if(interaction.options.getString("non-channel") !== null) {
+                    if(interaction.options.getChannel("channel") !== null) {
                         DB.query("UPDATE `discord`.`servers` SET `levels_channel` = '"+interaction.options.getChannel("channel").id+"' WHERE `server_id` = '"+interaction.guild.id+"'");
                         LevelsInfo.setDescription("Selected channel: <#"+interaction.options.getChannel("channel")+">");
                         return interaction.reply({
@@ -73,8 +72,13 @@ module.exports = {
                     }
                 }
             case 'reset':
-                if(interaction.options.getUser()){
-
+                if(interaction.options.getUser("target") !== null){
+                    let user = interaction.options.getUser("target");
+                    DB.query("DELETE * FROM `discord`.`"+interaction.guild.id+"` WHERE `user_id` = '"+user.id+"'");
+                    LevelsInfo.setTitle("**Levels => Reset => User**").setDescription("You successfully reset <@"+user.id+">'s Level.");
+                        return interaction.reply({
+                            embeds: [LevelsInfo]
+                        });
                 } else {
                     if(interaction.user.id !== interaction.guild.ownerId) {
                         LevelsInfo.setTitle("**Levels => Reset**").setDescription("Only Owner ( <@"+interaction.guild.ownerId+"> ) can reset levels in this Guild.");
@@ -88,84 +92,73 @@ module.exports = {
                         embeds: [LevelsInfo]
                     });
                 }
-    
-                
-
-        }
-
-        if(interaction.options.getSubcommand("on") !== null) {
-            if(interaction.user.id !== interaction.guild.ownerId) return interaction.reply({
-                content: "**Levels => Turn On**: You can't turn levels on for this Guild (only Owner can)."
-            });
-
-            DB.query("UPDATE `discord`.`servers` SET `enabled_levels` = 'yes' WHERE `server_id` = '"+interaction.guild.id+"'");
-
-            return interaction.reply({
-                content: "**Levels** are turned on successfully."
-            });
-        }
-
-        if(interaction.options.getSubcommand("off") == "off") {
-            if(interaction.user.id !== interaction.guild.ownerId) return interaction.reply({
-                content: "**Levels => Turn Off**: You can't turn levels off for this Guild (only Owner can)."
-            });
-
-            DB.query("UPDATE `discord`.`servers` SET `enabled_levels` = 'no' WHERE `server_id` = '"+interaction.guild.id+"'");
-
-            return interaction.reply({
-                content: "**Levels** are turned off successfully."
-            });
-        }
-
-        if(interaction.options.getSubcommand("rewards") == "rewards") {
-            let check_perm = await basic.check_for_role_mng_perm(interaction, Permissions);
-            if (check_perm == false) {
-                LevelsInfo.setDescription("**Warning**: I missing `MANAGE_ROLES`, so I cannot continue.");
-                return interaction.reply({
-                    embeds: [LevelsInfo]
+            case 'on':
+                if(interaction.user.id !== interaction.guild.ownerId) return interaction.reply({
+                    content: "**Levels => Turn On**: You can't turn levels on for this Guild (only Owner can)."
                 });
-            };
-            if(interaction.user.id !== "409731934030135306") return interaction.reply({
-                content: "**Levels Role Rewards** are WIP."
-            });
-            let rewards_option = interaction.options.get("setting");
-            LevelsInfo.setTitle("Settings => Levels => Rewards");
-            switch(rewards_option.value) {
-                case 'add':                        
-                case 'remove':
-                    if(!interaction.options.getInteger("level")) {
-                        LevelsInfo.setDescription("**Warning**: You didn't provide level number.");
-                        return interaction.reply({
-                            embeds: [LevelsInfo]
-                        });
-                    } else lvl_number = interaction.options.getInteger("level");
-                    if(!/^[0-9]+$/.test(lvl_number)) {
-                        LevelsInfo.setDescription("`level` can contain only numbers.\nRemove it using command: `settings levels rewards remove <level_number>`");
-                        return interaction.reply({
-                            embeds: [LevelsInfo]
-                        });
-                    };
-
-                    if(rewards_option.value == "remove") {
-                        await roles.delete_role_reward(DB, interaction.guild, lvl_number);
-                        LevelsInfo.setDescription("Successfully removed Role Reward with level **"+lvl_number+"**");
-                        return interaction.reply({
-                            embeds: [LevelsInfo]
-                        });
-                    }
-                    if(rewards_option.value == "add") {
-                        if(!interaction.options.getRole("role")) {
-                            LevelsInfo.setDescription("**Warning**: You didn't provide Role.");
+    
+                DB.query("UPDATE `discord`.`servers` SET `enabled_levels` = 'yes' WHERE `server_id` = '"+interaction.guild.id+"'");
+    
+                return interaction.reply({
+                    content: "**Levels** are turned on successfully."
+                });
+            case 'off':
+                if(interaction.user.id !== interaction.guild.ownerId) return interaction.reply({
+                    content: "**Levels => Turn Off**: You can't turn levels off for this Guild (only Owner can)."
+                });
+    
+                DB.query("UPDATE `discord`.`servers` SET `enabled_levels` = 'no' WHERE `server_id` = '"+interaction.guild.id+"'");
+    
+                return interaction.reply({
+                    content: "**Levels** are turned off successfully."
+                });
+            case 'rewards':
+                let check_perm = await basic.check_for_role_mng_perm(interaction, Permissions);
+                if (check_perm == false) {
+                    LevelsInfo.setDescription("**Warning**: I missing `MANAGE_ROLES`, so I cannot continue.");
+                    return interaction.reply({
+                        embeds: [LevelsInfo]
+                    });
+                };
+                let rewards_option = interaction.options.get("setting");
+                LevelsInfo.setTitle("Settings => Levels => Rewards");
+                switch(rewards_option.value) {
+                    case 'add':                        
+                    case 'remove':
+                        if(!interaction.options.getInteger("level")) {
+                            LevelsInfo.setDescription("**Warning**: You didn't provide level number.");
                             return interaction.reply({
                                 embeds: [LevelsInfo]
                             });
-                        } else role = interaction.options.getRole("role");
-                        await roles.insert_or_update_level_role(DB, interaction.guild, lvl_number, role);
-                        LevelsInfo.setDescription("Successfully saved Role Reward to <@&"+role.id+"> with level **"+lvl_number+"**");
-                        return interaction.reply({
-                            embeds: [LevelsInfo]
-                        });
-                    }
+                        } else lvl_number = interaction.options.getInteger("level");
+                        if(!/^[0-9]+$/.test(lvl_number)) {
+                            LevelsInfo.setDescription("`level` can contain only numbers.\nRemove it using command: `settings levels rewards remove <level_number>`");
+                            return interaction.reply({
+                                embeds: [LevelsInfo]
+                            });
+                        };
+                        switch(rewards_option.value){
+                            case 'remove':
+                                await roles.delete_role_reward(DB, interaction.guild, lvl_number);
+                                LevelsInfo.setDescription("Successfully removed Role Reward with level **"+lvl_number+"**");
+                                return interaction.reply({
+                                    embeds: [LevelsInfo]
+                                });
+                            case 'add':
+                                if(rewards_option.value == "add") {
+                                    if(!interaction.options.getRole("role")) {
+                                        LevelsInfo.setDescription("**Warning**: You didn't provide Role.");
+                                        return interaction.reply({
+                                            embeds: [LevelsInfo]
+                                        });
+                                    } else role = interaction.options.getRole("role");
+                                    await roles.insert_or_update_level_role(DB, interaction.guild, lvl_number, role);
+                                    LevelsInfo.setDescription("Successfully saved Role Reward to <@&"+role.id+"> with level **"+lvl_number+"**");
+                                    return interaction.reply({
+                                        embeds: [LevelsInfo]
+                                    });
+                                }
+                        }
                     return;
                 case 'list':
                     let assigned_roles = await roles.list_or_assigned_roles(DB, interaction.guild);
@@ -186,27 +179,19 @@ module.exports = {
                     LevelsInfo = new MessageEmbed().setColor("#F9A3BB").setFooter("More settings will be available in future.");
                     return;
                 case 'off':
+                    await roles.disable_role_rewards(DB, interaction.guild);
+                    LevelsInfo.setDescription("Disabled Roles Rewards for guild `"+interaction.guild.name+"` completed sucessfully.");
+                    return interaction.reply({
+                        embeds: [LevelsInfo]
+                    });
                 case 'on':
-                    if_rr_table_exists = await roles.check_if_role_rewards_exists(DB, interaction.guild);
-
-                    if(if_rr_table_exists[0]["roles_reward_check"] == "no") {
-                        await roles.create_role_rewards(DB, interaction.guild);
-                        LevelsInfo.setDescription("Enabled Roles Rewards for guild `"+interaction.guild.name+"` completed sucessfully.");
-                        return interaction.reply({
-                            embeds: [LevelsInfo]
-                        });
-                    };
-                    
-                    if(if_rr_table_exists[0]["roles_reward_check"] == "yes") {
-                        await roles.disable_role_rewards(DBConnection, interaction.guild);
-                        LevelsInfo.setDescription("Disabled Roles Rewards for guild `"+interaction.guild.name+"` completed sucessfully.");
-                        return interaction.reply({
-                            embeds: [LevelsInfo]
-                        });
-                    };
+                    await roles.create_role_rewards(DB, interaction.guild);
+                    LevelsInfo.setDescription("Enabled Roles Rewards for guild `"+interaction.guild.name+"` completed sucessfully.");
+                    return interaction.reply({
+                        embeds: [LevelsInfo]
+                    });
                 case 'reset':
                     list_of_assigned_rr = await roles.check_if_role_rewards_exists(DB, interaction.guild);
-
                     if(list_of_assigned_rr == 0) {
                         LevelsInfo.setDescription("No role rewards has been found for Guild `"+interaction.guild.name+"`");
                         return interaction.reply({
@@ -223,7 +208,7 @@ module.exports = {
                     LevelsInfo.setTitle("Settings => Levels => Rewards").setDescription("`add` - Add a new role reward when getting specific level.\n`list` - show all saved roles for this guild.\n`remove` - Remove specific role reward.\n`on` - Enable Role Rewards (This is important to get this feature working properly).\n`off` Turn off Role Rewards (will not remove saved roles).\n`reset` - Remove all roles which are set up.");
                     return interaction.reply({
                         embeds: [LevelsInfo]
-                    });
+                    }); 
             }
         }
     }

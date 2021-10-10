@@ -25,11 +25,11 @@ module.exports = {
                 await check_everything(interaction, interaction.options.getString("link"));
                 DB.query("INSERT INTO `discord_chat_memes`.`"+interaction.guild.id+"` (link) VALUES('"+interaction.options.getString("link")+"') ON DUPLICATE KEY UPDATE `link` = '"+interaction.options.getString("link")+"'");
                 return interaction.reply({
-                    content: "<:pinkie_yes:852973753465831474> **Tops** Successfully saved link: `"+interaction.options.getString("link")+"` to the database"
+                    content: "<:pinkie_yes:852973753465831474> **Tops** Successfully saved this link: to the database:\n> "+interaction.options.getString("link")
                 });
             case 'view':
                 tops.select_for_view(DB, interaction.guild.id).then(result => {
-                    if(result.length > 0) {
+                    if(result.length == 0) {
                         return interaction.reply({
                             content: "**Tops** There are no saved tops images in the database"
                         })

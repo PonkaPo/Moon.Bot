@@ -15,9 +15,9 @@ module.exports.create_table = async(DB, guild) => {
 
 module.exports.select_for_view = async(DB, guild) => {
     return new Promise((resolve, reject) => {
-        DB.query("SELECT link FROM `discord_chat_memes`.`"+guild+"` ORDER BY RAND() LIMIT 1", function(error, result) {
+        DB.query("SELECT * FROM `discord_chat_memes`.`"+guild+"` ORDER BY RAND() LIMIT 1", function(error, result) {
             if(error) reject(error);
-            resolve(result)
+            resolve(result);
         });
     });
 }

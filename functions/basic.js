@@ -14,6 +14,15 @@ module.exports.collect_message = async(interaction, msg_filter) => {
     });
 };
 
+module.exports.check_for_access = async(DB, guild_id) => {
+    return new Promise((resolve, reject) => {
+        DB.query("SELECT * FROM `discord_settings_allowed_roles`.`"+guild_id+"`",function (error, result) {
+            if(error) reject(error);
+            resolve(result);
+        });
+    })
+}
+
 module.exports.check_for_poll_in_db = async(DB, interaction) => {
     return new Promise((resolve, reject) => {
         DB.query("SELECT poll_channel, poll_mention FROM `discord`.`servers` WHERE `server_id` = '"+interaction.guildId+"'", function (error, poll_result) {

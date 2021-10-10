@@ -1,6 +1,6 @@
 const { MessageEmbed } = require("discord.js");
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const odpovede = ["Jae (Yes)", "Nae (No)", "Nae vieg (No way)", "I'southe (Určite)", "Mag (Definitely)", "Min (Trošku)", "Wal (Probably)", "Wal nae (Probably not)"];
+const odpovede = ["Jae (Yes)", "Nae (No)", "Nae vieg (No way)", "I'southe (Indeed)", "Mag (Might)", "Min (least)", "Wal (Probably)", "Wal nae (Probably not)"];
 
 module.exports = {
     data: new SlashCommandBuilder()

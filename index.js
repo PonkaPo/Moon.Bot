@@ -1,4 +1,4 @@
-const { Client, Intents, Collection, Permissions } = require("discord.js");
+const { Client, Intents, Collection } = require("discord.js");
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
 const mysql = require('mysql');
 const fs = require("fs");
@@ -13,7 +13,7 @@ const say = require("./msg_cmds/say.js");
 const easteregg = require("./msg_cmds/easteregg.js");
 
 let args = []; //Array to store arguments from messageCreate
-let msg_edits_array = []; //Array to store edit messages
+let msg_edits_array = {}; //Array to store edit messages
 let store_image_tags_sites = []; //Array to store things for images
 let store_images_for_button = {}; //Array to save images properties to work button correctly
 
@@ -29,8 +29,15 @@ for (const file of slashcommands) {
 const DB = mysql.createPool(config.mysql, {multipleStatements: true});
 
 client.once("ready", () => {
-    client.user.setActivity("with everypony!");
+    client.user.setPresence({
+        activities: [{
+            name: "with everypony!", 
+            type: "PLAYING"
+        }]
+    });
+    client.user.setStatus("idle");
     client.channels.cache.get("741711007465865339").send("**"+client.user.username+"** --> Online & Up\n**MySQL**: Connected");
+    console.log("Moon.Bot is online!");
 });
 
 client.on('interactionCreate', async interaction => {
@@ -65,9 +72,9 @@ client.on('messageCreate', async message => {
     if(config.easteregg_words.includes(args[0])) {
         await easteregg.easteregg_send_msg(message, args[0]);
     }
-    if(args[0] == "=say") say.say(message, args);
-    args.shift();
     
+    if(args[0] == "=say") say.say(message, args);
+    return;    
 });
 
 client.login(config.client.token);

@@ -1,5 +1,3 @@
-const { NULL } = require("mysql/lib/protocol/constants/types");
-
 module.exports.check_if_levels_are_enabled = async(DB, guildId) => {
     return new Promise((resolve, reject) => {
 

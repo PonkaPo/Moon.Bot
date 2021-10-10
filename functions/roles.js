@@ -55,7 +55,7 @@ module.exports.check_if_level_reward_exists = (DB, new_level, interaction) => {
 module.exports.check_if_role_rewards_exists = (DB, guild) => {
 
     return new Promise((resolve, reject) => {
-        DB.query("SELECT * FROM `discord_role_rewards`.`"+guild.id+"` WHERE `server_id` = '"+guild.id+"'", function (error, rr_exists_check) {
+        DB.query("SELECT `roles_reward_check` FROM `discord`.`servers` WHERE `server_id` = '"+guild.id+"'", function (error, rr_exists_check) {
         if(error) reject(error);
         resolve(rr_exists_check);
     });
@@ -102,15 +102,12 @@ async function create_table_for_settings_role(DB,guild) {
     DB.query("CREATE TABLE `discord_settings_allowed_roles`.`"+guild+"` (role_id CHAR(50) PRIMARY KEY)");
 };
 
-module.exports.write_settings_role_into_table = async(DB,guild,mention) => {
-    return new Promise((resolve,reject) => {
-        DB.query("INSERT INTO `discord_settings_allowed_roles`.`"+guild.id+"` (`role_id`) VALUES('"+mention+"') ON DUPLICATE KEY UPDATE `role_id` = '"+mention+"'",function (error, full_list) {
-        });
-    });
+module.exports.enable_access = async(DB,guild,role_id) => {
+    DB.query("INSERT INTO `discord_settings_allowed_roles`.`"+guild+"` (`role_id`) VALUES('"+role_id+"') ON DUPLICATE KEY UPDATE `role_id` = '"+role_id+"'");
 };
 
-module.exports.delete_settings_role_from_table = async(DB,guild,mention) => {
-    DB.query("DELETE FROM `discord_settings_allowed_roles`.`"+guild.id+"` WHERE `role_id` = '"+mention+"'");
+module.exports.delete_access = async(DB,guild,role_id) => {
+    DB.query("DELETE FROM `discord_settings_allowed_roles`.`"+guild+"` WHERE `role_id` = '"+role_id+"'");
 };
 
 module.exports.list_settings_roles = async(DB,guild) => {
