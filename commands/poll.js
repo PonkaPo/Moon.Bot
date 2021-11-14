@@ -1,9 +1,10 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const { MessageEmbed, Permissions } = require("discord.js");
 const { check_for_poll_in_db } = require("../functions/basic.js");
-let msg, mention;
+let Mention;
 
 module.exports = {
+    name: "poll",
     data: new SlashCommandBuilder()
         .setName("poll")
         .setDescription("Post Yes/No poll in specific channel")
@@ -27,7 +28,7 @@ module.exports = {
             .setThumbnail("https://media.discordapp.net/attachments/741613882002505752/846793744207708170/7443_Fall_question_mark.png")
             .setDescription(interaction.options.getString("question"))
             .setTimestamp()
-            .setFooter("Pinkamena.Bot");
+            .setFooter("Moon.Bot V2");
 
         if(check_for_poll_details[0]["poll_channel"] == "same") {
             interaction.reply({

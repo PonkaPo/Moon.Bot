@@ -6,3 +6,7 @@ module.exports.save_edited = async(oldmsg, newmsg, msg_edits_array) => {
     msg_edits_array[oldmsg.guildId][oldmsg.channelId]["old"] = oldmsg.content; //Save oldmsg content inside the array
     msg_edits_array[oldmsg.guildId][oldmsg.channelId]["new"] = newmsg.content; //Save newmsg content inside the array
 }
+
+//const save_edited = require("./functions/edited.js");
+//save_edited.save_edited();
+//save_edited();

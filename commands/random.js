@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
+    name: "random",
     data: new SlashCommandBuilder()
         .setName("random")
         .setDescription("Random Number Generator")

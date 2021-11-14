@@ -4,8 +4,11 @@ const roles = require("../functions/roles.js");
 const levels = require("../functions/levels.js");
 const basic = require("../functions/basic.js");
 let LevelsInfo = new MessageEmbed().setColor("#F9A3BB").setFooter("More settings will be available in future.");
+let DB_Access_Array = [];
+let Member_Roles_Array = [];
 
 module.exports = {
+    name: "levels",
     data: new SlashCommandBuilder()
         .setName("levels").setDescription("Levels commands")
         .addSubcommand((subcommand) => 
@@ -34,6 +37,21 @@ module.exports = {
         )
 
         .addSubcommand((subcommand) => 
+            subcommand.setName("blacklist").setDescription("Blacklist channels to prevent gaining XP from channels")
+                .addStringOption(option => option.setName("options").setDescription("options for blacklist").addChoices([
+                    ["Add channel", "add"],
+                    ["View channels", "view"],
+                    ["Remove channel", "remove"]
+                ]).setRequired(true))
+                .addChannelOption(channel => channel.setName("bl_channel").setDescription("Channel to add to/remove from blacklist")))
+
+        .addSubcommand(
+            (subcommand) => subcommand.setName("set").setDescription("Set chat level for target")
+                .addUserOption(user => user.setName("target").setDescription("Target to change level").setRequired(true))
+                .addNumberOption(number => number.setName("level").setDescription("Level number to change").setRequired(true))
+        )
+
+        .addSubcommand((subcommand) => 
             subcommand.setName("rewards").setDescription("Rewards for gaining specific level in chat activity in this guild")
             .addStringOption(option => option.setName("setting").setDescription("Settings for Level Rewards").addChoices([
                 ["Add", "add"], 
@@ -47,7 +65,59 @@ module.exports = {
             .addIntegerOption(integer => integer.setName("level").setDescription("Level number to choose for adding a role"))
         ),
     async execute(interaction, DB) {
+        if((interaction.user.id !== interaction.guild.ownerId) && (!interaction.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR))) {
+            let check_for_access = await basic.check_for_access(DB, interaction.guild.id);
+            if((check_for_access.length == 0) && (interaction.user.id !== interaction.guild.ownerId)) {
+                SettingsInfo.setTitle("Settings").setDescription("You don't have access to the bot settings.\n**Warning** - There are currently no roles set up which can access Bot settings.\n(Owner & Administator will bypass any roles check & they can edit access settings through /settings access command)");
+                return interaction.reply({
+                    embeds: [SettingsInfo]
+                });
+            } else {
+                for(let i = 0; i<check_for_access.length; i++) {
+                    DB_Access_Array[i] = check_for_access[i]["role_id"];
+                }
+            }
+            interaction.member.roles.cache.map(role => Member_Roles_Array.push(role.id));
+            check_difference = DB_Access_Array.filter(element => Member_Roles_Array.includes(element));
+            if(check_difference.length == 0) {
+                SettingsInfo.setTitle("Settings").setDescription("You don't have access to the bot settings.");
+                return interaction.reply({
+                    embeds: [SettingsInfo]
+                });
+            }
+        }
         switch(interaction.options.getSubcommand()) {
+            case 'blacklist':
+                LevelsInfo.setTitle("Levels => Blacklist");
+                switch(interaction.options.getString("options")) {
+                    case 'add':
+                        if(!interaction.options.getChannel("bl_channel")) {
+                            LevelsInfo.setDescription("You didn't choose channel which could be added to the database.");
+                            return interaction.reply({
+                                embeds: [LevelsInfo]
+                            });
+                        }
+                        let bl_channel = interaction.options.getChannel("bl_channel");
+                        await levels.add_blacklist_channel(DB, interaction.guild.id, bl_channel.id);
+                        LevelsInfo.setDescription("Channel <#"+bl_channel+"> has been added to blacklist database.");
+                        break;
+                    case 'remove':
+
+                        break;
+                    case 'view':
+                        break;
+                }
+                break;
+            case 'set':
+                LevelsInfo.setTitle("Levels => Set Level");
+                let target_set = interaction.options.getUser("target");
+                let set_level = interaction.options.getNumber("level");
+                await levels.set_level(DB, interaction.guild.id, target_set.id, set_level);
+                LevelsInfo.setDescription("<@"+target_set+"> has now level: "+set_level);
+                interaction.reply({
+                    embeds: [LevelsInfo]
+                });
+                break;
             case 'channel':
                 LevelsInfo.setTitle("Levels => Channel");
                 if(interaction.options.getChannel("channel") == null) {

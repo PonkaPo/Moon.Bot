@@ -5,6 +5,7 @@ let mentioned, warn_option;
 let all_warns = "";
 let WarnEmbed = new MessageEmbed().setColor("#F9A3BB");
 module.exports = {
+    name: "warns",
     data: new SlashCommandBuilder()
         .setName("warns").setDescription("All warn commands")
         .addSubcommand(subcommand => subcommand.setName("warn").setDescription("warns a member")
@@ -31,16 +32,16 @@ module.exports = {
             warn_option = interaction.options.getString("option");
             switch(warn_option) {
                 case 'add':
-                    if(interaction.options.getString("reason") = 0) {
+                    if(interaction.options.getString("reason") == 0) {
                         WarnEmbed.setDescription("**Add Warn** You need to provide reason, it's mandatory.");
                         return interaction.reply({
                             embeds: [WarnEmbed]
                         });
                     } else {
-                        await warns.check_if_user_exists_in_db(DB, mentioned.user.id, interaction.guild.id);
+                        await warns.check_if_user_exists_in_db(DB, mentioned.id, interaction.guild.id);
                         let uID_result = await create_uniqueID();
-                        await warns.write_warn_data(DB, interaction.user.id, uID_result, interaction.options.getString("reason"), mentioned.user.id, interaction.guild.id);
-                        WarnEmbed.setDescription("**Warned member:**\n<@"+mentioned.user.id+">").addField("Warned by:", "<@"+interaction.author.id+">").addField("Reason:", interaction.options.getString("reason")).setFooter("uID: "+uID_result);
+                        await warns.write_warn_data(DB, interaction.user.id, uID_result, interaction.options.getString("reason"), mentioned.id, interaction.guild.id);
+                        WarnEmbed.setDescription("**Warned member:**\n<@"+mentioned.id+">").addField("Warned by:", "<@"+interaction.user.id+">").addField("Reason:", interaction.options.getString("reason")).setFooter("uID: "+uID_result);
                         return interaction.reply({
                             embeds: [WarnEmbed]
                         }).then(WarnEmbed = new MessageEmbed().setTitle("Warn").setColor("#F9A3BB").setTimestamp());

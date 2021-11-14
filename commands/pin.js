@@ -3,6 +3,7 @@ const { Permissions } = require("discord.js");
 let CheckForNumbers;
 
 module.exports = {
+    name: "pin",
     data: new SlashCommandBuilder()
         .setName("pin")
         .setDescription("Pin last sent message in the channel")
@@ -21,8 +22,10 @@ module.exports = {
                     content: "**Pin** Last message is empty"
                 });
                 lastMessage.pin();
+                lastMessage.react("<:pinkie_yes:852973753465831474>");
                 return interaction.reply({
-                    content: "Pinned!"
+                    content: "Pinned!",
+                    ephemeral: true
                 });
             });
         } else {
@@ -32,8 +35,10 @@ module.exports = {
             });
             interacion.channel.messages.fetch(CheckForNumbers).then(msg => {
                 msg.pin();
+                msg.react("<:pinkie_yes:852973753465831474>");
                 return interaction.reply({
-                    content: "Pinned!"
+                    content: "Pinned!",
+                    ephemeral: true
                 });
             }).catch(error => {
                 if(error.code == "10008") return interaction.reply({

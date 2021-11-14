@@ -1,14 +1,16 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { Permissions } = require("discord.js");
 let C_Emoji, EmojiResult, Allowed;
 let C_Sprava = [];
 let Args = [];
 
 module.exports = {
+    name: "say",
     data: new SlashCommandBuilder()
         .setName("say")
         .setDescription("Bot will say your message."),
     async execute(interaction) {
-        interaction.reply({
+        return interaction.reply({
             embeds: [{
                 color: "#F9A3BB",
                 title: "Say",
@@ -25,7 +27,7 @@ module.exports = {
                     },
                     {
                         name: 'What arguments to use?',
-			            value: 'There is only 1 argument `-i` it can be used to send message as bot without sending username of the message sender.\n\nSo, instead of:\n**Pinkamena Diane Song**: _this is best bot_\nWill bot just send:\n_this is best bot_',
+			            value: 'There is only 1 argument `-i` it can be used to send message as bot without sending username of the message sender.\n\nSo, instead of:\n**Izzy Moonsong**: _this is best bot_\nWill bot just send:\n_this is best bot_',
 			            inline: false,
                     },
                     {
@@ -37,4 +39,6 @@ module.exports = {
             }]
         });
     }
+
+    
 }

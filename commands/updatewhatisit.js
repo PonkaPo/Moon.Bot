@@ -4,6 +4,7 @@ const { send_wii_data } = require('../functions/basic.js');
 let UpdateWII = new MessageEmbed().setTitle("Update => What Is It").setColor('#F9A3BB').setFooter("Use `cancel` to exit.");
 
 module.exports = {
+    name: "updatewii",
     data: new SlashCommandBuilder()
         .setName("updatewii").setDescription("Update details for game What is it")
         .addStringOption(option => option.setName("key").setDescription("Answer key for guessing (no spaces allowed)").setRequired(true))

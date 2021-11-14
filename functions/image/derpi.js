@@ -4,7 +4,6 @@ const axios = require("axios").default;
 let derpi_full_url;
 
 module.exports.derpibooru = async(rating, tags, image_array_to_embed, nsfw) => {
-    console.log(rating+"\n"+tags);
     switch(rating){
         case 'sa':
             rating = "+AND+safe&filter_id=37431";
@@ -12,7 +11,7 @@ module.exports.derpibooru = async(rating, tags, image_array_to_embed, nsfw) => {
         case 'su':
             if(nsfw == true) {
                 rating = "+AND+suggestive&filter_id=37431";
-            } else tag = "+AND+safe&filter_id=37431";
+            } else rating = "+AND+safe&filter_id=37431";
             break;
         case 'q':
             if(nsfw == true) {
@@ -28,7 +27,7 @@ module.exports.derpibooru = async(rating, tags, image_array_to_embed, nsfw) => {
     tags = tags.split(", ").join("+AND+");
     tags = tags.split(" ").join("+");
     
-    derpi_full_url = derpi_base_url+tags+rating+"&sf=random&key="+config.derpi.api_key
+    derpi_full_url = derpi_base_url+"-webm+"+tags+rating+"&sf=random&key="+config.derpi.api_key
     await axios.get(derpi_full_url).then(function (response) {
         if(response.data.images.length == 0) {
             image_array_to_embed[0] = "No";

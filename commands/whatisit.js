@@ -3,6 +3,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const { collect_message, check_game_data_wii } = require('../functions/basic.js');
 
 module.exports = {
+    name: "whatisit",
     data: new SlashCommandBuilder().setName("whatisit").setDescription("Guess the word - game"),
     async execute(interaction,DB) {
         let wii_data = await check_game_data_wii(DB, interaction);

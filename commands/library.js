@@ -7,6 +7,7 @@ let j = 1;
 const MLEmbed = new MessageEmbed()
 
 module.exports = {
+    name: "library",
     data: new SlashCommandBuilder()
         .setName("library")
         .setDescription("Get music from embedded library")

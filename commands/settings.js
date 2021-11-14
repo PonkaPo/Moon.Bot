@@ -9,6 +9,7 @@ let Member_Roles_Array = [];
 let SettingsInfo = new MessageEmbed().setColor("#F9A3BB").setFooter("More settings will be available in future.");
 
 module.exports = {
+    name: "settings",
     data: new SlashCommandBuilder().setName("settings").setDescription("Bot settings for actual Guild")
         .addSubcommandGroup(
             (group) => group.setName("poll").setDescription("Change poll settings for this guild")

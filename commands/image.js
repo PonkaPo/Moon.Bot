@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
+const { MessageActionRow, MessageButton } = require('discord.js');
 
 const e621 = require("../functions/image/e621.js");
 const derpi = require("../functions/image/derpi.js");
@@ -9,6 +10,7 @@ let image_array_to_embed = []; //[0] == Yes/no - if there is result or not | [1]
 let site,rating,tags,nsfw;
 
 module.exports = {
+    name: "image",
     data: new SlashCommandBuilder()
         .setName("image")
         .setDescription("Search for images in e621 imageboard")
@@ -30,25 +32,37 @@ module.exports = {
         switch(interaction.options.getSubcommand()) {
             case 'help':
                 switch(interaction.options.getString("site")){
+                    case 'g':
+                        return interaction.reply({
+                            embeds: [{
+                                title: "Gelbooru Help Menu",
+                                url: "http://gelbooru.com",
+                                description: "This is fully working command for searching images on site gelbooru.\nMost of images are NSFW, so it cannot be bypasses in non-nsfw channel and cannot be override by `-q` (questionable) or `-e` (explicit).\nThese rating tags are overriden by safe rating when the command is ran in non-nsfw channel.\n\nTo search for images, use tags in this style:\n`gloves boots solo` (So use space to **separate** tags)\n\nAvailable Tags: [Here](https://gelbooru.com/index.php?page=tags&s=list 'List of Tags available on Gelbooru')",
+                                thumbnail: {
+                                    url: "https://media.discordapp.net/attachments/887913409608294400/897537949070151691/3gG6lQMl_400x400-0-0-0-0-1611779572.png",
+                                }
+                            }]
+                        });
                     case 'e':
                         return interaction.reply({
                             embeds: [{
                                 title: "e621 Help Menu",
-                                description: "This is fully working command for searching images on site gelbooru.\nMost of images are NSFW, so it cannot be bypasses in non-nsfw channel and cannot be override by `-q` (questionable) or `-e` (explicit).\nThese rating tags are overriden by safe rating when the command is ran in non-nsfw channel.\n\nTo search for images, use tags in this style:\n`gloves boots solo` (So use space to **separate** tags)"
-                            }]
-                        });
-                    case 'g':
-                        return interaction.reply({
-                            embeds: [{
-                                title: "e621 Help Menu",
-                                description: "This is fully working command for searching images on site e621.\nMost of images are NSFW, so it cannot be bypasses in non-nsfw channel and cannot be override by `-q` (questionable) or `-e` (explicit).\nThese rating tags are overriden by safe rating when the command is ran in non-nsfw channel.\n\nTo search for images, use tags in this style:\n`solo anthro hair` (So use space to **separate** tags)"
+                                url: "http://e621.net",
+                                description: "This is fully working command for searching images on site e621.\nMost of images are NSFW, so it cannot be bypasses in non-nsfw channel and cannot be override by `-q` (questionable) or `-e` (explicit).\nThese rating tags are overriden by safe rating when the command is ran in non-nsfw channel.\n\nTo search for images, use tags in this style:\n`solo anthro hair` (So use space to **separate** tags)\n\nAvailable Tags: [Here](https://e621.net/tags 'List of Tags available on e621')",
+                                thumbnail: {
+                                    url: 'https://en.wikifur.com/w/images/d/dd/E621Logo.png',
+                                },
                             }]
                         });
                     case 'd':
                         return interaction.reply({
                             embeds: [{
                                 title: "derpibooru Help Menu",
-                                description: "This is fully working command for searching images on site derpibooru.\nMost of images are NSFW, so it cannot be bypasses in non-nsfw channel and cannot be override by manually setting filter to `suggestive`, `questionable` or `explicit`.\nThese rating tags are overriden by safe rating when the command is ran in non-nsfw channel.\n\nTo search, split tags using comma `,` so use tags like: `twilight sparkle, solo, anthro`"
+                                url: "http://derpibooru.org",
+                                description: "This is fully working command for searching images on site derpibooru.\nMost of images are NSFW, so it cannot be bypasses in non-nsfw channel and cannot be override by manually setting filter to `suggestive`, `questionable` or `explicit`.\nThese rating tags are overriden by safe rating when the command is ran in non-nsfw channel.\n\nTo search, split tags using comma `,` so use tags like: `twilight sparkle, solo, anthro`\n\nAvailable Tags: [Here](https://derpibooru.org/tags 'List of Tags available on Derpibooru')",
+                                thumbnail: {
+                                    url: "https://media.discordapp.net/attachments/741613882002505752/897537910373507072/derpibooru_favicon.png",
+                                }
                             }]
                         });
                 }

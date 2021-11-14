@@ -3,6 +3,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 const odpovede = ["Jae (Yes)", "Nae (No)", "Nae vieg (No way)", "I'southe (Indeed)", "Mag (Might)", "Min (least)", "Wal (Probably)", "Wal nae (Probably not)"];
 
 module.exports = {
+    name: "8ball",
     data: new SlashCommandBuilder()
         .setName("8ball")
         .setDescription("Answers your question")

@@ -2,11 +2,18 @@ const { MessageEmbed, Permissions } = require("discord.js");
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
+    name: "unban",
     data: new SlashCommandBuilder()
         .setName("unban")
         .setDescription("Unban user by ID")
         .addIntegerOption(option => option.setName("id").setDescription("ID of user").setRequired(true)),
     async execute(interaction, DB) {
+        if (!interaction.guild.me.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({
+            content: '**Unban**: I do not have a `BAN_MEMBERS` permission to ban someone.'
+        });
+        if (!interaction.member.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({
+            content: '**Unban**: You do not have a permission `BAN_MEMBERS` to ban someone'
+        });
         if (!interaction.member.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({
             content: "**Unban**: You don't have `BAN_MEMBERS` permission"
         });

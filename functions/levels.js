@@ -13,10 +13,10 @@ module.exports.check_if_levels_are_enabled = async(DB, guildId) => {
     });
 };
 
-/*async function add_enabled_levels(DB, guildId) {
-    DB.query("UPDATE `discord`.`servers` SET `enabled_levels` = 'yes' WHERE `server_id` = '"+guildId+"'"+   INSERT INTO `discord`.`servers` (`enabled_levels') VALUES('yes', '"+mention+"') ON DUPLICATE KEY UPDATE `level` = '"+level+"', `role` = '"+mention+"'");
+async function add_enabled_levels(DB, guildId) {
+    DB.query("UPDATE `discord`.`servers` SET `enabled_levels` = 'yes' WHERE `server_id` = '"+guildId+"'INSERT INTO `discord`.`servers` (`enabled_levels') VALUES('yes', '"+mention+"') ON DUPLICATE KEY UPDATE `level` = '"+level+"', `role` = '"+mention+"'");
     return;
-}*/
+}
 
 module.exports.check_stats_for_lb = async(DB, interaction) => {
     return new Promise((resolve, reject) => {
@@ -27,6 +27,10 @@ module.exports.check_stats_for_lb = async(DB, interaction) => {
         });
     });
 };
+
+module.exports.set_level = async(DB, guild_id, user_id, xp_lvl) => {
+    DB.query("INSERT INTO `discord_levels`.`"+guild_id+"`(`user_id`, `xp_level`, `xp_remain`, `xp_exp`, `last_xp`) VALUES('"+user_id+"', '"+xp_lvl+"', '0', '"+(xp_lvl*100)+"', '"+Date.now()+"') ON DUPLICATE KEY UPDATE `user_id` = '"+user_id+"', `xp_level` = '"+xp_lvl+"', `xp_exp` = '0', `xp_remain` = '"+(xp_lvl*100)+"', `last_xp` = '"+Date.now()+"'");
+}
 
 module.exports.check_lvl_user_stats = async(DB, interaction) => {
     return new Promise((resolve, reject) => {
@@ -67,10 +71,24 @@ module.exports.delete_levels_from_table = (DB, guild) => {
 
 };
 
-module.exports.create_levels_table = (guild, DB, interaction) => {
+module.exports.create_levels_table = async(guild, DB, interaction) => {
 
     DB.query("CREATE TABLE `discord_levels`.`"+guild.id+"` (user_id CHAR(50) PRIMARY KEY, xp_level INT(10) NOT NULL, xp_remain INT(10) NOT NULL, xp_exp INT(30) NOT NULL, last_xp BIGINT(20) NOT NULL)");
+    DB.query("CREATE TABLE `discord_levels_blacklist`.`"+guild.id+"` (channel CHAR(20) PRIMARY KEY)");
     DB.query("INSERT INTO `discord_levels`.`"+guild.id+"` (`user_id`, `xp_level`, `xp_remain`, `xp_exp`, `last_xp`) VALUES ('"+interaction.author.id+"', '0', '0', '100', '"+Date.now()+"')");
     DB.query("UPDATE `discord`.`servers` SET `levels_channel` = 'same', `enabled_levels` = 'yes' WHERE `server_id` = '"+guild.id+"'");
 
+};
+
+module.exports.check_if_table_is_in_blacklist = async(DB, guild_id, channel_id) => {
+    return new Promise((resolve, reject) => {
+        DB.query("SELECT EXISTS(SELECT * FROM `discord_levels_blacklist`.`"+guild_id+"` WHERE channel = '"+channel_id+"');", function(err, result) {
+            if(err) reject(err);
+            resolve(result[0]["EXISTS(SELECT * FROM `discord_levels_blacklist`.`"+guild_id+"` WHERE channel = '"+channel_id+"')"]);
+        })
+    })
+};
+
+module.exports.add_blacklist_channel = async(DB, guild_id, channel_id) => {
+    DB.query("INSERT INTO `discord_levels_blacklist`.`"+guild_id+"` (channel) VALUES('"+channel_id+"') ON DUPLICATE KEY UPDATE `channel` = '"+channel_id+"'")
 };

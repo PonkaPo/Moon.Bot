@@ -16,11 +16,7 @@ const rest = new REST({ version: '9' }).setToken(client.token);
 try {
 	console.log('Started refreshing application (/) commands.');
 	rest.put(
-		Routes.applicationGuildCommands("746409149507567632", "827965464202051605"),
-		{ body: commands },
-	);
-	rest.put(
-		Routes.applicationGuildCommands("746409149507567632", "741613882002505749"),
+		Routes.applicationCommands("746409149507567632"),
 		{ body: commands },
 	);
 } catch (error) {

@@ -6,6 +6,7 @@ const ScPath = "./citaty/Scene_Cut_Quotes-Quoterific/";
 let SelectedPath, QuoteArray;
 
 module.exports = {
+    name: "quote",
     data: new SlashCommandBuilder()
         .setName("quote")
         .setDescription("Inspirational quote from MLP")

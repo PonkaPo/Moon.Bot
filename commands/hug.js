@@ -2,6 +2,7 @@ const { SlashCommandBuilder } = require('@discordjs/builders');
 let HugMSG;
 
 module.exports = {
+    name: "hug",
     data: new SlashCommandBuilder()
         .setName("hug")
         .setDescription("hug a member")

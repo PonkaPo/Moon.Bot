@@ -23,7 +23,6 @@ module.exports.e621 = async(rating, tags, image_array_to_embed, nsfw) => {
 
     tag_join = tags.replace(" ", "+");
     e621_full_url = e621_base_url+"posts.json?tags="+rating+"+"+tag_join+"+order:random&limit=1";
-    console.log(image_array_to_embed); 
     await axios.get(e621_full_url, {
         headers:{
             "User-Agent": User_Agent,

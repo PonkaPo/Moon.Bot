@@ -5,6 +5,7 @@ let get_table_output;
 let tops_embed = new MessageEmbed().setColor("#F9A3BB").setFooter("If you need to remove the image from Database, ask staff member to request to remove the image.");
 
 module.exports = {
+    name: "tops",
     data: new SlashCommandBuilder().setName("tops").setDescription("Saved top messages from this guild")
         .addStringOption(option => option.setName("option").setDescription("Add a funny message to the database").addChoices([
             ["Add", "add"],
@@ -25,7 +26,16 @@ module.exports = {
                 await check_everything(interaction, interaction.options.getString("link"));
                 DB.query("INSERT INTO `discord_chat_memes`.`"+interaction.guild.id+"` (link) VALUES('"+interaction.options.getString("link")+"') ON DUPLICATE KEY UPDATE `link` = '"+interaction.options.getString("link")+"'");
                 return interaction.reply({
-                    content: "<:pinkie_yes:852973753465831474> **Tops** Successfully saved this link: to the database:\n> "+interaction.options.getString("link")
+                    embeds: [{
+                        title: "Tops",
+                        image: {
+                            url: interaction.options.getString('link')
+                        },
+                        description: "<:pinkie_yes:852973753465831474> Successfully saved this link to the database:\n "+interaction.options.getString('link'),
+                        footer: {
+                            text: "By "+interaction.user.username
+                        }
+                    }]
                 });
             case 'view':
                 tops.select_for_view(DB, interaction.guild.id).then(result => {

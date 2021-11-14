@@ -1,11 +1,13 @@
 const { MessageEmbed } = require("discord.js");
 const levels = require("../functions/levels.js");
 const role_functions = require("./roles.js");
-var Difference_between_Generated_and_actual_exp, NewXP_LVL, Generated_XP_with_remain;
+let Difference_between_Generated_and_actual_exp, NewXP_LVL, Generated_XP_with_remain;
 module.exports.gen_exp = (DB, message) => {
-
+    //console.log(message.guild.name);
     levels.check_lvl_user_stats(DB, message).then(lvl => {
-
+        /*if(!lvl[0]["last_xp"]){
+            
+        }*/
         if((Date.now()-lvl[0]["last_xp"]) < 20000) return;
 
         DB.query("UPDATE `discord_levels`.`"+message.guild.id+"` SET `last_xp` = '"+Date.now()+"' WHERE `user_id` = '"+message.author.id+"'");
@@ -35,14 +37,12 @@ module.exports.gen_exp = (DB, message) => {
                 switch (channel[0]["levels_channel"]) {
                     case 'off':
                         return;
-
                     case 'same':
                         message.channel.send({
                             content: "<@"+message.author.id+">", 
                             embeds: [NewLevelEmbed]
                         });
                         return;
-
                     default:
                         message.client.channels.cache.get(channel[0]["levels_channel"]).send({
                             content: "<@"+message.author.id+">", 

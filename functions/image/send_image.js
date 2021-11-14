@@ -7,6 +7,18 @@ module.exports.send = async(interaction, image_array, site) => {
 					.setCustomId('again')
 					.setLabel('Again!')
 					.setStyle('PRIMARY'),
+			)
+            .addComponents(
+				new MessageButton()
+					.setLabel(site + ' Link')
+					.setStyle('LINK')
+                    .setURL(image_array[2]),
+			)
+            .addComponents(
+				new MessageButton()
+					.setLabel('Full Link')
+					.setStyle('LINK')
+                    .setURL(image_array[3]),
 			);
     switch(image_array[0]) {
         case 'No':
@@ -45,13 +57,24 @@ module.exports.send = async(interaction, image_array, site) => {
 }
 
 module.exports.send_from_button = async(interaction, image_array, store_images_for_button) => {
-    //console.log(store_images_for_button);
     const button_row = new MessageActionRow()
 			.addComponents(
 				new MessageButton()
 					.setCustomId('again')
 					.setLabel('Again!')
 					.setStyle('PRIMARY'),
+			)
+            .addComponents(
+				new MessageButton()
+					.setLabel(image_array[4]+' Link')
+					.setStyle('LINK')
+                    .setURL(image_array[2]),
+			)
+            .addComponents(
+				new MessageButton()
+					.setLabel('Full Link')
+					.setStyle('LINK')
+                    .setURL(image_array[3]),
 			);
     switch(image_array[0]) {
         case 'No':

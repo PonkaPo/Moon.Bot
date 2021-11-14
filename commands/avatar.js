@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 let avatarSelect;
 module.exports = {
+	name: "avatar",
 	data: new SlashCommandBuilder()
 		.setName("avatar")
 		.setDescription("Sends your avatar in embed")

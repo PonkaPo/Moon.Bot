@@ -5,6 +5,7 @@ let i;
 let j = 1;
 
 module.exports = {
+    name: "leaderboard",
     data: new SlashCommandBuilder()
     .setName("leaderboard").setDescription("Leaderboard for chat activity"),
     async execute(interaction, DB) {
@@ -12,7 +13,6 @@ module.exports = {
         let  LBEmbed = new MessageEmbed()
             .setTitle("Leaderboard")
             .setColor("#F9A3BB")
-		    .setTimestamp()
 		    .setThumbnail(interaction.client.user.displayAvatarURL())
             .setDescription("Top "+leaderboard_stats.length+" most active members in chat:")
 		    .setFooter(`Requested by `+interaction.user.username);
@@ -21,8 +21,6 @@ module.exports = {
             LBEmbed.addField("**"+j+"**.", "<@"+leaderboard_stats[i]["user_id"]+"> => "+leaderboard_stats[i]["xp_level"]+" (XP: "+leaderboard_stats[i]["xp_remain"]+"/"+leaderboard_stats[i]["xp_exp"]+")");
             j++;
         }
-
-        i = 0;
         j = 1;
 
         return interaction.reply({

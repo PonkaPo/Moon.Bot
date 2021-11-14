@@ -3,6 +3,7 @@ let deleteCount;
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
+    name: "delete",
     data: new SlashCommandBuilder()
         .setName("delete")
         .setDescription("Delete messages from actual channel")
@@ -30,7 +31,8 @@ module.exports = {
         }));
 
         return interaction.reply({
-            content: "**Delete**: Successfully deleted "+deleteCount+" messeges."
+            content: "**Delete**: Successfully deleted "+deleteCount+" messeges.",
+            ephemeral: true
         });
     }
 }

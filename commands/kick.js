@@ -3,6 +3,7 @@ let reason;
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
+    name: "kick",
 	data: new SlashCommandBuilder()
 		.setName("kick")
 		.setDescription("kick an user")

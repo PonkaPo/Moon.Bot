@@ -39,7 +39,6 @@ module.exports.check_if_level_reward_exists = (DB, new_level, interaction) => {
         DB.query("SELECT * FROM `discord_role_rewards`.`"+interaction.guild.id+"` WHERE `level` = '"+new_level+"'", function (error, rr_exists_check) {
         if(error) reject(error);
         if(rr_exists_check == null) {
-            console.log("asd");
             let update_user = update_user_roles_in_db(DB, rr_exists_check, interaction);
             interaction.guild.roles.cache.find(r => r.id === rr_exists_check[0]["role"]).then(role => {
                 interaction.member.roles.add(role);
@@ -90,6 +89,7 @@ module.exports.check_if_settings_table_exists = async(DB,guild) => {
 }
 
 async function check_for_settings_roles(DB,guild) {
+//(DB, guild) => {}
     return new Promise((resolve, reject) => {
         DB.query("SELECT * FROM `discord_settings_allowed_roles`.`"+guild+"`", function (error, list_of_settings_roles) {
             if(error) reject(error);

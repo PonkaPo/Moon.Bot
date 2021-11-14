@@ -3,11 +3,13 @@ const { Permissions } = require("discord.js");
 let reason;
 
 module.exports = {
+    name: "ban",
 	data: new SlashCommandBuilder()
 		.setName("ban")
 		.setDescription("ban an user")
         .addUserOption(option => option.setName("target").setDescription("Select user to ban").setRequired(true))
         .addStringOption(option => option.setName("reason").setDescription("Reason for ban").setRequired(false)),
+    permission: "BAN_MEMBERS",
     async execute(interaction) {
         if (!interaction.guild.me.permissions.has(Permissions.FLAGS.BAN_MEMBERS)) return interaction.reply({
             content: '**Ban**: I do not have a `BAN_MEMBERS` permission to ban someone.'
@@ -24,7 +26,7 @@ module.exports = {
             content: "**Ban**: Why you would like to ban yourself?"
         });
         if (interaction.guild.members.resolve(user).roles.highest.position > interaction.member.roles.highest.position) return interaction.reply({
-            content: '**Ban**: Mentioned member has higher role than you, '+message.author.username
+            content: '**Ban**: Mentioned member has higher role than you, '+interaction.user.username
         });
         if (!interaction.guild.members.resolve(user).bannable) return interaction.reply({
             content: '**Ban**: Mentioned member ('+user.username+') cannot be banned.'

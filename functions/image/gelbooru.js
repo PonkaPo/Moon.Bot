@@ -1,4 +1,4 @@
-let rating, tags, gelbooru_auth, gelbooru_full_url;
+let gelbooru_auth, gelbooru_full_url;
 let gelbooru_base_url = "https://gelbooru.com/index.php?page=dapi&s=post&q=index";
 const axios = require("axios").default;
 const config = require("../../config/config.json");
