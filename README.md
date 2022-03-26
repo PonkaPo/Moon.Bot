@@ -30,8 +30,3 @@ In any case you don't need this command, simply you don't put it inside the comm
 
 ## How customizable is the bot?
 Well, the bot is using MySQL storage to save settings for every guild. To change this, there is database called `discord` & `discord_levels` to make basic & levels feature working correctly. The levels can be easily for example turned off/on, change actual channel/role to mention. Or just send poll to specific channel. Even set custom prefix can bet set for each guild. And if you forget the prefix it can be obtained by mentioning the bot.
-
-## To-Do
-- [ ] Roles rewards for getting specific level in chat
-- [ ] Temporary mute & ban
-- [ ] Economy system
