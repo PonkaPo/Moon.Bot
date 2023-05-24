@@ -1,6 +1,6 @@
 # Moon.Bot
 
-**This bot is really old and code will no longer works on latest node & discord.js, consider this as archive now.**
+⛔ **WARNING: This bot is really old and code will no longer works on latest node & discord.js, consider this as archive now.** ⛔
 
 Simple & Advanced Discord bot.
 Actually the bot is capable of more things to do. With simple Chat Activity with levels reward to simple moderating.
